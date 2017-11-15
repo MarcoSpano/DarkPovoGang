@@ -140,6 +140,12 @@ function getFreeRooms(rooms, timeStamp) {
     } 
     //console.log("closetimestamp: "+closeTimeStamp);
     for(let i = 0; i < rooms.length; i++) {
+		console.log(rooms[i].NomeAula);
+		if(rooms[i].NomeAula.indexOf("Aula") == -1 && rooms[i].NomeAula.indexOf("AULA") == -1 && rooms[i].NomeAula.indexOf("aula") == -1) {
+			rooms.splice(i,1);
+			i--;
+		}
+			
         //Check if the current time is between 00:00 and 20:00
         if(timeStamp > rooms[i].orario[0].timestamp_day && timeStamp < closeTimeStamp) {      
             for(let j = 0; j < rooms[i].orario.length; j++) {
