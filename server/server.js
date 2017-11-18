@@ -134,13 +134,10 @@ function cleanSchedule(rooms) {
 }
 
 function getFreeRooms(rooms, timeStamp) {
-    //let closeTimeStamp = rooms[0].orario[0].timestamp_day + 72000;
-    //console.log("getFreeRooms rooms.length: "+rooms.length);
     let closeTimeStamp;
     if(rooms.length > 0) {
         closeTimeStamp = rooms[0].orario[0].timestamp_day + 72000; // Time 20:00
     } 
-    //console.log("closetimestamp: "+closeTimeStamp);
     for(let i = 0; i < rooms.length; i++) {
 		if(rooms[i].NomeAula.indexOf("Aula") == -1 && rooms[i].NomeAula.indexOf("AULA") == -1 && rooms[i].NomeAula.indexOf("aula") == -1) {
 			rooms.splice(i,1);
@@ -246,8 +243,7 @@ app.get('/schedule/:sede/:aula', (req, res) => {
     let room= req.params.aula;  //nome aula
     let roomCode = sede + '/' + room;
 
-    let url = "https://easyroom.unitn.it/Orario/rooms_call.php?form-type=rooms&sede=" + sede + "&_lang=it&date=21-11-2017";
-    //let url = "https://easyroom.unitn.it/Orario/rooms_call.php?form-type=rooms&sede=" + sede + "&_lang=it&date=" + day + "-" + month + "-" + year;
+    let url = "https://easyroom.unitn.it/Orario/rooms_call.php?form-type=rooms&sede=" + sede + "&_lang=it&date=" + day + "-" + month + "-" + year;
     idRoomCode(url)
     .then(response => {
         return response[roomCode];
