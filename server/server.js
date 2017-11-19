@@ -69,25 +69,25 @@ app.get('/:sede', (req,res) => {
         let now = new Date();
         let currentTimestamp = now.getTime() / 1000;
         
-        request(url, function(error, response, body) {
-            if(!error && response.statusCode == 200) {
-                let data = JSON.parse(body);
-                let events = data.events;
-                let rooms = getRoomList(events); 
-                rooms = cleanSchedule(rooms);    
-                rooms = getFreeRooms(rooms, currentTimestamp);
-                rooms = cleanPastSchedule(rooms, currentTimestamp);
-                res.json(rooms); //Get the list of rooms with events that day and the hours in which they are busy.
-            }
+
+        fetch(url)
+        .then(body => {
+            return body.json();
+        })
+        .then(data => {
+            return data.events;
+        })
+        .then(events => {
+            let rooms = getRoomList(events); 
+            rooms = cleanSchedule(rooms);    
+            rooms = getFreeRooms(rooms, currentTimestamp);
+            rooms = cleanPastSchedule(rooms, currentTimestamp);
+            res.json(rooms); //Get the list of rooms with events that day and the hours in which they are busy.
+        })
+        .catch(error => {
+            console.log(error);
         });
     }
-    else
-    {
-        console.log("Error: invalid department id")
-        //error page -> sede not valid
-    }  
-    
-    
 });
 
 
@@ -211,9 +211,10 @@ function idRoomCode(uri) {
 function getRoomSchedule(events, roomId) {
     let ris;    
     for(let i = 0; i < events.length; i++) {
-        if(events[i].room == roomId) {
+        if(events[i].room == roomId) {            
             if(ris == null) {
-                ris = { room: events[i].room,
+                if(events[i].Utenti[0] != null) {
+                    ris = { room: events[i].room,
                         NomeAula: events[i].NomeAula,            
                         orario: [{
                             nomeMateria : events[i].name,
@@ -225,16 +226,41 @@ function getRoomSchedule(events, roomId) {
                             timestamp_to: events[i].timestamp_to
                         }]
                     };
+                } else {
+                    ris = { room: events[i].room,
+                        NomeAula: events[i].NomeAula,            
+                        orario: [{
+                            nomeMateria : events[i].name,                           
+                            from: events[i].from,
+                            to: events[i].to,
+                            timestamp_day: events[i].timestamp_day,
+                            timestamp_from: events[i].timestamp_from,
+                            timestamp_to: events[i].timestamp_to
+                        }]
+                    };
+                }                      
             } else {
-                let newOrario = {
-                    nomeMateria : events[i].name,
-                    nomeProf : events[i].Utenti[0].Nome + " " + events[i].Utenti[0].Cognome,
-                    from: events[i].from,
-                    to: events[i].to,
-                    timestamp_day: events[i].timestamp_day,
-                    timestamp_from: events[i].timestamp_from,
-                    timestamp_to: events[i].timestamp_to
-                };
+                let newOrario;
+                if(events[i].Utenti[0] != null) {
+                    newOrario = {
+                        nomeMateria : events[i].name,
+                        nomeProf : events[i].Utenti[0].Nome + " " + events[i].Utenti[0].Cognome,
+                        from: events[i].from,
+                        to: events[i].to,
+                        timestamp_day: events[i].timestamp_day,
+                        timestamp_from: events[i].timestamp_from,
+                        timestamp_to: events[i].timestamp_to
+                    };
+                } else {
+                    newOrario = {
+                        nomeMateria : events[i].name,
+                        from: events[i].from,
+                        to: events[i].to,
+                        timestamp_day: events[i].timestamp_day,
+                        timestamp_from: events[i].timestamp_from,
+                        timestamp_to: events[i].timestamp_to
+                    };
+                }
                 ris.orario.push(newOrario);
             }
         }
@@ -253,7 +279,7 @@ app.get('/schedule/:sede/:aula', (req, res) => {
     let room= req.params.aula;  //nome aula
     let roomCode = sede + '/' + room;
 
-    let url = "https://easyroom.unitn.it/Orario/rooms_call.php?form-type=rooms&sede=" + sede + "&_lang=it&date=" + day + "-" + month + "-" + year;
+    let url = "https://easyroom.unitn.it/Orario/rooms_call.php?form-type=rooms&sede=" + sede + "&_lang=it&date=20-11-2017";
     idRoomCode(url)
     .then(response => {
         return response[roomCode];
@@ -269,7 +295,7 @@ app.get('/schedule/:sede/:aula', (req, res) => {
             let room = getRoomSchedule(events, id); //otteniamo lo schedule della stanza prescelta e lo inviamo come json
             
             res.json(room);
-            })
+        })
         .catch(error => {
             console.log(error);
         })             
