@@ -14,6 +14,16 @@ var department_id =[("economia","E0101"),
                     ("sociologia","E0601"),
                     ("scienze cognitive","E0705"),
                     ("povo","E0503")];
+
+var dep_coordinates = {
+    "E0601" : (46.06666060000001, 11.1196512),
+    "E0705" : (45.89370539999999, 11.0435276),
+    "E0101" : (46.0662709, 11.1176511),
+    "E0201" : (46.0669596, 11.1195936),
+    "E0801" : (46.0677156, 11.1166435),
+    "E0301" : (46.06551, 11.1407375),
+    "E0503" : (46.067012, 11.1499029)
+};                    
                   
 
 function inArray(sede){
@@ -123,11 +133,11 @@ function cleanSchedule(rooms) {
     for(let i = 0; i < rooms.length; i++) {
         for(let j = 0; j < rooms[i].orario.length - 1; j++) {
             if(rooms[i].orario[j].timestamp_to === rooms[i].orario[j + 1].timestamp_from) {
-                    rooms[i].orario[j].to = rooms[i].orario[j + 1].to;
-                    rooms[i].orario[j].timestamp_to = rooms[i].orario[j + 1].timestamp_to;
-                    rooms[i].orario.splice(j + 1, 1);
-                    j--;
-                }
+                rooms[i].orario[j].to = rooms[i].orario[j + 1].to;
+                rooms[i].orario[j].timestamp_to = rooms[i].orario[j + 1].timestamp_to;
+                rooms[i].orario.splice(j + 1, 1);
+                j--;
+            }
         }
     }
     return rooms;
