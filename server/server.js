@@ -3,7 +3,9 @@ const path = require("path");
 const request = require('request');
 const cors = require('cors');
 const fetch = require("node-fetch");
-const geolib = require("geolib");
+//const geolib = require("geolib");
+const cheerio = require('cheerio');
+const fs=require('fs');
 
 var port = process.env.PORT || 8080;
 var department_id =[("economia","E0101"),
@@ -82,6 +84,8 @@ app.get('/sede/:sede', (req,res) => {
             rooms = cleanSchedule(rooms);    
             rooms = getFreeRooms(rooms, currentTimestamp);
             rooms = cleanPastSchedule(rooms, currentTimestamp);
+            var map = getMaps(rooms, sede); // funzione base: attualmente fa diventare verdi le stanze presenti nel json a Povo A.
+            res.send(map);
             res.json(rooms); //Get the list of rooms with events that day and the hours in which they are busy.
         })
         .catch(error => {
@@ -89,6 +93,40 @@ app.get('/sede/:sede', (req,res) => {
         });
     }
 });
+
+function getMaps(rooms,sede){
+    var output;
+    switch(sede){
+        case 'E0503':
+
+        //Povo A piano P1
+        var $ = cheerio.load(fs.readFileSync(path.join(__dirname+'/../img/Povo1P1.svg')));
+            for(i = 0; i<rooms.length;i++){
+                if(rooms[i].room <= 437 && rooms[i].room >= 414){
+                    var id = 201 + (437 - rooms[i].room) ;
+                    var stringa = "#a" + id;
+                    var rect = $(stringa);
+                    rect.attr('fill','green');
+                    }
+            }   
+        output = $.html();
+
+        //Povo A piano PT
+        $ = cheerio.load(fs.readFileSync(path.join(__dirname+'/../img/Povo1PT.svg')));
+            for(i = 0; i<rooms.length;i++){
+                if(rooms[i].room <= 445 && rooms[i].room >= 438){
+                    var id = 101 + (445 - rooms[i].room) ;
+                    var stringa = "#a" + id;
+                    var rect = $(stringa);
+                    rect.attr('fill','green');
+                    }
+            }
+        output = output + $.html();
+    }
+    return output;
+    
+
+}
 
 
 function getRoomList(events) {

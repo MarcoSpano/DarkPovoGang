@@ -21,13 +21,11 @@
   },
   "homepage": "https://github.com/stebranchi/DarkPovoGang#readme",
   "dependencies": {
+    "cheerio": "^1.0.0-rc.2",
     "cors": "^2.8.4",
     "express": "^4.16.2",
-<<<<<<< HEAD
     "jest": "^21.2.1",
-=======
     "node-fetch": "^1.7.3",
->>>>>>> develop
     "path": "^0.12.7",
     "request": "^2.83.0"
   }
