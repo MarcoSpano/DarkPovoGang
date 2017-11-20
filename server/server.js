@@ -3,6 +3,7 @@ const path = require("path");
 const request = require('request');
 const cors = require('cors');
 const fetch = require("node-fetch");
+const geolib = require("geolib");
 
 var port = process.env.PORT || 8080;
 var department_id =[("economia","E0101"),
@@ -16,13 +17,13 @@ var department_id =[("economia","E0101"),
                     ("povo","E0503")];
 
 var dep_coordinates = {
-    "E0601" : (46.06666060000001, 11.1196512),
-    "E0705" : (45.89370539999999, 11.0435276),
-    "E0101" : (46.0662709, 11.1176511),
-    "E0201" : (46.0669596, 11.1195936),
-    "E0801" : (46.0677156, 11.1166435),
-    "E0301" : (46.06551, 11.1407375),
-    "E0503" : (46.067012, 11.1499029)
+    "E0601" : {latitude:46.06666060000001, longitude:11.1196512},
+    "E0705" : {latitude:45.89370539999999, longitude:11.0435276},
+    "E0101" : {latitude:46.0662709, longitude:11.1176511},
+    "E0201" : {latitude:46.0669596, longitude:11.1195936},
+    "E0801" : {latitude:46.0677156, longitude:11.1166435},
+    "E0301" : {latitude:46.06551,longitude:11.1407375},
+    "E0503" : {latitude:46.067012, longitude:11.1499029}
 };                    
                   
 
@@ -44,7 +45,7 @@ app.get('/', function(req, res){
 });
 
 //funzione che data sede e giorno restituisce le aule libere quel giorno
-app.get('/:sede', (req,res) => {
+app.get('/sede/:sede', (req,res) => {
     let url;
     let sede;
     if (inArray(req.params.sede))
@@ -151,8 +152,7 @@ function getFreeRooms(rooms, timeStamp) {
     for(let i = 0; i < rooms.length; i++) {
 		if(rooms[i].NomeAula.indexOf("Aula") == -1 && rooms[i].NomeAula.indexOf("AULA") == -1 && rooms[i].NomeAula.indexOf("aula") == -1) {
 			rooms.splice(i,1);
-			i--;
-			
+			i--;			
 		} 
 			
         //Check if the current time is between 00:00 and 20:00
@@ -306,6 +306,51 @@ app.get('/schedule/:sede/:aula', (req, res) => {
 }); 
 
 
+app.get('/room', (req, res) => {
+    
+    let lat = req.query.lat;
+    let lng = req.query.lng;
+
+    let userCoord = {latitude:46, longitude:11};
+    let nearestLocationInfo = getNearestLocation(userCoord);
+    let nearestLocation = nearestLocationInfo.key;
+
+    let url;
+    if (inArray(nearestLocation))
+    {
+        let now = new Date();
+        let day = now.getDate();
+        let month = now.getMonth() + 1;
+        let year = now.getFullYear();
+
+        url = "https://easyroom.unitn.it/Orario/rooms_call.php?form-type=rooms&sede="+ nearestLocation +"&_lang=it&date=" + day + "-" + month + "-" + year;
+        let currentTimestamp = now.getTime() / 1000;        
+
+        fetch(url)
+        .then(body => {
+            return body.json();
+        })
+        .then(data => {
+            return data.events;
+        })
+        .then(events => {
+            let rooms = getRoomList(events); 
+            rooms = cleanSchedule(rooms);    
+            rooms = getFreeRooms(rooms, currentTimestamp);
+            rooms = cleanPastSchedule(rooms, currentTimestamp);
+            res.json(rooms); //Get the list of rooms with events that day and the hours in which they are busy.
+        })
+        .catch(error => {
+            console.log(error);
+        });
+    }
+    
+});
+
+
+function getNearestLocation(userCoord) {
+    return geolib.findNearest(userCoord, dep_coordinates, 1);
+}
 
 
 app.listen(port);
