@@ -31,9 +31,16 @@
 			case "scienze cognitive": sede = "E0705"; break;
 			case "giuri": sede = "E0201"; break;
 
+<<<<<<< HEAD
 			case "socio": sede = "E0601"; break;
 		}
 		var url = "http://localhost:8080/"+ sede;
+=======
+	</script>
+	<script type="text/javascript">
+		//var url = "http://localhost:8080/"+ getPlace();
+		var url = "http://localhost:8080/sede/E0503";
+>>>>>>> develop
 		$.getJSON(url,function(data){
 			$.each(data, function(key, val){
 				if(val.orario[0])
