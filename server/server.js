@@ -36,7 +36,6 @@ function inArray(sede){
     return false;
 }
 
-
 const app = express();
 app.use(cors());
 
@@ -311,7 +310,7 @@ app.get('/room', (req, res) => {
     let lat = req.query.lat;
     let lng = req.query.lng;
 
-    let userCoord = {latitude:46, longitude:11};
+    let userCoord = {latitude:lat, longitude:lng};
     let nearestLocationInfo = getNearestLocation(userCoord);
     let nearestLocation = nearestLocationInfo.key;
 
