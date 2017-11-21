@@ -46,7 +46,7 @@
 		}
 
 
-		if(geoloc != null)
+		/*if(geoloc != null)
 		{
 			if (navigator.geolocation) {
 				navigator.geolocation.getCurrentPosition(function(position){
@@ -58,8 +58,8 @@
 		}
 		else{
 			url = "http://localhost:8080/sede/"+ sede;
-		}
-
+		}*/
+		url = "http://localhost:8080/sede/"+ sede;
 		$.getJSON(url,function(data){
 			$.each(data, function(key, val){
 				if(val.orario[0])

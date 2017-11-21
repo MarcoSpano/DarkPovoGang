@@ -47,11 +47,13 @@ app.get('/', function(req, res){
 app.get('/sede/:sede', (req,res) => {
     let url;
     let sede;
+    //console.log("INIZIO");
     if (inArray(req.params.sede))
     {
         sede = req.params.sede;
         if (req.query.day&&req.query.month)     //se nella request ci sono i parametri day,month,year
         {
+            //console.log("data e ora dalla request");
             let day = req.query.day;
             let month = req.query.month;
             let year = req.query.year;
@@ -59,6 +61,7 @@ app.get('/sede/:sede', (req,res) => {
         }
         else        //se nella request non ci sono i parametri day,month,year significa "in questo momento"
         {
+            //console.log("data e ora = now");
             let now = new Date();
             let day = now.getDate();
             let month = now.getMonth() + 1;
@@ -78,6 +81,7 @@ app.get('/sede/:sede', (req,res) => {
             return data.events;
         })
         .then(events => {
+            //console.log("SECONDO .then");
             let rooms = getRoomList(events); 
             rooms = cleanSchedule(rooms);    
             rooms = getFreeRooms(rooms, currentTimestamp);
@@ -92,6 +96,7 @@ app.get('/sede/:sede', (req,res) => {
 
 
 function getRoomList(events) {
+    //console.log("INIZIO GETROOMLIST");
     let rooms = [];
     for(let i = 0; i < events.length; i++) {
         let room = {room: events[i].room,
@@ -126,6 +131,7 @@ function getRoomList(events) {
         } 
                                        
     }
+    //console.log("FINE GETROOMLIST");
     return rooms;
 }
 
@@ -307,6 +313,7 @@ app.get('/schedule/:sede/:aula', (req, res) => {
 
 app.get('/room', (req, res) => {
     
+    //console.log("INIZIO GET BY MY CURRENT POSITION");
     let lat = req.query.lat;
     let lng = req.query.lng;
 
