@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/stebranchi/DarkPovoGang#readme",
   "dependencies": {
+    "apiai": "^4.0.3",
     "cheerio": "^1.0.0-rc.2",
     "cors": "^2.8.4",
     "express": "^4.16.2",

@@ -6,6 +6,8 @@ const fetch = require("node-fetch");
 //const geolib = require("geolib");
 const cheerio = require('cheerio');
 const fs=require('fs');
+const apiai = require('apiai');
+var nlapp = apiai("f3673557663f4ae8b3f299c5b9c8f836");
 
 var port = process.env.PORT || 8080;
 var department_id =[("economia","E0101"),
@@ -28,7 +30,6 @@ var dep_coordinates = {
     "E0503" : {latitude:46.067012, longitude:11.1499029}
 };                    
                   
-
 function inArray(sede){
     for (let i = 0; i < department_id.length; i++)
     {
@@ -85,7 +86,8 @@ app.get('/sede/:sede', (req,res) => {
             rooms = getFreeRooms(rooms, currentTimestamp);
             rooms = cleanPastSchedule(rooms, currentTimestamp);
             var map = getMaps(rooms, sede); // funzione base: attualmente fa diventare verdi le stanze presenti nel json a Povo A.
-            res.send(map);
+            //naturallanguage('cerco aula libera a Povo');
+            //res.send(map);
             res.json(rooms); //Get the list of rooms with events that day and the hours in which they are busy.
         })
         .catch(error => {
@@ -93,6 +95,22 @@ app.get('/sede/:sede', (req,res) => {
         });
     }
 });
+
+function naturallanguage(frase) {
+    var request = nlapp.textRequest(frase , {
+        sessionId: 'dhbsajbi'
+    });
+
+    request.on('response', function(response) {
+        console.log(response);
+    });
+
+    request.on('error', function(error) {
+        console.log(error);
+    });
+    
+    request.end();
+}
 
 function getMaps(rooms,sede){
     var output;
