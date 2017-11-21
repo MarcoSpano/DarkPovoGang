@@ -15,25 +15,53 @@
 	<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 	<script src="js/materialize.js"></script>
 	<script type="text/javascript" src="js/myjs.js"></script>
+	<script async defer
+    src ="https://maps.googleapis.com/maps/api/js?key=AIzaSyAUlRB23ZhvT108Fa6B5Gs6M5ZAphUaqbA&callback=initMap&sensor=false&v=3&libraries=geometry" >
+    </script>
+ 
 	<script type="text/javascript">
+	
+		let lat,lng,url;
 		//script per creare la tabella degli orari
-		var sede = getQueryVariable(window.location.href);
-		sede = sede.replace("%20", " ");
-		switch (sede){
-			case "povo": sede = "E0503"; break;
-			case "economia": sede = "E0101"; break;
-			case "lettere": sede = "E0801"; break;
-			case "filosofia": sede = "E0801"; break;
-			case "mesiano": sede = "E0301"; break;
-			case "ingegneria": sede = "E0301"; break;
-			case "giurisprudenza": sede = "E0201"; break;
-			case "sociologia": sede = "E0601"; break;
-			case "scienze cognitive": sede = "E0705"; break;
-			case "giuri": sede = "E0201"; break;
+		var sede = getQueryVariable_q(window.location.href);
+		var geo = getQueryVariable_geoloc(window.location.href);
+		if(sede != null)
+		{
+			sede = sede.replace("%20", " ");
+			switch (sede){
+				case "povo": sede = "E0503"; break;
+				case "economia": sede = "E0101"; break;
+				case "lettere": sede = "E0801"; break;
+				case "filosofia": sede = "E0801"; break;
+				case "mesiano": sede = "E0301"; break;
+				case "ingegneria": sede = "E0301"; break;
+				case "giurisprudenza": sede = "E0201"; break;
+				case "sociologia": sede = "E0601"; break;
+				case "scienze cognitive": sede = "E0705"; break;
+				case "giuri": sede = "E0201"; break;
 
-			case "socio": sede = "E0601"; break;
+				case "socio": sede = "E0601"; break;
+				case "help" : location.href = "index.html?q=help";
+			}
 		}
-		var url = "http://localhost:8080/"+ sede;
+			
+		
+		if(geoloc != null)
+		{
+			if (navigator.geolocation) {
+				navigator.geolocation.getCurrentPosition(function(position){
+					lat = position.coords.latitude;
+					lng = position.coords.longitude;
+				});
+			}
+
+			url = "http://localhost:8080/room?lat=" + lat + "&lng=" + lng;
+		}
+		else{
+			url = "http://localhost:8080/sede/"+ sede;
+		}
+			
+		console.log(url);
 		$.getJSON(url,function(data){
 			$.each(data, function(key, val){
 				if(val.orario[0])
@@ -131,7 +159,7 @@
 	</footer>
 	<script type="text/javascript">
 		//script per caricare il titolo
-		var polo = getQueryVariable(window.location.href);
+		var polo = getQueryVariable_q(window.location.href);
 		//polo = polo.replace("%20", " ");
 		var name = "Aule libere presso: "+polo;
 		document.getElementById("nome_polo").innerHTML = name ;
