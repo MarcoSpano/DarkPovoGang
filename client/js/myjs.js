@@ -1,9 +1,7 @@
-
-//funzione per mostrare la tabella di help nella index.html
 function showCommand(){
+	console.log("showCommand")
 	var table = document.getElementById("table_div");
-	table.value = '';
-	table.style.visibility = "visible";
+	table.style.visibily = "visible"
 
 }
 
@@ -13,6 +11,7 @@ function go(){
 
 	if (q === "help")
 	{
+		console.log("q == help")
 		showCommand();
 	}
 	else
@@ -23,12 +22,20 @@ function go(){
 		location.href = url;
 	}
 }
-
 //funzione per prendere la query inserita dall'utente
-function getQueryVariable(url_string) {
+function getQueryVariable_q(url_string) {
 	var url = new URL(url_string);
 	var query = url.searchParams.get("q");
 	if(query)
 		return query;
-	alert('Query Variable ' + query + ' not found');
+	return null;
+	//alert('Query Variable ' + query + ' not found');
+}
+function getQueryVariable_geoloc(url_string) {
+	var url = new URL(url_string);
+	var query = url.searchParams.get("geoloc");
+	if(query)
+		return query;
+	return null;
+	//alert('Query Variable ' + query + ' not found');
 }
