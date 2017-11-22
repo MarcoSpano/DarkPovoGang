@@ -30,7 +30,7 @@
     <rect
        style="stroke:#1a1a1a;stroke-width:2.87796688;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="a106"
-       fill="white"
+       fill="red"
        y="859.33264"
        x="17.711081"
        height="172.60606"
@@ -38,7 +38,7 @@
     <rect
        style="stroke:#1a1a1a;stroke-width:2.87796688;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="a105"
-       fill="white"
+       fill="red"
        y="859.33264"
        x="167.3653"
        height="172.60606"
@@ -46,7 +46,7 @@
     <rect
        style="stroke:#1a1a1a;stroke-width:2.87796688;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="a104"
-       fill="white"
+       fill="red"
        y="859.33264"
        x="308.67346"
        height="172.60606"
@@ -54,7 +54,7 @@
     <rect
        style="stroke:#1a1a1a;stroke-width:2.87796688;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="a103"
-       fill="white"
+       fill="red"
        y="859.33264"
        x="447.60733"
        height="172.60606"
@@ -62,7 +62,7 @@
     <rect
        style="stroke:#1a1a1a;stroke-width:2.87796688;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="a107"
-       fill="white"
+       fill="red"
        y="720.11096"
        x="219.74432"
        height="104.90189"
@@ -77,7 +77,7 @@
     <rect
        style="stroke:#1a1a1a;stroke-width:2.87796688;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="a101"
-       fill="white"
+       fill="red"
        y="23.642998"
        x="17.711081"
        height="171.31097"
@@ -85,7 +85,7 @@
     <rect
        style="stroke:#1a1a1a;stroke-width:2.87796688;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="a102"
-       fill="white"
+       fill="red"
        y="23.642998"
        x="260.68338"
        height="171.31097"
@@ -100,7 +100,7 @@
     <rect
        style="stroke:#1a1a1a;stroke-width:2.87796688;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="a108"
-       fill="white"
+       fill="red"
        y="226.3958"
        x="219.74432"
        height="107.56402"
@@ -1181,14 +1181,5 @@
          id="tspan3204-7"
          y="956.81238"
          x="92.679611">A106</tspan></text>
-    <text
-       style="font-style:normal;font-weight:normal;font-size:9.77084541px;line-height:125%;font-family:Lato;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none"
-       xml:space="preserve"
-       id="text3144"
-       y="1035.4062"
-       x="257.78885"><tspan
-         id="tspan3146"
-         y="1035.4062"
-         x="257.78885">Created by andr35@github</tspan></text>
   </g>
 </svg>
