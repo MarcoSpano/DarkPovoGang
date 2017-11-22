@@ -154,7 +154,13 @@ telegram.on("text", (message) => {
 			}
 			telegram.sendMessage(message.chat.id, msg);
 		});
+<<<<<<< HEAD
 		telegram.sendPhoto(message.chat.id, photo);
+=======
+		
+			
+		//telegram.sendMessage(message.chat.id, povo1p1, {caption: "aule libere polo A"});
+>>>>>>> 9c74038bf85c45c3302d8d60752d35d575a13ae9
 	}
 	else if (message.text.toLowerCase().includes("ingegneria"))
 	{
