@@ -6,6 +6,16 @@
  * Made By MaterializeCSS.com
  */
 
+ nav{
+   position: relative;
+   z-index: 1000;
+   box-shadow: none;
+ }
+ 
+ .nav-wrapper{
+   padding: 0 125px;
+ }
+
 .icon-block {
   padding: 0 15px;
 }
@@ -22,10 +32,12 @@ main {
 	flex: 1 0 auto;
 }
 
+.maps-container{
+  
+}
+
 .page-footer{
-	position: fixed;
+  position: relative;
 	bottom: 0px;
-	max-height: 150px;
-	width: 100%
 
 }

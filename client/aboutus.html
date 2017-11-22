@@ -10,22 +10,14 @@
 	<link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 	<link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	<!-- BOOTSTRAP 
+	<!-- BOOTSTRAP
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
-
-<!--
-
-	aggiungere nel css class="waves-effect"
-	position relative css mobile menu
-	sistemare padding
-
--->
-
-
 </head>
 <main>
+
+	
 		<nav class="light-blue lighten-1" role="navigation">
 			<div class="nav-wrapper">
 				<a href="index.html" class="brand-logo white-text">UniRoom</a>
@@ -55,71 +47,53 @@
 			</div>
 		</nav>
 
-		<div class="section no-pad-bot" id="index-banner">
-			<div class="container">
-				<p style="color: red;">The application is still under construction.. forgive us!</p>
-				<br><br>
-				<div style="padding-top: 10%">
-					<center>
-						<div class="row center">
-							<form class="col s12" action="result.html" method="GET">
-								<div class="input-field col s10" style="padding-left: 16%; font-size: 30px">
-									<i onclick="go()" class="red-text material-icons prefix" style="padding-top: 3%">search</i>
-									<input size="25" placeholder="Inserisci polo, aula o help..." id="inserisci" type="text" name="q" class="validate">
-									<input type="submit" name="submit" style="visibility: hidden;">
-									<div style="padding-top: 2%">
-										<a class="btn-floating btn-large waves-effect waves-light red" onclick="go()">
-											<i class="material-icons">forward</i>
-										</a>
-										
-									</div>
-									
-								</div>
-							</form>
-						</div>
-					</center>
-				</div>
-				
-				<div id="table_div" style="visibility: hidden;">
-					<table class="striped" id="command_table">
-						<thead>
-							<tr>
-								<th>Input</th>
-								<th>Description</th>
-							</tr>
-						</thead>
+	<div id="about">
+  	<h2 class="center">Chi Siamo</h2>
+	  <div class="row">
+	      <div class="col s8 offset-s2">
+	        <div class="card hoverable">
+	          <div class="card-content">
+	            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+	          </div>
+	        </div>
+	      </div>
+	    </div>
+	</div>
 
-						<tbody>
-							<tr>
-								<td>help</td>
-								<td>List all the possible command to use</td>
-							</tr>
-							<tr>
-								<td>povo</td>
-								<td>List all the free rooms at Povo</td>
-							</tr>
-							<tr>
-								<td>giuri</td>
-								<td>List all the free rooms at Giurisprudenza</td>
-							</tr>
-							<tr>
-								<td>socio</td>
-								<td>List all the free rooms at Sociologia</td>
-							</tr>
-							<tr>
-								<td>economia</td>
-								<td>List all the free rooms at economia</td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-
-			</div>
-		</div>
+	<div id=where>
+	  </div>
+	  <div class="maps-container center">
+	    <h2 class="center">Dove Siamo</h2>
+	    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d22143.53022732457!2d11.125937903026191!3d46.07221204454197!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4782769503229ff9%3A0xc214a9f3a4958ca6!2sDipartimento+di+Ingegneria+e+Scienza+dell&#39;Informazione%2C+Universit%C3%A0+di+Trento!5e0!3m2!1sit!2sit!4v1511306629466" width="1000" height="400" frameborder="0" style="border:0" allowfullscreen></iframe>
+	  </div>
+	</div>
 
 
-
-	
+	<div id="contacts">
+	  <h2 class="center">Contatti</h2>
+	  <div class="row">
+	    <div class="col s4 offset-s4">
+	      <div class="card hoverable">
+	        <div class="card content">
+	          <ul class="collection">
+	            <li class="collection-item">
+	              <i class="material-icons left">home</i>Via Boiane 3, Suzzara
+	            </li>
+	            <li class="collection-item">
+	              <i class="material-icons left">call</i>+39 0376 532593
+	            </li>
+	            <li class="collection-item">
+	              <i class="material-icons left">smartphone</i>Facebook
+	            </li>
+	            <li class="collection-item">
+	              <i class="material-icons left">collections</i>Instagram
+	            </li>
+	          </ul>
+	        </div>
+	      </div>
+	    </div>
+	  </div>
+	</div>
 
 
 		<footer class="page-footer light-blue">
@@ -144,11 +118,11 @@
 			</div>
 		</footer>
 
-	<!--  Scripts-->
-	<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-	<script src="js/materialize.js"></script>
-	<script src="js/init.js"></script>
-	<script type="text/javascript" src="js/myjs.js"></script>
+<!--  Scripts-->
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="js/materialize.js"></script>
+<script src="js/init.js"></script>
+<script type="text/javascript" src="js/myjs.js"></script>
 
 </main>
 </html>
