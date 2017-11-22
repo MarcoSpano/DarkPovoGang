@@ -133,6 +133,7 @@ var povo1p1 = '/img/Povo1P1.svg';
 var povo1pt = '/img/Povo1PT.svg';
 var povo2p1 = '/img/Povo2P1.svg';
 var povo2pt = '/img/Povo2PT.svg';
+var photo = 'photo_2017-10-12_10-39-45.jpg';
 
 telegram.on("text", (message) => {
 	if (message.text == "/start")
@@ -151,11 +152,9 @@ telegram.on("text", (message) => {
 			for(let i = 0; i < rooms.length; i++){
 				msg += ""+rooms[i].NomeAula+" libera fino alle "+rooms[i].orario[0].from+"\n";
 			}
-			telegram.sendMessage(message.chat.id, msg);	
+			telegram.sendMessage(message.chat.id, msg);
 		});
-		
-			
-		telegram.sendMessage(message.chat.id, "" + povo1p1);
+		telegram.sendPhoto(message.chat.id, photo);
 	}
 	else if (message.text.toLowerCase().includes("ingegneria"))
 	{
