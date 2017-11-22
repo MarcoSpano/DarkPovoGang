@@ -129,7 +129,10 @@ function getData(sede){
 			console.log("Errore nel parsing json: "+error);
 	});
 }
-var photo = 'photo_2017-10-12_10-39-45.jpg';
+var povo1p1 = '/img/Povo1P1.svg';
+var povo1pt = '/img/Povo1PT.svg';
+var povo2p1 = '/img/Povo2P1.svg';
+var povo2pt = '/img/Povo2PT.svg';
 
 telegram.on("text", (message) => {
 	if (message.text == "/start")
@@ -152,7 +155,7 @@ telegram.on("text", (message) => {
 		});
 		
 			
-		//telegram.sendPhoto(message.chat.id, photo, {caption: "aule libere polo A"});
+		telegram.sendMessage(message.chat.id, "" + povo1p1);
 	}
 	else if (message.text.toLowerCase().includes("ingegneria"))
 	{
