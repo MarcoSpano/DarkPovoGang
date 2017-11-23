@@ -28,6 +28,12 @@ var dep_coordinates = {
                   
 
 function inArray(sede){
+    if(!sede) {
+        throw new Error('No parameter inserted');
+    }
+    if(typeof sede != "string") {
+        throw new TypeError('No string parameter inserted');
+    }
     for (let i = 0; i < department_id.length; i++)
     {
         if(sede === department_id[i])
@@ -96,7 +102,12 @@ app.get('/sede/:sede', (req,res) => {
 
 
 function getRoomList(events) {
-    //console.log("INIZIO GETROOMLIST");
+    if(!events) {
+        throw new Error('No parameter inserted');
+    }
+    if(typeof events != "object") {
+        throw new TypeError('No object parameter inserted');
+    }
     let rooms = [];
     for(let i = 0; i < events.length; i++) {
         let room = {room: events[i].room,
@@ -131,7 +142,6 @@ function getRoomList(events) {
         } 
                                        
     }
-    //console.log("FINE GETROOMLIST");
     return rooms;
 }
 
@@ -361,3 +371,6 @@ function getNearestLocation(userCoord) {
 
 app.listen(port);
 console.log("Server started on port " + port);
+
+
+module.exports = {inArray, getRoomList};
