@@ -13,7 +13,7 @@
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.5.0/velocity.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.5.0/velocity.ui.js"></script>
-	<!-- BOOTSTRAP 
+	<!-- BOOTSTRAP
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
@@ -28,24 +28,35 @@
 
 </head>
 <main>
-	<div style="margin-bottom: 150px">
 		<nav class="light-blue lighten-1" role="navigation">
-			<div class="nav-wrapper container"><a id="logo-container" href="index.html" class="brand-logo">UNIROOM</a>
+			<div class="nav-wrapper">
+				<a href="index.html" class="brand-logo white-text">UniRoom</a>
+				<a href="index.html" data-activates="mobile-menu" class="button-collapse white-text"><i class="material-icons">menu</i> </a>
 				<ul class="right hide-on-med-and-down">
-					<li><a href="#">About us</a></li>
-					<li><a href="#">Contacts</a></li>
-					<li><a href="http://www.unitn.it">UNITN</a></li>
-					<li><a href="https://easyroom.unitn.it/Orario/index.php?view=easycourse&_lang=it&empty_box=0">Schedule</a></li>
+
+					<li><a href="http://www.unitn.it" class="white-text"><i class="material-icons left">school</i>UNITN</a></li>
+					<li><a href="https://easyroom.unitn.it/Orario/index.php?view=easycourse&_lang=it&empty_box=0" class="white-text"><i class="material-icons left">schedule</i>Schedule</a></li>
+					<li><a href="aboutus.html#contacts" class="white-text"><i class="material-icons left">phone</i>Contacts</a></li>
+					<li><a href="aboutus.html#about" class="white-text"><i class="material-icons left">people</i>About us</a></li>
+
 				</ul>
 
 
-				<ul id="nav-mobile" class="side-nav">
-					<li><a href="#">Contacts</a></li>
+				<ul id="mobile-menu" class="side-nav">
+					<li><a href="http://www.unitn.it" class="black-text"><i class="material-icons left">school</i>UNITN</a></li>
+					<li><a href="https://easyroom.unitn.it/Orario/index.php?view=easycourse&_lang=it&empty_box=0" class="black-text"><i class="material-icons left">schedule</i>Schedule</a></li>
+
+					<li><div class="divider"></div></li>
+
+					<li><a href="aboutus.html#contacts" class="black-text"><i class="material-icons left">phone</i>Contacts</a></li>
+					<li><a href="aboutus.html#about" class="black-text"><i class="material-icons left">people</i>About us</a></li>
+
 				</ul>
-				
-				<a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+
+
 			</div>
 		</nav>
+
 		<div class="section no-pad-bot" id="index-banner">
 			<div class="container">
 				<p style="color: red;">The application is still under construction.. forgive us!</p>
@@ -65,15 +76,15 @@
 										<button class="btn waves-effect waves-light" type="submit" name="geoloc" value="true" style="font-size: 15px; border-radius: 7px; background-color: #ff1a1a;">get by my current position
 											<i class="material-icons right">send</i>
 										</button>
-										
+
 									</div>
-									
+
 								</div>
 							</form>
 						</div>
 					</center>
 				</div>
-				
+
 				<div id="table_div" style="visibility: hidden; padding-bottom: 150px">
 					<table class="striped" id="command_table">
 						<thead>
@@ -111,35 +122,40 @@
 			</div>
 		</div>
 
-	</div>
 
-	<footer class="page-footer orange">
-		<div class="container">
-			<div class="row">
-				<div class="col l6 s12">
-					<h5 class="white-text">Company Bio</h5>
-					<p class="grey-text text-lighten-4">We are a team of college students working on this project like it's our full time job. Any amount would help support and continue development on this project and is greatly appreciated.</p>
-				</div>
-					
-				<div class="col l3 s12 offset-l3">
-					<h5 class="white-text">Connect</h5>
-					<ul>
-						<li><a href="https://github.com/stebranchi/DarkPovoGang" style="color: black"><h6 style="padding-bottom: 1%"><i style="font-size:24px; color: black; padding-right: 2%" class="fa fa-github"></i>Github</h6></a></li>
-						<li><a href="#" style="color: black"><h6 style="padding-bottom: 1%"><i style="font-size:24px; color: black; padding-right: 2%" class="fa fa-facebook-square"></i>Facebook</h6></a></li>
-					</ul>
+
+
+
+
+		<footer class="page-footer light-blue">
+			<div class="container">
+				<div class="row">
+					<div class="col l6 s12">
+						<h5 class="white-text">Company Bio</h5>
+						<p class="grey-text text-lighten-4">We are a team of college students working on this project like it's our full time job. Any amount would help support and continue development on this project and is greatly appreciated.</p>
+					</div>
+
+					<div class="col l3 s12">
+						<h5 class="white-text">Contacts</h5>
+						<ul>
+							<li>
+								<a href="https://github.com/stebranchi/DarkPovoGang" style="color: white"><h6 style="padding-bottom: 1%"><i style="font-size:24px; color: white; padding-right: 2%" class="fa fa-github"	></i>Github</h6></a></li>
+							<li>
+								<a href="#" style="color: white"><h6 style="padding-bottom: 1%"><i style="font-size:24px; color: white; padding-right: 2%" class="fa fa-facebook-square"></i>Facebook</h6></a>
+							</li>
+						</ul>
+					</div>
 				</div>
 			</div>
-		</div>
-	</footer>
-	
+		</footer>
 
 	<!--  Scripts-->
 	<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 	<script src="js/materialize.js"></script>
 	<script src="js/init.js"></script>
-	
+
 	<script type="text/javascript">
-		
+
 		function showCommand(){
 			var table = document.getElementById("table_div");
 			table.style.visibility = "visible"
@@ -157,7 +173,7 @@
 			else
 			{
 				//prima bisogna parsare la q e poi aggiungere il parametro polo/aula all'url
-				
+
 				var url = "result.html?q="+q;
 
 				location.href = url;

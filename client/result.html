@@ -84,35 +84,39 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
 </head>
 <body>
-	<div style="margin-bottom: 100px">
 		<nav class="light-blue lighten-1" role="navigation">
-			<div class="nav-wrapper container">
-				<div class="row">
-					<div class="col s3">
-						<a id="logo-container" href="index.html" class="brand-logo">UNIROOM</a>
-					</div>
-					<div class="col s4 offset-s3">
+			<div class="nav-wrapper">
+				<a href="index.html" class="brand-logo white-text">UniRoom</a>
+				<a href="index.html" data-activates="mobile-menu" class="button-collapse white-text"><i class="material-icons">menu</i> </a>
+				<ul class="right hide-on-med-and-down">
+					<div class="raw">
 						<form action="result.html">
-							<div class="input-field" style="max-height: 50px!important">
-								<i onclick="go()" id="icon" class="red-text material-icons prefix">search</i>
-								<input style="padding-left: 0px;" placeholder="Inserisci polo, aula o help..." id="inserisci" name="q" type="text" class="validate">
-								<input type="submit" name="submit" style="visibility: hidden;">
-							</div>
+								<div class="input-field" style="max-height: 50px!important">
+									<i onclick="go()" id="icon" class="red-text material-icons prefix">search</i>
+									<input style="padding-left: 0px;" placeholder="Inserisci polo, aula o help..." id="inserisci" name="q" type="text" class="validate">
+									<input type="submit" name="submit" style="visibility: hidden;">
+								</div>
 						</form>
+						<li><a href="http://www.unitn.it" class="white-text"><i class="material-icons left">school</i>UNITN</a></li>
+						<li><a href="https://easyroom.unitn.it/Orario/index.php?view=easycourse&_lang=it&empty_box=0" class="white-text"><i class="material-icons left">schedule</i>Schedule</a></li>
+						<li><a href="aboutus.html#contacts" class="white-text"><i class="material-icons left">phone</i>Contacts</a></li>
+						<li><a href="aboutus.html#about" class="white-text"><i class="material-icons left">people</i>About us</a></li>
 					</div>
-					<div class="col s5">
-						<ul class="right hide-on-med-and-down">
-							<li><a href="#">About us</a></li>
-							<li><a href="#">Contacts</a></li>
-							<li><a href="http://www.unitn.it">UNITN</a></li>
-							<li><a href="https://easyroom.unitn.it/Orario/index.php?view=easycourse&_lang=it&empty_box=0">Schedule</a></li>
-						</ul>
-						<ul id="nav-mobile" class="side-nav">
-							<li><a href="#">Contacts</a></li>
-						</ul>
-						<a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
-					</div>
-				</div>
+				</ul>
+
+
+				<ul id="mobile-menu" class="side-nav">
+					<li><a href="http://www.unitn.it" class="black-text"><i class="material-icons left">school</i>UNITN</a></li>
+					<li><a href="https://easyroom.unitn.it/Orario/index.php?view=easycourse&_lang=it&empty_box=0" class="black-text"><i class="material-icons left">schedule</i>Schedule</a></li>
+
+					<li><div class="divider"></div></li>
+
+					<li><a href="aboutus.html#contacts" class="black-text"><i class="material-icons left">phone</i>Contacts</a></li>
+					<li><a href="aboutus.html#about" class="black-text"><i class="material-icons left">people</i>About us</a></li>
+
+				</ul>
+
+
 			</div>
 		</nav>
 
@@ -136,25 +140,30 @@
 				</table>
 			</div>
 		</div>
-	</div>
-	<footer class="page-footer orange">
-		<div class="container">
-			<div class="row">
-				<div class="col l6 s12">
-					<h5 class="white-text">Company Bio</h5>
-					<p class="grey-text text-lighten-4">We are a team of college students working on this project like it's our full time job. Any amount would help support and continue development on this project and is greatly appreciated.</p>
-				</div>
 
-				<div class="col l3 s12 offset-l3">
-					<h5 class="white-text">Connect</h5>
-					<ul>
-						<li><a href="https://github.com/stebranchi/DarkPovoGang" style="color: black"><h6 style="padding-bottom: 1%"><i style="font-size:24px; color: black; padding-right: 2%" class="fa fa-github"></i>Github</h6></a></li>
-						<li><a href="#" style="color: black"><h6 style="padding-bottom: 1%"><i style="font-size:24px; color: black; padding-right: 2%" class="fa fa-facebook-square"></i>Facebook</h6></a></li>
-					</ul>
+
+		<footer class="page-footer light-blue">
+			<div class="container">
+				<div class="row">
+					<div class="col l6 s12">
+						<h5 class="white-text">Company Bio</h5>
+						<p class="grey-text text-lighten-4">We are a team of college students working on this project like it's our full time job. Any amount would help support and continue development on this project and is greatly appreciated.</p>
+					</div>
+
+					<div class="col l3 s12">
+						<h5 class="white-text">Contacts</h5>
+						<ul>
+							<li>
+								<a href="https://github.com/stebranchi/DarkPovoGang" style="color: white"><h6 style="padding-bottom: 1%"><i style="font-size:24px; color: white; padding-right: 2%" class="fa fa-github"	></i>Github</h6></a></li>
+							<li>
+								<a href="#" style="color: white"><h6 style="padding-bottom: 1%"><i style="font-size:24px; color: white; padding-right: 2%" class="fa fa-facebook-square"></i>Facebook</h6></a>
+							</li>
+						</ul>
+					</div>
 				</div>
 			</div>
-		</div>
-	</footer>
+		</footer>
+
 	<script type="text/javascript">
 		//script per caricare il titolo
 		var polo = getQueryVariable_q(window.location.href);
