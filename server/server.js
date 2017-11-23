@@ -5,8 +5,9 @@ const cors = require('cors');
 const fetch = require("node-fetch");
 //const geolib = require("geolib");
 const cheerio = require('cheerio');
-const fs=require('fs');
+const fs=require('pn/fs');
 const apiai = require('apiai');
+const svg2png=require('svg2png');
 var nlapp = apiai("f3673557663f4ae8b3f299c5b9c8f836");
 
 var port = process.env.PORT || 8080;
@@ -87,8 +88,12 @@ app.get('/sede/:sede', (req,res) => {
             rooms = cleanPastSchedule(rooms, currentTimestamp);
             var map = getMaps(rooms, sede); // funzione base: attualmente fa diventare verdi le stanze presenti nel json a Povo A.
             //naturallanguage('cerco aula libera a Povo');
+            conversionMap(map,res); // ritorna la mappa nel res sotto forma di file PNG. Da riadattare poi per stampare su bot.
+            
+             
+            
             //res.send(map);
-            res.json(rooms); //Get the list of rooms with events that day and the hours in which they are busy.
+            //res.json(rooms); //Get the list of rooms with events that day and the hours in which they are busy.
         })
         .catch(error => {
             console.log(error);
@@ -114,6 +119,8 @@ function naturallanguage(frase) {
 
 function getMaps(rooms,sede){
     var output;
+    var sourceBuffer;
+    
     switch(sede){
         case 'E0503':
 
@@ -127,7 +134,7 @@ function getMaps(rooms,sede){
                     rect.attr('fill','green');
                     }
             }   
-        output = $.html();
+        output = $.html();       
 
         //Povo A piano PT
         $ = cheerio.load(fs.readFileSync(path.join(__dirname+'/../img/Povo1PT.svg')));
@@ -139,11 +146,28 @@ function getMaps(rooms,sede){
                     rect.attr('fill','green');
                     }
             }
-        output = output + $.html();
+       // output = output + $.html();
     }
+         
     return output;
-    
 
+}
+
+function conversionMap(map,res){
+    var sourceBuffer;
+    svg2png(map)
+    .then(function (buffer) {
+        sourceBuffer = new Buffer(buffer, 'base64'); 
+         res.writeHead(200, {
+                'Content-Type': 'image/png',
+                'Content-Length': sourceBuffer.length
+          });
+        res.end(sourceBuffer);       
+    })
+    .catch(function (error) {
+        console.log("Conversion Error!");
+    });
+   
 }
 
 
