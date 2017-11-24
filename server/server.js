@@ -5,9 +5,9 @@ const cors = require('cors');
 const fetch = require("node-fetch");
 //const geolib = require("geolib");
 const cheerio = require('cheerio');
+const svg2png=require('svg2png');
 const fs=require('pn/fs');
 const apiai = require('apiai');
-const svg2png=require('svg2png');
 var nlapp = apiai("f3673557663f4ae8b3f299c5b9c8f836");
 
 var port = process.env.PORT || 8080;
@@ -152,6 +152,8 @@ function getMaps(rooms,sede){
     return output;
 
 }
+
+module.exports.getMaps = getMaps;
 
 function conversionMap(map,res){
     var sourceBuffer;
