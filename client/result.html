@@ -14,10 +14,10 @@
 	<!--  Scripts-->
 	<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 	<script src="js/materialize.js"></script>
-	<script type="text/javascript" src="js/myjs.js"></script>
-	<script async defer
+	<script src="js/myjs.js"></script>
+	<!--<script async defer
     src ="https://maps.googleapis.com/maps/api/js?key=AIzaSyAUlRB23ZhvT108Fa6B5Gs6M5ZAphUaqbA&callback=initMap&sensor=false&v=3&libraries=geometry" >
-    </script>
+    </script>-->
 
 	<script type="text/javascript">
 
@@ -43,6 +43,9 @@
 				case "socio": sede = "E0601"; break;
 				case "help" : location.href = "index.html?q=help";
 			}
+		}
+		else{
+			location.href = "index.html?q=dc";
 		}
 
 
@@ -94,6 +97,9 @@
 								<div class="input-field" style="max-height: 50px!important">
 									<i onclick="go()" id="icon" class="red-text material-icons prefix">search</i>
 									<input style="padding-left: 0px;" placeholder="Inserisci polo, aula o help..." id="inserisci" name="q" type="text" class="validate">
+									<div class="popup">
+										<span id="wrongInput"></span>
+									</div>
 									<input type="submit" name="submit" style="visibility: hidden;">
 								</div>
 						</form>

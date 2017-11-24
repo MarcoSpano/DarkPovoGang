@@ -11,21 +11,15 @@
 	<link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
+	<!--  Scripts-->
+	<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+	<script src="js/materialize.js"></script>
+	<script src="js/init.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.5.0/velocity.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.5.0/velocity.ui.js"></script>
-	<!-- BOOTSTRAP
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
-	<script type="text/javascript">
-		var par = getQueryVariable(window.location.href);
-		if(par === "help")
-		{
-			console.log("par = help")
-			showCommand()
-		}
-	</script>
+	<script src="js/myjs.js"></script>
 
+	
 </head>
 <main>
 		<nav class="light-blue lighten-1" role="navigation">
@@ -60,23 +54,49 @@
 		<div class="section no-pad-bot" id="index-banner">
 			<div class="container">
 				<p style="color: red;">The application is still under construction.. forgive us!</p>
+				
 				<br><br>
-				<div style="padding-top: 10%">
+				<div style="padding-top: 5%">
 					<center>
 						<div class="row center">
 							<form class="col s12" action="result.html" method="GET">
 								<div class="input-field col s10" style="padding-left: 16%; font-size: 30px">
-									<i onclick="go()" class="red-text material-icons prefix" style="padding-top: 3%">search</i>
-									<input size="25" placeholder="Inserisci polo, aula o help..." id="inserisci" type="text" name="q" class="validate">
-									<input type="submit" name="submit" style="visibility: hidden;">
-									<div style="padding-top: 2%">
-										<a class="btn-floating btn-large waves-effect waves-light red" onclick="go()">
-											<i class="material-icons">forward</i>
-										</a>
-										<button class="btn waves-effect waves-light" type="submit" name="geoloc" value="true" style="font-size: 15px; border-radius: 7px; background-color: #ff1a1a;">get by my current position
-											<i class="material-icons right">send</i>
-										</button>
+									
+									<div class="col s12" style="max-height: 20px">
+										<div class="col s6">
+											<div class="popup" onclick="myFunction()" style="width: 200px">
+												<center>
+													<span class="popuptext" id="myPopup" style="font-size: 15px;width: 300px">Input sbagliato!
+													Inserisci help per la lista di comandi disponibili.</span>
+												</center>
+													
+											</div>
+										</div>
+											
+									</div>
+									<div class="col s12">
+										<div class="col s10">
+											<i onclick="go()" class="red-text material-icons prefix" style="padding-top: 3%">search</i>
+											<input size="15" placeholder="Inserisci polo, aula o help..." id="inserisci" type="text" name="q" class="validate">
 
+											<input type="submit" name="submit" style="visibility: hidden;">
+										</div>
+										<div class="col s2">
+											<a class="btn-floating btn-large waves-effect waves-light red" onclick="go()">
+												<i class="material-icons">forward</i>
+											</a>
+										</div>
+										
+									</div>
+									<div class="col s12">
+										<div style="padding-top: 2%">
+											
+											<button class="btn waves-effect waves-light" type="submit" name="geoloc" value="true" style="font-size: 15px; border-radius: 7px; background-color: #ff1a1a;">get by my current position
+												<i class="material-icons right">send</i>
+											</button>
+
+										</div>
+										
 									</div>
 
 								</div>
@@ -148,48 +168,24 @@
 				</div>
 			</div>
 		</footer>
+		<script type="text/javascript">
 
-	<!--  Scripts-->
-	<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-	<script src="js/materialize.js"></script>
-	<script src="js/init.js"></script>
-
-	<script type="text/javascript">
-
-		function showCommand(){
-			var table = document.getElementById("table_div");
-			table.style.visibility = "visible"
-
-		}
-
-		//funzione per chiamare result.html con la query inserita dall'utente
-		function go(){
-			var q = document.getElementById("inserisci").value;
-
-			if (q === "help")
+			var par = getQueryVariable_q(window.location.href);
+			console.log(par);
+			if(par === "help")
 			{
-				showCommand();
+				console.log("par = help")
+				showCommand()
 			}
-			else
-			{
-				//prima bisogna parsare la q e poi aggiungere il parametro polo/aula all'url
+			else if (par === "dc"){
+				console.log("dc");
+				//alert("Wrong input");
+				var popup = document.getElementById("myPopup");
+				popup.classList.toggle("show");
+				delay(5000).then(() => {popup.classList.toggle("close");});
 
-				var url = "result.html?q="+q;
-
-				location.href = url;
+				
 			}
-		}
-		//funzione per prendere la query inserita dall'utente
-		function getQueryVariable(url_string) {
-			var url = new URL(url_string);
-			var query = url.searchParams.get("q");
-			if(query)
-				return query;
-			//alert('Query Variable ' + query + ' not found');
-		}
-
-
-	</script>
-
+		</script>
 </main>
 </html>
