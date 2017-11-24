@@ -4,6 +4,7 @@ const express = require('express');
 const path = require("path");
 const request = require('request');
 const cors = require('cors');
+const svg2png=require('svg2png');
 const fetch = require("node-fetch");
 
 
