@@ -87,23 +87,7 @@ function getFreeRooms(rooms, timeStamp) {
     return rooms;
 }
 
-//Function to convert SVG files in PNG
-function conversionMap(map,res){
-    var sourceBuffer;
-    svg2png(map)
-    .then(function (buffer) {
-        sourceBuffer = new Buffer(buffer, 'base64'); 
-         res.writeHead(200, {
-                'Content-Type': 'image/png',
-                'Content-Length': sourceBuffer.length
-          });
-        res.end(sourceBuffer);       
-    })
-    .catch(function (error) {
-        console.log("Conversion Error!");
-    });
-   
-}
+
 
 
 //Delete those schedules that are in the past.
@@ -148,11 +132,15 @@ function getData(sede){
 			console.log("Errore nel parsing json: "+error);
 	});
 }
-var povo1p1 = '/img/Povo1P1.svg';
-var povo1pt = '/img/Povo1PT.svg';
-var povo2p1 = '/img/Povo2P1.svg';
-var povo2pt = '/img/Povo2PT.svg';
-var photo = 'photo_2017-10-12_10-39-45.jpg';
+var p1p1;
+var p1pt;
+var p2p1;
+var p2pt;
+var povo1p1 = conversionMap('/img/Povo1P1.svg', p1p1);
+var povo1pt = conversionMap('/img/Povo1PT.svg', p1pt);
+var povo2p1 = conversionMap('/img/Povo2P1.svg', p2p1);
+var povo2pt = conversionMap('/img/Povo2PT.svg', p2pt);
+//var photo = 'photo_2017-10-12_10-39-45.jpg';
 
 telegram.on("text", (message) => {
 	if (message.text == "/start")
@@ -173,13 +161,13 @@ telegram.on("text", (message) => {
 			}
 			telegram.sendMessage(message.chat.id, msg);
 		});
-<<<<<<< HEAD
+//<<<<<<< HEAD
 		telegram.sendPhoto(message.chat.id, photo);
-=======
+//=======
 		
 			
 		//telegram.sendMessage(message.chat.id, povo1p1, {caption: "aule libere polo A"});
->>>>>>> 9c74038bf85c45c3302d8d60752d35d575a13ae9
+//>>>>>>> 9c74038bf85c45c3302d8d60752d35d575a13ae9
 	}
 	else if (message.text.toLowerCase().includes("ingegneria"))
 	{
@@ -329,3 +317,21 @@ telegram.on("text", (message) => {
 		telegram.sendMessage(message.chat.id,"Comando non riconosciuto! Digita /help per conoscere la lista dei comandi.")
 	}
 });
+
+//Function to convert SVG files in PNG
+function conversionMap(map,res){
+    var sourceBuffer;
+    svg2png(map)
+    .then(function (buffer) {
+        sourceBuffer = new Buffer(buffer, 'base64'); 
+         res.writeHead(200, {
+                'Content-Type': 'image/png',
+                'Content-Length': sourceBuffer.length
+          });
+        res.end(sourceBuffer);       
+    })
+    .catch(function (error) {
+        console.log("Conversion Error!");
+    });
+   
+}
