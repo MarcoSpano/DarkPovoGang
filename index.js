@@ -87,6 +87,25 @@ function getFreeRooms(rooms, timeStamp) {
     return rooms;
 }
 
+//Function to convert SVG files in PNG
+function conversionMap(map,res){
+    var sourceBuffer;
+    svg2png(map)
+    .then(function (buffer) {
+        sourceBuffer = new Buffer(buffer, 'base64'); 
+         res.writeHead(200, {
+                'Content-Type': 'image/png',
+                'Content-Length': sourceBuffer.length
+          });
+        res.end(sourceBuffer);       
+    })
+    .catch(function (error) {
+        console.log("Conversion Error!");
+    });
+   
+}
+
+
 //Delete those schedules that are in the past.
 function cleanPastSchedule(rooms, timestamp) {
     for(let i = 0; i < rooms.length; i++) {
