@@ -7,6 +7,8 @@ const cors = require('cors');
 const fetch = require("node-fetch");
 const mapper = require('./server/server.js');
 const svg2png=require('svg2png');
+const unirest=require('unirest');
+const q=require('q');
 
 
 
@@ -133,7 +135,7 @@ function getData(sede){
 	});
 }
 
-function getDataAndMaps(sede){
+function getDataAndMaps(sede, id){
 
 	let rooms = [];
 	let now = new Date();
@@ -143,6 +145,7 @@ function getDataAndMaps(sede){
 	let currentTimestamp = now.getTime() / 1000;
 	var sourceBuffer; 
 	url = "https://easyroom.unitn.it/Orario/rooms_call.php?form-type=rooms&sede="+sede+"&_lang=it&date=" + day + "-" + month + "-" + year;
+
 	return fetch(url)
 	.then(body => {
 			return body.json();
@@ -151,30 +154,38 @@ function getDataAndMaps(sede){
 			return data.events;
 	})
 	.then(events => {
+			console.log("SECONDO .then");
 			rooms = getRoomList(events); 
 			rooms = cleanSchedule(rooms);    
 			rooms = getFreeRooms(rooms, currentTimestamp);
 			rooms = cleanPastSchedule(rooms, currentTimestamp);
-			var picture = mapper.getMaps(rooms, sede);
-			return picture;
-			
-    		
-			//return rooms;
+			//console.log(rooms);
+			return rooms;
 	})
-	.then(picture => {
-		svg2png(picture)
-    		.then(function (buffer) {
-        		sourceBuffer = new Buffer(buffer, 'base64'); 
-        		telegram.sendPhoto(message.chat.id, sourceBuffer);      
-    		})
-    		.catch(function (error) {
-        		console.log("Conversion Error: " + error);
-    		});
+	.then(rooms => {
+		var maps = mapper.getMaps(rooms,sede);
+		//console.log(maps);
+		return maps;
+	})
+	.then(maps => {
+		var sourceBuffer;
+  	  	svg2png(maps)
+    	.then(function (buffer) {
+    		//console.log("convertito!");
+        	sourceBuffer = new Buffer(buffer, 'base64');
+        	//console.log(sourceBuffer); 
+        	telegram.sendPhoto(id,sourceBuffer);       
+    	})
+    	.catch(function (error) {
+        	console.log("Conversion Error! "+error);
+    	});
+    	//console.log(sourceBuffer);
 	})
 	.catch(error => {
 			console.log("Errore nel parsing json: "+error);
 	});
 }
+
 var povo1p1 = '/img/Povo1P1.svg';
 var povo1pt = '/img/Povo1PT.svg';
 var povo2p1 = '/img/Povo2P1.svg';
@@ -194,41 +205,7 @@ telegram.on("text", (message) => {
 	{
 		let sede = "E0503";
 		let msg = "";
-		var img;
-		var stanze;
-		/*var rooms = getData(sede).then(rooms => {
-			for(let i = 0; i < rooms.length; i++){
-				msg += ""+rooms[i].NomeAula+" libera fino alle "+rooms[i].orario[0].from+"\n";
-			}
-			/*img = mapper.getMaps(rooms, sede);
-			var sourceBuffer;
-			console.log("Ci siamo");
-    		svg2png(img)
-    			.then(function (buffer) {
-        		sourceBuffer = new Buffer(buffer, 'base64'); 
-        		telegram.sendPhoto(message.chat.id, sourceBuffer);   
-        		console.log("printed!");   
-    		})
-    		.catch(function (error) {
-        		console.log("Conversion Error: please retry!");
-    		});
-			//telegram.sendMessage(message.chat.id, msg);
-		}); */
-		var rooms = getData(sede);
-		console.log("dati: " + rooms);
-		img = mapper.getMaps(rooms, sede);
-			var sourceBuffer;
-    		svg2png(img)
-    			.then(function (buffer) {
-        		sourceBuffer = new Buffer(buffer, 'base64'); 
-        		telegram.sendPhoto(message.chat.id, sourceBuffer);      
-    		})
-    		.catch(function (error) {
-        		console.log("Conversion Error: please retry!");
-    		});
-		
-		
-		//telegram.sendPhoto(message.chat.id, photo);
+		var rooms = getDataAndMaps(sede, message.chat.id);
 		
 		
 		
