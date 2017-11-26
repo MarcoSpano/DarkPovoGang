@@ -223,7 +223,6 @@ telegram.on("text", (message) => {
             }
 		});
 		
-		
 	}
 	else if (message.text.toLowerCase().includes("ingegneria"))
 	{

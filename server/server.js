@@ -148,6 +148,30 @@ function getMaps(rooms,sede){
             }
        // output = output + $.html();
     }
+
+      //Povo B piano P1
+        $ = cheerio.load(fs.readFileSync(path.join(__dirname+'/../img/Povo2P1.svg')));
+            for(i = 0; i<rooms.length;i++){
+                if(rooms[i].room <= 403 && rooms[i].room >= 402){
+                    var id = 106 + (403 - rooms[i].room) ;
+                    var stringa = "#b" + id;
+                    var rect = $(stringa);
+                    rect.attr('fill','green');
+                    }
+            }
+         output = $.html();
+
+         //Povo B piano PT
+         $ = cheerio.load(fs.readFileSync(path.join(__dirname+'/../img/Povo2PT.svg')));
+            for(i = 0; i<rooms.length;i++){
+                if(rooms[i].room <= 408 && rooms[i].room >= 404){
+                    var id = 101 + (408 - rooms[i].room) ;
+                    var stringa = "#b" + id;
+                    var rect = $(stringa);
+                    rect.attr('fill','green');
+                    }
+            }
+          output=  $.html();
          
     return output;
 
