@@ -195,18 +195,33 @@ var photo = 'photo_2017-10-12_10-39-45.jpg';
 telegram.on("text", (message) => {
 	if (message.text == "/start")
 	{
-		telegram.sendMessage(message.chat.id, "Ciao, i comandi disponibili sono: \n*/help* \n*/start* \n*/povo* \n*/socio* \n*/economia* \n*/scicogn* \n*/lettere* \n*/giuri* \n*/mesiano* \n*/filosofia*", {parse_mode: "Markdown"});
+		telegram.sendMessage(message.chat.id, "Ciao! Grazie a questo bot puoi sapere le aule di Unitn libere del dipartimento che vuoi! Digita /help per sapere i comandi disponibili.", {parse_mode: "Markdown"});
 	}
 	else if (message.text == "/help")
 	{
-		telegram.sendMessage(message.chat.id, "i comandi disponibili sono: \n/help \n/start \n/povo \n/socio \n/economia \n/scicogn \n/lettere \n/giuri \n/mesiano \n/filosofia"); 
+		telegram.sendMessage(message.chat.id, "I comandi disponibili sono: \n/help \n/start \n/povo \n/socio \n/economia \n/scicogn \n/lettere \n/giuri \n/mesiano \n/filosofia"); 
 	}
 	else if (message.text.toLowerCase().includes("povo"))
 	{
 		let sede = "E0503";
-		let msg = "";
-		var rooms = getDataAndMaps(sede, message.chat.id);
-		
+		let msg = "ciao";
+		var maps = getDataAndMaps(sede, message.chat.id);
+		let rooms = getData(sede).then(rooms => {
+			for(let i = 0; i < rooms.length; i++){
+				for(let j = 0; j < rooms[i].orario.length; j++){
+					msg = rooms[i].NomeAula+" libera fino alle "+rooms[i].orario[j].from+"\n";
+				}
+			}
+            if(msg.includes("ciao"))
+            {
+                msg = "l'uni è chiusa, sta a casa!";
+                telegram.sendMessage(message.chat.id, msg);
+            }
+            else
+            {    
+                telegram.sendMessage(message.chat.id, msg);	
+            }
+		});
 		
 		
 	}
