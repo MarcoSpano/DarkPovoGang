@@ -134,7 +134,7 @@ function getMaps(rooms,sede){
                     rect.attr('fill','green');
                     }
             }   
-        output = $.html();       
+       // output = new Buffer( $.html() );       
 
         //Povo A piano PT
         $ = cheerio.load(fs.readFileSync(path.join(__dirname+'/../img/Povo1PT.svg')));
@@ -146,7 +146,7 @@ function getMaps(rooms,sede){
                     rect.attr('fill','green');
                     }
             }
-       // output = output + $.html();
+       // output =  $.html();
     }
 
       //Povo B piano P1
@@ -159,7 +159,7 @@ function getMaps(rooms,sede){
                     rect.attr('fill','green');
                     }
             }
-         output = $.html();
+        // output = $.html();
 
          //Povo B piano PT
          $ = cheerio.load(fs.readFileSync(path.join(__dirname+'/../img/Povo2PT.svg')));
@@ -172,6 +172,7 @@ function getMaps(rooms,sede){
                     }
             }
           output=  $.html();
+        console.log(output);
          
     return output;
 

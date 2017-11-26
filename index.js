@@ -172,9 +172,9 @@ function getDataAndMaps(sede, id){
   	  	svg2png(maps)
     	.then(function (buffer) {
     		//console.log("convertito!");
-        	sourceBuffer = new Buffer(buffer, 'base64');
+        	//sourceBuffer = new Buffer(buffer, 'base64');
         	//console.log(sourceBuffer); 
-        	telegram.sendPhoto(id,sourceBuffer);       
+        	telegram.sendPhoto(id,buffer);       
     	})
     	.catch(function (error) {
         	console.log("Conversion Error! "+error);
