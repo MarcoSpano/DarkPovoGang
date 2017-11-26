@@ -89,9 +89,36 @@ test('expect getFreeRooms(12,{}) to throw TypeError', () => {
 })
 
 test('expect getFreeRooms(input,131234) with input as empty object to return empty object', () => {
-    expect(utilities.getFreeRooms({}, 131234)).toEqual({});
+    expect(utilities.getFreeRooms(input, 131234)).toEqual({});
 })
 
 test('expect getFreeRooms(data.cleanedSchedule) to be equal data.freeRooms', () => {
     expect(utilities.getFreeRooms(data.cleanedSchedule, 1511427600)).toEqual(data.freeRooms);
+})
+
+test('expect getFreeRooms(data.cleanedSchedule, -1) to throw Error', () => {
+    expect(function() {utilities.getFreeRooms(data.cleanedSchedule, -1)}).toThrow(Error);
+})
+
+
+
+//cleanPastSchedule function tests.
+test('expect cleanPastSchedule() to throw error', () => {
+    expect(function() {utilities.cleanPastSchedule()}).toThrow(Error);
+});
+
+test('expect cleanPastSchedule(12,23) to throw TypeError', () => {
+    expect(function() {utilities.cleanPastSchedule(12,23)}).toThrow(TypeError);
+})
+
+test('expect cleanPastSchedule(12,{}) to throw TypeError', () => {
+    expect(function() {utilities.cleanPastSchedule(12,{})}).toThrow(TypeError);
+})
+
+test('expect cleanPastSchedule(data.freeRooms, -1) to throw Error', () => {
+    expect(function() {utilities.cleanPastSchedule(data.freeRooms, -1)}).toThrow(Error);
+})
+
+test('expect cleanPastSchedule(data.freeRooms) to be equal data.afterCleanPastSchedule', () => {
+    expect(utilities.cleanPastSchedule(data.freeRooms, 1511442099)).toEqual(data.afterCleanPastSchedule);
 })

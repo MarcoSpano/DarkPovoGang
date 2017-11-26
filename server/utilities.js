@@ -86,13 +86,15 @@ function cleanSchedule(rooms) {
 }
 
 
-function getFreeRooms(rooms, timeStamp) {
-    
+function getFreeRooms(rooms, timeStamp) {  
     if(rooms === undefined)  {
         throw new Error('No parameter inserted')
     }
     if(typeof rooms != "object" || typeof timeStamp != "number") {
         throw new TypeError("Wrong parameters' type");
+    }
+    if(timeStamp <= 0) {
+        throw new Error("Timestamp can't be null or negative");
     }
     let closeTimeStamp;
     if(rooms.length > 0) {
@@ -120,11 +122,20 @@ function getFreeRooms(rooms, timeStamp) {
 
 //Delete those schedules that are in the past.
 function cleanPastSchedule(rooms, timestamp) {
+    if(rooms === undefined)  {
+        throw new Error('No parameter inserted')
+    }
+    if(typeof rooms != "object" || typeof timestamp != "number") {
+        throw new TypeError("Wrong parameters' type");
+    }
+    if(timestamp <= 0) {
+        throw new Error("Timestamp can't be null or negative");
+    }
     for(let i = 0; i < rooms.length; i++) {
         for(let j = 0; j < rooms[i].orario.length; j++) {            
             if(timestamp > rooms[i].orario[j].timestamp_from) {
                 rooms[i].orario.splice(j,1);
-                j --; 
+                j--; 
             }   
         }   
     }
