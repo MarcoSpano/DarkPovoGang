@@ -7,15 +7,10 @@ const cors = require('cors');
 const svg2png=require('svg2png');
 const fetch = require("node-fetch");
 
-var p1p1;
-var p1pt;
-var p2p1;
-var p2pt;
-var povo1p1 = conversionMap('/img/Povo1P1.svg', p1p1);
-var povo1pt = conversionMap('/img/Povo1PT.svg', p1pt);
-var povo2p1 = conversionMap('/img/Povo2P1.svg', p2p1);
-var povo2pt = conversionMap('/img/Povo2PT.svg', p2pt);
-//var photo = 'photo_2017-10-12_10-39-45.jpg';
+var povo1p1 = '/img/Povo1P1.svg';
+var povo1pt = '/img/Povo1PT.svg';
+var povo2p1 = '/img/Povo2P1.svg';
+var povo2pt = '/img/Povo2PT.svg';
 
 function getRoomList(events) {
     //console.log("INIZIO GETROOMLIST");
