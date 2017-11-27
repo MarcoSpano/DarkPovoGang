@@ -146,6 +146,9 @@ function cleanPastSchedule(rooms, timestamp) {
 
 //Genera un oggetto contenente ogni room code come proprietà e il relativo id.
 function idRoomCode(uri) {
+    if(uri === undefined) {
+        throw new Error('No parameter inserted');
+    }
     return fetch(uri)
         .then(response => {
             return response.json()
@@ -171,6 +174,12 @@ function idRoomCode(uri) {
 
 
 function getRoomSchedule(events, roomId) {
+    if(events === undefined || roomId === undefined) {
+        throw new Error('No parameter inserted');
+    }
+    if(typeof roomId != "number") {
+        throw new TypeError("Wrong parameters' type");
+    }
     let ris;    
     for(let i = 0; i < events.length; i++) {
         if(events[i].room == roomId) {            

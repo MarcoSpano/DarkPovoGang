@@ -74,7 +74,7 @@ app.get('/schedule/:sede/:aula', (req, res) => {
     let room= req.params.aula;  //nome aula
     let roomCode = sede + '/' + room;
 
-    let url = "https://easyroom.unitn.it/Orario/rooms_call.php?form-type=rooms&sede=" + sede + "&_lang=it&date=20-11-2017";
+    let url = "https://easyroom.unitn.it/Orario/rooms_call.php?form-type=rooms&sede=" + sede + "&_lang=it&date=" + day + "-" + month + "-" + year;
     utilities.idRoomCode(url)
     .then(response => {
         return response[roomCode];

@@ -122,3 +122,43 @@ test('expect cleanPastSchedule(data.freeRooms, -1) to throw Error', () => {
 test('expect cleanPastSchedule(data.freeRooms) to be equal data.afterCleanPastSchedule', () => {
     expect(utilities.cleanPastSchedule(data.freeRooms, 1511442099)).toEqual(data.afterCleanPastSchedule);
 })
+
+
+//idRoomCode function tests.
+const url = "https://easyroom.unitn.it/Orario/rooms_call.php?form-type=rooms&sede=E0503&_lang=it&date=20-12-2017"
+
+test('expect idRoomCode() to throw error', () => {
+    expect(function() {utilities.idRoomCode()}).toThrow(Error);
+});
+
+test('Wrong url(wer.lol) as idRoomCode parameter should catch error', () => {
+    return utilities.idRoomCode('wer.lol').catch(e => expect(e).toMatch(e));
+  });
+
+test('expect idRoomCode() to throw error', () => {
+    expect(typeof utilities.idRoomCode(url)).toBe("object");
+});  
+
+test('expect idRoomCode(url) to be equal data.roomCode', () => {
+    return utilities.idRoomCode(url).then(response => {
+        expect(response).toEqual(data.roomCode);
+    });
+});
+
+
+//getRoomSchedule function tests.
+test('expect getRoomSchedule() to throw error', () => {
+    expect(function() {utilities.getRoomSchedule()}).toThrow(Error);
+});
+
+test('expect getRoomSchedule(data.all.events, {}) to throw error', () => {
+    expect(function() {utilities.getRoomSchedule(data.all.events,{})}).toThrow(TypeError);
+});
+
+test('expect getRoomSchedule(data.eventi, 440) to be data.scheduleA106', () => {
+    expect(utilities.getRoomSchedule(data.eventi,440)).toEqual(data.scheduleA106);
+});
+
+test('expect getRoomSchedule({}, 440) to send "Nessuna lezione oggi in questa aula"', () => {
+    expect(utilities.getRoomSchedule({},440)).toEqual("Nessuna lezione oggi in questa aula");
+});
