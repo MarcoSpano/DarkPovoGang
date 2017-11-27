@@ -23,6 +23,7 @@
   "dependencies": {
     "cors": "^2.8.4",
     "express": "^4.16.2",
+    "geolib": "^2.0.24",
     "jest": "^21.2.1",
     "node-fetch": "^1.7.3",
     "node-telegram-bot-api": "^0.29.0",

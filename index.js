@@ -5,6 +5,7 @@ const path = require("path");
 const request = require('request');
 const cors = require('cors');
 const svg2png=require('svg2png');
+const mapper = require('./server/server.js');
 const fetch = require("node-fetch");
 
 var povo1p1 = '/img/Povo1P1.svg';
