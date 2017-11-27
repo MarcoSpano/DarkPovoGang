@@ -26,7 +26,7 @@ var povo2p1 = '/img/Povo2P1.svg';
 var povo2pt = '/img/Povo2PT.svg';
 var photo = 'photo_2017-10-12_10-39-45.jpg';
 
-function getRoomList(events) {
+/*function getRoomList(events) {
     //console.log("INIZIO GETROOMLIST");
     let rooms = [];
     for(let i = 0; i < events.length; i++) {
@@ -118,7 +118,7 @@ function cleanPastSchedule(rooms, timestamp) {
         }   
     }
     return rooms;
-}
+}*/
 
 
 
@@ -140,10 +140,10 @@ function getData(sede){
 	})
 	.then(events => {
 			console.log("SECONDO .then");
-			rooms = getRoomList(events); 
-			rooms = cleanSchedule(rooms);    
-			rooms = getFreeRooms(rooms, currentTimestamp);
-			rooms = cleanPastSchedule(rooms, currentTimestamp);
+			rooms = mapper.getRoomList(events); 
+			rooms = mapper.cleanSchedule(rooms);    
+			rooms = mapper.getFreeRooms(rooms, currentTimestamp);
+			rooms = mapper.cleanPastSchedule(rooms, currentTimestamp);
 			return rooms;
 	})
 	.catch(error => {
@@ -172,10 +172,10 @@ function getDataAndMaps(sede, id){
 	})
 	.then(events => {
 			console.log("SECONDO .then");
-			rooms = getRoomList(events); 
-			rooms = cleanSchedule(rooms);    
-			rooms = getFreeRooms(rooms, currentTimestamp);
-			rooms = cleanPastSchedule(rooms, currentTimestamp);
+			rooms = mapper.getRoomList(events); 
+			rooms = mapper.cleanSchedule(rooms);    
+			rooms = mapper.getFreeRooms(rooms, currentTimestamp);
+			rooms = mapper.cleanPastSchedule(rooms, currentTimestamp);
 			//console.log(rooms);
 			return rooms;
 	})
@@ -203,11 +203,11 @@ function getDataAndMaps(sede, id){
 	});
 }
 
-function Print(sede,chatid,nsede){
+function Print(sede,chatid){
 		let message = "ciao";
         let msg = "";
-		var maps = getDataAndMaps(sede, chatid,nsede);
-		let rooms = getData(sede,nsede).then(rooms => {
+		var maps = getDataAndMaps(sede, chatid);
+		let rooms = getData(sede).then(rooms => {
 			for(let i = 0; i < rooms.length; i++){
 				for(let j = 0; j < rooms[i].orario.length; j++){
 					msg += rooms[i].NomeAula+" libera fino alle "+rooms[i].orario[j].from+"\n";
@@ -237,13 +237,13 @@ telegram.on("text", (message) => {
 	{
 		telegram.sendMessage(message.chat.id, "I comandi disponibili sono: \n/help \n/start \n/povo \n/socio \n/economia \n/scicogn \n/lettere \n/giuri \n/mesiano \n/filosofia"); 
 	}
-	else if (message.text.toLowerCase().includes("povo"))Print("E0503",message.chat.id,"povo");
-	else if (message.text.toLowerCase().includes("ingegneria") || message.text.toLowerCase().includes("mesiano"))Print("E0301",message.chat.id,"mesiano");
-	else if (message.text.toLowerCase().includes("giurisprudenza") || message.text.toLowerCase().includes("giuri"))Print("E0201",message.chat.id,"giurisprudenza");
-	else if (message.text.toLowerCase().includes("sociologia") || message.text.toLowerCase().includes("socio"))Print("E0601",message.chat.id,"sociologia");
-	else if (message.text.toLowerCase().includes("filosofia") || message.text.toLowerCase().includes("lettere"))Print("E0801",message.chat.id,"lettere");
-	else if (message.text.toLowerCase().includes("scienze cognitive") || message.text.toLowerCase().includes("scicogn"))Print("E0705",message.chat.id,"scienze cognitive");
-	else if (message.text.toLowerCase().includes("economia"))Print("E0101",message.chat.id,"economia");
+	else if (message.text.toLowerCase().includes("povo"))Print("E0503",message.chat.id);
+	else if (message.text.toLowerCase().includes("ingegneria") || message.text.toLowerCase().includes("mesiano"))Print("E0301",message.chat.id);
+	else if (message.text.toLowerCase().includes("giurisprudenza") || message.text.toLowerCase().includes("giuri"))Print("E0201",message.chat.id);
+	else if (message.text.toLowerCase().includes("sociologia") || message.text.toLowerCase().includes("socio"))Print("E0601",message.chat.id);
+	else if (message.text.toLowerCase().includes("filosofia") || message.text.toLowerCase().includes("lettere"))Print("E0801",message.chat.id);
+	else if (message.text.toLowerCase().includes("scienze cognitive") || message.text.toLowerCase().includes("scicogn"))Print("E0705",message.chat.id);
+	else if (message.text.toLowerCase().includes("economia"))Print("E0101",message.chat.id);
 	else
     {
 		telegram.sendMessage(message.chat.id,"Comando non riconosciuto! Digita /help per conoscere la lista dei comandi.")
