@@ -121,7 +121,7 @@ function getData(sede){
 			return data.events;
 	})
 	.then(events => {
-			console.log("SECONDO .then");
+			console.log("sono arrivato qua!");
 			rooms = getRoomList(events); 
 			rooms = cleanSchedule(rooms);    
 			rooms = getFreeRooms(rooms, currentTimestamp);
@@ -152,7 +152,7 @@ function getDataAndMaps(sede, id){
 			return data.events;
 	})
 	.then(events => {
-			console.log("SECONDO .then");
+			console.log("sono arrivato qua!");
 			rooms = getRoomList(events); 
 			rooms = cleanSchedule(rooms);    
 			rooms = getFreeRooms(rooms, currentTimestamp);
