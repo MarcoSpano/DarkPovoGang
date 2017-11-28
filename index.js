@@ -10,23 +10,10 @@ const svg2png=require('svg2png');
 const unirest=require('unirest');
 const q=require('q');
 
-var department_id =[("economia","E0101"),
-                    ("lettere","E0801"),
-                    ("filosofia","E0801"),
-                    ("mesiano","E0301"),
-                    ("ingegneria","E0301"),
-                    ("giurisprudenza","E0201"),
-                    ("sociologia","E0601"),
-                    ("scienze cognitive","E0705"),
-                    ("povo","E0503")];
 
-var povo1p1 = '/img/Povo1P1.svg';
-var povo1pt = '/img/Povo1PT.svg';
-var povo2p1 = '/img/Povo2P1.svg';
-var povo2pt = '/img/Povo2PT.svg';
-var photo = 'photo_2017-10-12_10-39-45.jpg';
 
-/*function getRoomList(events) {
+
+function getRoomList(events) {
     //console.log("INIZIO GETROOMLIST");
     let rooms = [];
     for(let i = 0; i < events.length; i++) {
@@ -65,8 +52,6 @@ var photo = 'photo_2017-10-12_10-39-45.jpg';
     //console.log("FINE GETROOMLIST");
     return rooms;
 }
-
-
 
 function cleanSchedule(rooms) {
     for(let i = 0; i < rooms.length; i++) {
@@ -118,7 +103,7 @@ function cleanPastSchedule(rooms, timestamp) {
         }   
     }
     return rooms;
-}*/
+}
 
 
 
@@ -129,8 +114,7 @@ function getData(sede){
 	let month = now.getMonth() + 1;
 	let year = now.getFullYear();
 	let currentTimestamp = now.getTime() / 1000; 
-	//url = "https://uniroom.herokuapp.com/client/result.html?q=" + nsede;
-    url = "https://easyroom.unitn.it/Orario/rooms_call.php?form-type=rooms&sede="+sede+"&_lang=it&date=" + day + "-" + month + "-" + year;
+	url = "https://easyroom.unitn.it/Orario/rooms_call.php?form-type=rooms&sede="+sede+"&_lang=it&date=" + day + "-" + month + "-" + year;
 	return fetch(url)
 	.then(body => {
 			return body.json();
@@ -140,10 +124,10 @@ function getData(sede){
 	})
 	.then(events => {
 			console.log("SECONDO .then");
-			rooms = mapper.getRoomList(events); 
-			rooms = mapper.cleanSchedule(rooms);    
-			rooms = mapper.getFreeRooms(rooms, currentTimestamp);
-			rooms = mapper.cleanPastSchedule(rooms, currentTimestamp);
+			rooms = getRoomList(events); 
+			rooms = cleanSchedule(rooms);    
+			rooms = getFreeRooms(rooms, currentTimestamp);
+			rooms = cleanPastSchedule(rooms, currentTimestamp);
 			return rooms;
 	})
 	.catch(error => {
@@ -159,8 +143,7 @@ function getDataAndMaps(sede, id){
 	let month = now.getMonth() + 1;
 	let year = now.getFullYear();
 	let currentTimestamp = now.getTime() / 1000;
-	var sourceBuffer;
-	//url = "https://uniroom.herokuapp.com/client/result.html?q=" + nsede;
+	var sourceBuffer; 
 	url = "https://easyroom.unitn.it/Orario/rooms_call.php?form-type=rooms&sede="+sede+"&_lang=it&date=" + day + "-" + month + "-" + year;
 
 	return fetch(url)
@@ -172,10 +155,10 @@ function getDataAndMaps(sede, id){
 	})
 	.then(events => {
 			console.log("SECONDO .then");
-			rooms = mapper.getRoomList(events); 
-			rooms = mapper.cleanSchedule(rooms);    
-			rooms = mapper.getFreeRooms(rooms, currentTimestamp);
-			rooms = mapper.cleanPastSchedule(rooms, currentTimestamp);
+			rooms = getRoomList(events); 
+			rooms = cleanSchedule(rooms);    
+			rooms = getFreeRooms(rooms, currentTimestamp);
+			rooms = cleanPastSchedule(rooms, currentTimestamp);
 			//console.log(rooms);
 			return rooms;
 	})
@@ -203,30 +186,11 @@ function getDataAndMaps(sede, id){
 	});
 }
 
-function Print(sede,chatid){
-		let message = "ciao";
-        let msg = "";
-		var maps = getDataAndMaps(sede, chatid);
-		let rooms = getData(sede).then(rooms => {
-			for(let i = 0; i < rooms.length; i++){
-				for(let j = 0; j < rooms[i].orario.length; j++){
-					msg += rooms[i].NomeAula+" libera fino alle "+rooms[i].orario[j].from+"\n";
-				    message = msg;
-                }
-			}
-            if(message.includes("ciao"))
-            {
-                message = "l'uni è chiusa, sta a casa!";
-                telegram.sendMessage(chatid, message);
-            }
-            else
-            {    
-                telegram.sendMessage(chatid, message);	
-            }
-		});
-    
-}
-
+var povo1p1 = '/img/Povo1P1.svg';
+var povo1pt = '/img/Povo1PT.svg';
+var povo2p1 = '/img/Povo2P1.svg';
+var povo2pt = '/img/Povo2PT.svg';
+var photo = 'photo_2017-10-12_10-39-45.jpg';
 
 telegram.on("text", (message) => {
 	if (message.text == "/start")
@@ -237,13 +201,172 @@ telegram.on("text", (message) => {
 	{
 		telegram.sendMessage(message.chat.id, "I comandi disponibili sono: \n/help \n/start \n/povo \n/socio \n/economia \n/scicogn \n/lettere \n/giuri \n/mesiano \n/filosofia"); 
 	}
-	else if (message.text.toLowerCase().includes("povo"))Print("E0503",message.chat.id);
-	else if (message.text.toLowerCase().includes("ingegneria") || message.text.toLowerCase().includes("mesiano"))Print("E0301",message.chat.id);
-	else if (message.text.toLowerCase().includes("giurisprudenza") || message.text.toLowerCase().includes("giuri"))Print("E0201",message.chat.id);
-	else if (message.text.toLowerCase().includes("sociologia") || message.text.toLowerCase().includes("socio"))Print("E0601",message.chat.id);
-	else if (message.text.toLowerCase().includes("filosofia") || message.text.toLowerCase().includes("lettere"))Print("E0801",message.chat.id);
-	else if (message.text.toLowerCase().includes("scienze cognitive") || message.text.toLowerCase().includes("scicogn"))Print("E0705",message.chat.id);
-	else if (message.text.toLowerCase().includes("economia"))Print("E0101",message.chat.id);
+	else if (message.text.toLowerCase().includes("povo"))
+	{
+		let sede = "E0503";
+		let msg = "ciao";
+		var maps = getDataAndMaps(sede, message.chat.id);
+		let rooms = getData(sede).then(rooms => {
+			for(let i = 0; i < rooms.length; i++){
+				for(let j = 0; j < rooms[i].orario.length; j++){
+					msg = rooms[i].NomeAula+" libera fino alle "+rooms[i].orario[j].from+"\n";
+				}
+			}
+            if(msg.includes("ciao"))
+            {
+                msg = "l'uni è chiusa, sta a casa!";
+                telegram.sendMessage(message.chat.id, msg);
+            }
+            else
+            {    
+                telegram.sendMessage(message.chat.id, msg);	
+            }
+		});
+		
+	}
+	else if (message.text.toLowerCase().includes("ingegneria"))
+	{
+		let sede = "E0301";
+		let msg = "";
+		let rooms = getData(sede).then(rooms => {
+			for(let i = 0; i < rooms.length; i++){
+				for(let j = 0; j < rooms[i].orario.length; j++){
+					msg += ""+rooms[i].NomeAula+" libera fino alle "+rooms[i].orario[j].from+"\n";
+				}
+			}
+			telegram.sendMessage(message.chat.id, msg);	
+		});
+	}
+	else if (message.text.toLowerCase().includes("mesiano"))
+	{
+		let sede = "E0301";
+		let msg = "";
+		let rooms = getData(sede).then(rooms => {
+			for(let i = 0; i < rooms.length; i++){
+				for(let j = 0; j < rooms[i].orario.length; j++){
+					msg += ""+rooms[i].NomeAula+" libera fino alle "+rooms[i].orario[j].from+"\n";
+				}
+			}
+			telegram.sendMessage(message.chat.id, msg);	
+		});
+	}
+	else if (message.text.toLowerCase().includes("giurisprudenza"))
+	{
+		let sede = "E0201";
+		let msg = "";
+		let rooms = getData(sede).then(rooms => {
+			for(let i = 0; i < rooms.length; i++){
+				for(let j = 0; j < rooms[i].orario.length; j++){
+					msg += ""+rooms[i].NomeAula+" libera fino alle "+rooms[i].orario[j].from+"\n";
+				}
+			}
+			telegram.sendMessage(message.chat.id, msg);	
+		});
+	}
+	else if (message.text.toLowerCase().includes("giuri"))
+	{
+		let sede = "E0201";
+		let msg = "";
+		let rooms = getData(sede).then(rooms => {
+			for(let i = 0; i < rooms.length; i++){
+				for(let j = 0; j < rooms[i].orario.length; j++){
+					msg += ""+rooms[i].NomeAula+" libera fino alle "+rooms[i].orario[j].from+"\n";
+				}
+			}
+			telegram.sendMessage(message.chat.id, msg);	
+		});
+	}
+	else if (message.text.toLowerCase().includes("sociologia"))
+	{
+		let sede = "E0601";
+		let msg = "";
+		let rooms = getData(sede).then(rooms => {
+			for(let i = 0; i < rooms.length; i++){
+				for(let j = 0; j < rooms[i].orario.length; j++){
+					msg += ""+rooms[i].NomeAula+" libera fino alle "+rooms[i].orario[j].from+"\n";
+				}
+			}
+			telegram.sendMessage(message.chat.id, msg);	
+		});
+	}
+	else if (message.text.toLowerCase().includes("socio"))
+	{
+		let sede = "E0601";
+		let msg = "";
+		let rooms = getData(sede).then(rooms => {
+			for(let i = 0; i < rooms.length; i++){
+				for(let j = 0; j < rooms[i].orario.length; j++){
+					msg += ""+rooms[i].NomeAula+" libera fino alle "+rooms[i].orario[j].from+"\n";
+				}
+			}
+			telegram.sendMessage(message.chat.id, msg);	
+		});
+	}
+	else if (message.text.toLowerCase().includes("filosofia"))
+	{
+		let sede = "E0801";
+		let msg = "";
+		let rooms = getData(sede).then(rooms => {
+			for(let i = 0; i < rooms.length; i++){
+				for(let j = 0; j < rooms[i].orario.length; j++){
+					msg += ""+rooms[i].NomeAula+" libera fino alle "+rooms[i].orario[j].from+"\n";
+				}
+			}
+			telegram.sendMessage(message.chat.id, msg);	
+		});
+	}
+	else if (message.text.toLowerCase().includes("lettere"))
+	{
+		let sede = "E0801";
+		let msg = "";
+		let rooms = getData(sede).then(rooms => {
+			for(let i = 0; i < rooms.length; i++){
+				for(let j = 0; j < rooms[i].orario.length; j++){
+					msg += ""+rooms[i].NomeAula+" libera fino alle "+rooms[i].orario[j].from+"\n";
+				}
+			}
+			telegram.sendMessage(message.chat.id, msg);	
+		});
+	}
+	else if (message.text.toLowerCase().includes("scienze cognitive"))
+	{
+		let sede = "E0705";
+		let msg = "";
+		let rooms = getData(sede).then(rooms => {
+			for(let i = 0; i < rooms.length; i++){
+				for(let j = 0; j < rooms[i].orario.length; j++){
+					msg += ""+rooms[i].NomeAula+" libera fino alle "+rooms[i].orario[j].from+"\n";
+				}
+			}
+			telegram.sendMessage(message.chat.id, msg);	
+		});
+	}
+	else if (message.text.toLowerCase().includes("scicogn"))
+	{
+		let sede = "E0705";
+		let msg = "";
+		let rooms = getData(sede).then(rooms => {
+			for(let i = 0; i < rooms.length; i++){
+				for(let j = 0; j < rooms[i].orario.length; j++){
+					msg += ""+rooms[i].NomeAula+" libera fino alle "+rooms[i].orario[j].from+"\n";
+				}
+			}
+			telegram.sendMessage(message.chat.id, msg);	
+		});
+	}
+	else if (message.text.toLowerCase().includes("economia"))
+	{
+		let sede = "E0101";
+		let msg = "";
+		let rooms = getData(sede).then(rooms => {
+			for(let i = 0; i < rooms.length; i++){
+				for(let j = 0; j < rooms[i].orario.length; j++){
+					msg += ""+rooms[i].NomeAula+" libera fino alle "+rooms[i].orario[j].from+"\n";
+				}
+			}
+			telegram.sendMessage(message.chat.id, msg);	
+		});
+	}
 	else
     {
 		telegram.sendMessage(message.chat.id,"Comando non riconosciuto! Digita /help per conoscere la lista dei comandi.")
