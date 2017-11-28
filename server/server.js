@@ -176,7 +176,7 @@ function getMaps(rooms,sede){
                     }
             }
           output=  $.html();
-        console.log(output);
+        //console.log(output);
          
     return output;
 
@@ -242,6 +242,8 @@ function getRoomList(events) {
     return rooms;
 }
 
+module.exports.getRoomList = getRoomList;
+
 function cleanSchedule(rooms) {
     for(let i = 0; i < rooms.length; i++) {
         for(let j = 0; j < rooms[i].orario.length - 1; j++) {
@@ -255,6 +257,8 @@ function cleanSchedule(rooms) {
     }
     return rooms;
 }
+
+module.exports.cleanSchedule = cleanSchedule;
 
 function getFreeRooms(rooms, timeStamp) {
     let closeTimeStamp;
@@ -281,6 +285,8 @@ function getFreeRooms(rooms, timeStamp) {
     return rooms;
 }
 
+module.exports.getFreeRooms = getFreeRooms;
+
 //Delete those schedules that are in the past.
 function cleanPastSchedule(rooms, timestamp) {
     for(let i = 0; i < rooms.length; i++) {
@@ -294,6 +300,7 @@ function cleanPastSchedule(rooms, timestamp) {
     return rooms;
 }
 
+module.exports.cleanPastSchedule = cleanPastSchedule;
 
 //Genera un oggetto contenente ogni room code come proprietà e il relativo id.
 function idRoomCode(uri) {
@@ -380,6 +387,9 @@ function getRoomSchedule(events, roomId) {
 
     return ris == null ? "Nessuna lezione oggi in questa aula" : ris;
 }
+
+
+module.exports.getRoomSchedule = getRoomSchedule;
 
 app.get('/schedule/:sede/:aula', (req, res) => {
     let now = new Date();
