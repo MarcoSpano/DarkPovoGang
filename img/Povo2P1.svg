@@ -8,8 +8,8 @@
    version="1.1"
    id="svg4592"
    viewBox="0 0 714.02444 1034.6848"
-   height="292.01105mm"
-   width="201.51357mm">
+   height="1103.5"
+   width="761.5">
   <defs
      id="defs4594"></defs>
   <metadata
@@ -30,7 +30,7 @@
     <rect
        style="stroke:#1a1a1a;stroke-width:2.13151717;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="b107"
-       fill="white"
+       fill="red"
        transform="matrix(0,1,-1,0,0,0)"
        y="-721.9444"
        x="239.80077"
@@ -342,7 +342,7 @@
     <rect
        style="opacity:1;stroke:#1a1a1a;stroke-width:2.13151717;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="b106"
-       fill="white"
+       fill="red"
        transform="matrix(0,1,-1,0,0,0)"
        y="-492.95004"
        x="908.56415"
@@ -1337,15 +1337,5 @@
          id="tspan3204-5-7"
          y="988.48419"
          x="409.66193">B106</tspan></text>
-    <text
-       style="font-style:normal;font-weight:normal;font-size:7.18404579px;line-height:125%;font-family:Lato;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none"
-       xml:space="preserve"
-       id="text3209"
-       y="1044.9554"
-       x="339.63049"><tspan
-         style="fill:#ffffff;fill-opacity:1"
-         id="tspan3211"
-         y="1044.9554"
-         x="339.63049">Created by andr35@github</tspan></text>
   </g>
 </svg>
