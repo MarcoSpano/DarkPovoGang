@@ -137,7 +137,7 @@ telegram.on("text", (message) => {
 	else if (message.text.toLowerCase().includes("filosofia") || message.text.toLowerCase().includes("lettere"))Print("E0801",message.chat.id);
 	else if (message.text.toLowerCase().includes("scienze cognitive") || message.text.toLowerCase().includes("scicogn"))Print("E0705",message.chat.id);
 	else if (message.text.toLowerCase().includes("economia"))Print("E0101",message.chat.id);
-
+    else if (message.text == "/mappe")telegram.sendPhoto(message.chat.id,photo)
 	else
     {
 		telegram.sendMessage(message.chat.id,"Comando non riconosciuto! Digita /help per conoscere la lista dei comandi.")
