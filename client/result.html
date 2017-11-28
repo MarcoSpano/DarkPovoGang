@@ -46,6 +46,7 @@
 		}
 		else{
 			location.href = "index.html?q=dc";
+
 		}
 
 
@@ -87,21 +88,26 @@
 				<a href="index.html" class="brand-logo white-text">UniRoom</a>
 				<a href="index.html" data-activates="mobile-menu" class="button-collapse white-text"><i class="material-icons">menu</i> </a>
 				<ul class="right hide-on-med-and-down">
-					<div class="raw">
-						<form action="result.html">
-								<div class="input-field" style="max-height: 50px!important">
-									<i onclick="go()" id="icon" class="red-text material-icons prefix">search</i>
-									<input style="padding-left: 0px;" id="inserisci" name="q" type="text" class="validate">
-									<div class="popup">
-										<span id="wrongInput"></span>
+					<li>
+						<div class="raw">
+							<form action="result.html">
+									<div class="input-field" style="max-height: 50px!important">
+										<i onclick="go()" id="icon" class="red-text material-icons prefix">search</i>
+										<input style="padding-left: 0px;" id="inserisci" name="q" type="text" class="validate">
+										<div class="popup">
+											<center>
+												<span class="popuptext" id="wrongInput" style="font-size: 15px;width: 300px">Wrong Input, try with department name</span>
+											</center>
+										</div>
+										<input type="submit" name="submit" style="visibility: hidden;">
 									</div>
-									<input type="submit" name="submit" style="visibility: hidden;">
-								</div>
-						</form>
-						<li><a href="http://www.unitn.it" class="white-text"><i class="material-icons left">school</i>UNITN</a></li>
-						<li><a href="https://easyroom.unitn.it/Orario/index.php?view=easycourse&_lang=it&empty_box=0" class="white-text"><i class="material-icons left">schedule</i>Schedule</a></li>
-						<li><a href="aboutus.html#about" class="white-text"><i class="material-icons left">people</i>About us</a></li>
-					</div>
+							</form>
+							
+						</div>
+					</li>
+					<li><a href="http://www.unitn.it" class="white-text"><i class="material-icons left">school</i>UNITN</a></li>
+					<li><a href="https://easyroom.unitn.it/Orario/index.php?view=easycourse&_lang=it&empty_box=0" class="white-text"><i class="material-icons left">schedule</i>Schedule</a></li>
+					<li><a href="aboutus.html#about" class="white-text"><i class="material-icons left">people</i>About us</a></li>
 				</ul>
 
 
@@ -167,12 +173,28 @@
 	<script type="text/javascript">
 		//script per caricare il titolo
 		var polo = getQueryVariable_q(window.location.href);
-		//polo = polo.replace("%20", " ");
 		var name = "Aule libere presso: "+polo;
 		document.getElementById("nome_polo").innerHTML = name ;
+		//polo = polo.replace("%20", " ");
+		
+
+		//questo codice serve se vogliamo mettere il popup di errore nella
+		//searchbar della navbar quando qualcuno scrivo cazzate
+		/*if(polo == null){
+			var name = "Aule libere presso: ";
+			document.getElementById("nome_polo").innerHTML = name ;
+			console.log("attivo popup");
+			var popup = document.getElementById("wrongInput");
+			popup.classList.toggle("show");
+			delay(5000).then(() => {popup.classList.toggle("close");});
+			console.log("finito popup");
+		}
+		else{
+			var name = "Aule libere presso: "+polo;
+			document.getElementById("nome_polo").innerHTML = name ;
+		}*/
+		
 
 	</script>
-
-
 </body>
 </html>

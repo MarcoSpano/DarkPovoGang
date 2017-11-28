@@ -84,7 +84,7 @@
 									
 									<div class="col s12" style="max-height: 20px">
 										<div class="col s6">
-											<div class="popup" onclick="myFunction()" style="width: 200px">
+											<div class="popup" style="width: 200px">
 												<center>
 													<span class="popuptext" id="myPopup" style="font-size: 15px;width: 300px">Input sbagliato!
 													Inserisci help per la lista di comandi disponibili.</span>
@@ -190,19 +190,18 @@
 
 			var par = getQueryVariable_q(window.location.href);
 			console.log(par);
-			if(par === "help")
-			{
-				console.log("par = help")
-				showCommand()
-			}
-			else if (par === "dc"){
+			
+			if(par === "dc"){
 				console.log("dc");
 				//alert("Wrong input");
 				var popup = document.getElementById("myPopup");
 				popup.classList.toggle("show");
 				delay(5000).then(() => {popup.classList.toggle("close");});
-
-				
+			}
+			else if(par === "help")
+			{
+				console.log("par = help")
+				showCommand()
 			}
 		</script>
 </main>
