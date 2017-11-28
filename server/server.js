@@ -4,16 +4,19 @@ const request = require('request');
 const cors = require('cors');
 const utilities = require('./utilities');
 const fetch = require("node-fetch");
+//const geolib = require("geolib");
+const cheerio = require('cheerio');
+const svg2png=require('svg2png');
+const fs=require('pn/fs');
+const apiai = require('apiai');
+var nlapp = apiai("f3673557663f4ae8b3f299c5b9c8f836");
 
-var port = process.env.PORT || 8080;
-                    
+
+var port = process.env.PORT || 8080;                  
+
 const app = express();
 app.use(cors());
 
-
-app.get('/', function(req, res){
-    res.sendFile(path.join(__dirname+'/../client/index.html'));
-});
 
 //funzione che data sede e giorno restituisce le aule libere quel giorno
 app.get('/sede/:sede', (req,res) => {
@@ -56,12 +59,121 @@ app.get('/sede/:sede', (req,res) => {
             rooms =  utilities.getFreeRooms(rooms, currentTimestamp);
             rooms =  utilities.cleanPastSchedule(rooms, currentTimestamp);
             res.json(rooms); //Get the list of rooms with events that day and the hours in which they are busy.
+            
+            /*//console.log("SECONDO .then");
+            let rooms = utilities.getRoomList(events); 
+            rooms = utilities.cleanSchedule(rooms);    
+            rooms = utilities.getFreeRooms(rooms, currentTimestamp);
+            rooms = utilities.cleanPastSchedule(rooms, currentTimestamp);
+            var map = getMaps(rooms, sede); // funzione base: attualmente fa diventare verdi le stanze presenti nel json a Povo A.
+            //naturallanguage('cerco aula libera a Povo');
+            conversionMap(map,res); // ritorna la mappa nel res sotto forma di file PNG. Da riadattare poi per stampare su bot.
+             
+            //res.send(map);
+            //res.json(rooms); //Get the list of rooms with events that day and the hours in which they are busy.
+            */
         })
         .catch(error => {
             console.log(error);
         });
     }
 });
+
+function naturallanguage(frase) {
+    var request = nlapp.textRequest(frase , {
+        sessionId: 'dhbsajbi'
+    });
+
+    request.on('response', function(response) {
+        console.log(response);
+    });
+
+    request.on('error', function(error) {
+        console.log(error);
+    });
+    
+    request.end();
+}
+
+function getMaps(rooms,sede){
+    var output;
+    var sourceBuffer;
+    
+    switch(sede){
+        case 'E0503':
+
+        //Povo A piano P1
+        var $ = cheerio.load(fs.readFileSync(path.join(__dirname+'/../img/Povo1P1.svg')));
+            for(i = 0; i<rooms.length;i++){
+                if(rooms[i].room <= 437 && rooms[i].room >= 414){
+                    var id = 201 + (437 - rooms[i].room) ;
+                    var stringa = "#a" + id;
+                    var rect = $(stringa);
+                    rect.attr('fill','green');
+                    }
+            }   
+       // output = new Buffer( $.html() );       
+
+        //Povo A piano PT
+        $ = cheerio.load(fs.readFileSync(path.join(__dirname+'/../img/Povo1PT.svg')));
+            for(i = 0; i<rooms.length;i++){
+                if(rooms[i].room <= 445 && rooms[i].room >= 438){
+                    var id = 101 + (445 - rooms[i].room) ;
+                    var stringa = "#a" + id;
+                    var rect = $(stringa);
+                    rect.attr('fill','green');
+                    }
+            }
+       // output =  $.html();
+    }
+
+      //Povo B piano P1
+        $ = cheerio.load(fs.readFileSync(path.join(__dirname+'/../img/Povo2P1.svg')));
+            for(i = 0; i<rooms.length;i++){
+                if(rooms[i].room <= 403 && rooms[i].room >= 402){
+                    var id = 106 + (403 - rooms[i].room) ;
+                    var stringa = "#b" + id;
+                    var rect = $(stringa);
+                    rect.attr('fill','green');
+                    }
+            }
+        // output = $.html();
+
+         //Povo B piano PT
+         $ = cheerio.load(fs.readFileSync(path.join(__dirname+'/../img/Povo2PT.svg')));
+            for(i = 0; i<rooms.length;i++){
+                if(rooms[i].room <= 408 && rooms[i].room >= 404){
+                    var id = 101 + (408 - rooms[i].room) ;
+                    var stringa = "#b" + id;
+                    var rect = $(stringa);
+                    rect.attr('fill','green');
+                    }
+            }
+          output=  $.html();
+        //console.log(output);
+         
+    return output;
+
+}
+
+module.exports.getMaps = getMaps;
+
+function conversionMap(map,res){
+    var sourceBuffer;
+    svg2png(map)
+    .then(function (buffer) {
+        sourceBuffer = new Buffer(buffer, 'base64'); 
+         res.writeHead(200, {
+                'Content-Type': 'image/png',
+                'Content-Length': sourceBuffer.length
+          });
+        res.end(sourceBuffer);       
+    })
+    .catch(function (error) {
+        console.log("Conversion Error!");
+    });
+   
+}
 
 
 app.get('/schedule/:sede/:aula', (req, res) => {
