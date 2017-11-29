@@ -4,6 +4,7 @@ const request = require('request');
 const cors = require('cors');
 const utilities = require('./utilities');
 const fetch = require("node-fetch");
+const department = require("./data.js");
 //const geolib = require("geolib");
 const cheerio = require('cheerio');
 const svg2png=require('svg2png');
@@ -17,6 +18,20 @@ var port = process.env.PORT || 8080;
 const app = express();
 app.use(cors());
 
+
+app.post('/nl', (req,res) => {
+    let stringa = req.body.stringa;
+    let nlresp = naturallanguage(stringa);
+    let place = nlresp.Place;
+    place = place.toLowerCase();
+    let code_place = department.department_id['place'];
+
+    fetch('localhost:8080/sede/' + code_place)
+    .then(body => {
+        console.log(body.json());
+    });
+
+});
 
 //funzione che data sede e giorno restituisce le aule libere quel giorno
 app.get('/sede/:sede', (req,res) => {
@@ -86,6 +101,8 @@ function naturallanguage(frase) {
 
     request.on('response', function(response) {
         console.log(response);
+        var nlresp = {"Place" : response.contexts.Place};
+        return nlresp;
     });
 
     request.on('error', function(error) {
