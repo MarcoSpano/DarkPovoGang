@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0" />
 	<title>UniRoom</title>
 
 	<!-- CSS  -->
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-	<link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-	<link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+	<link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection" />
+	<link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 	<!--  Scripts-->
@@ -21,14 +22,13 @@
 
 	<script type="text/javascript">
 
-		let lat,lng,url;
+		let lat, lng, url;
 		//script per creare la tabella degli orari
 		var sede = getQueryVariable_q(window.location.href);
 		var geo = getQueryVariable_geoloc(window.location.href);
-		if(sede != null)
-		{
+		if (sede != null) {
 			sede = sede.replace("%20", " ");
-			switch (sede){
+			switch (sede) {
 				case "povo": sede = "E0503"; break;
 				case "economia": sede = "E0101"; break;
 				case "lettere": sede = "E0801"; break;
@@ -41,10 +41,10 @@
 				case "giuri": sede = "E0201"; break;
 
 				case "socio": sede = "E0601"; break;
-				case "help" : location.href = "index.html?q=help";
+				case "help": location.href = "index.html?q=help";
 			}
 		}
-		else{
+		else {
 			location.href = "index.html?q=dc";
 		}
 
@@ -62,16 +62,14 @@
 		else{
 			url = "http://localhost:8080/sede/"+ sede;
 		}*/
-		url = "http://localhost:8080/sede/"+ sede;
-		$.getJSON(url,function(data){
-			$.each(data, function(key, val){
-				if(val.orario[0])
-				{
-					$("#command_table").append("<tr><td>"+val.NomeAula+"</td><td>ora</td><td>"+val.orario[0].from+"</td></tr>");
+		url = "http://localhost:8080/sede/" + sede;
+		$.getJSON(url, function (data) {
+			$.each(data, function (key, val) {
+				if (val.orario[0]) {
+					$("#command_table").append("<tr><td>" + val.NomeAula + "</td><td>ora</td><td>" + val.orario[0].from + "</td></tr>");
 				}
-				else
-				{
-					$("#command_table").append("<tr><td>"+val.NomeAula+"</td><td>ora</td><td>fine giornata</td></tr>");
+				else {
+					$("#command_table").append("<tr><td>" + val.NomeAula + "</td><td>ora</td><td>fine giornata</td></tr>");
 				}
 
 			});
@@ -81,64 +79,98 @@
 	</script>
 
 </head>
+
 <body>
-		<nav class="light-blue lighten-1" role="navigation">
-			<div class="nav-wrapper">
-				<a href="index.html" class="brand-logo white-text">UniRoom</a>
-				<a href="index.html" data-activates="mobile-menu" class="button-collapse white-text"><i class="material-icons">menu</i> </a>
-				<ul class="right hide-on-med-and-down">
-					<div class="raw">
-						<form action="result.html">
-								<div class="input-field" style="max-height: 50px!important">
-									<i onclick="go()" id="icon" class="red-text material-icons prefix">search</i>
-									<input style="padding-left: 0px;" id="inserisci" name="q" type="text" class="validate">
-									<div class="popup">
-										<span id="wrongInput"></span>
-									</div>
-									<input type="submit" name="submit" style="visibility: hidden;">
-								</div>
-						</form>
-						<li><a href="http://www.unitn.it" class="white-text"><i class="material-icons left">school</i>UNITN</a></li>
-						<li><a href="https://easyroom.unitn.it/Orario/index.php?view=easycourse&_lang=it&empty_box=0" class="white-text"><i class="material-icons left">schedule</i>Schedule</a></li>
-						<li><a href="aboutus.html#about" class="white-text"><i class="material-icons left">people</i>About us</a></li>
+	<nav class="nav-border light-blue lighten-1">
+		<div class="nav-wrapper">
+			<div class="container">
+
+				<div class="row">
+					<div class="col s3">
+						<a href="index.html" class="brand-logo white-text">UniRoom</a>
+						<a href="index.html" data-activates="mobile-menu" class="button-collapse">
+							<i class="material-icons">menu</i>
+						</a>
 					</div>
-				</ul>
 
+					<div class="col s4 hide-on-med-and-down">
+						<form action="result.html">
+							<div class="input-field" style="max-height: 50px!important">
+								<i onclick="go()" id="icon" class="red-text material-icons prefix">search</i>
+								<input style="padding-left: 0px;" id="inserisci" name="q" type="text" class="validate">
+								<label class="label-icon" for="search">
+									<i class="material-icons">search</i>
+								</label>
+								<i class="material-icons closed">close</i>
+								<input type="submit" name="submit" style="visibility: hidden;">
+							</div>
+						</form>
+					</div>
 
-				<ul id="mobile-menu" class="side-nav">
-					<li><a href="http://www.unitn.it" class="black-text"><i class="material-icons left">school</i>UNITN</a></li>
-					<li><a href="https://easyroom.unitn.it/Orario/index.php?view=easycourse&_lang=it&empty_box=0" class="black-text"><i class="material-icons left">schedule</i>Schedule</a></li>
-
-					<li><div class="divider"></div></li>
-
-					<li><a href="aboutus.html#about" class="black-text"><i class="material-icons left">people</i>About us</a></li>
-
-				</ul>
-
-
+					<div class="row" class="col s5">
+						<ul class="left hide-on-med-and-down">
+							<li>
+								<a href="http://www.unitn.it" class="white-text">
+									<i class="material-icons left">school</i>UNITN</a>
+							</li>
+							<li>
+								<a href="https://easyroom.unitn.it/Orario/index.php?view=easycourse&_lang=it&empty_box=0" class="white-text">
+									<i class="material-icons left">schedule</i>Schedule</a>
+							</li>
+							<li>
+								<a href="aboutus.html#about" class="white-text">
+									<i class="material-icons left">people</i>About us</a>
+							</li>
+						</ul>
+					</div>
+				</div>
 			</div>
-		</nav>
 
-		<div class="container" style="padding-bottom: 100px">
-			<p style="color: red;">The application is still under construction.. forgive us!</p>
-			<center>
-				<h3 id="nome_polo"></h3>
-			</center>
-			<div id="table_div">
-				<table class="striped">
-					<thead>
-						<tr>
-							<th>Aula</th>
-							<th>Libera da</th>
-							<th>Libera fino</th>
-						</tr>
-					</thead>
+			<ul id="mobile-menu" class="side-nav">
+				<li>
+					<a href="http://www.unitn.it" class="black-text">
+						<i class="material-icons left">school</i>UNITN</a>
+				</li>
+				<li>
+					<a href="https://easyroom.unitn.it/Orario/index.php?view=easycourse&_lang=it&empty_box=0" class="black-text">
+						<i class="material-icons left">schedule</i>Schedule</a>
+				</li>
+				<li>
+					<div class="divider"></div>
+				</li>
+				<li>
+					<a href="aboutus.html#about" class="black-text">
+						<i class="material-icons left">people</i>About us</a>
+				</li>
 
-					<tbody id="command_table">
-					</tbody>
-				</table>
-			</div>
+			</ul>
+
 		</div>
+		</div>
+
+
+	</nav>
+
+	<div class="container" style="padding-bottom: 100px">
+		<p style="color: red;">The application is still under construction.. forgive us!</p>
+		<center>
+			<h3 id="nome_polo"></h3>
+		</center>
+		<div id="table_div">
+			<table class="striped">
+				<thead>
+					<tr>
+						<th>Aula</th>
+						<th>Libera da</th>
+						<th>Libera fino</th>
+					</tr>
+				</thead>
+
+				<tbody id="command_table">
+				</tbody>
+			</table>
+		</div>
+	</div>
 
 	<footer class="page-footer light-blue">
 		<div class="container">
@@ -148,7 +180,7 @@
 					<p class="grey-text text-lighten-4">We are a team of college students working on this project like it's our full time job. Any amount would help support
 						and continue development on this project and is greatly appreciated.</p>
 				</div>
-	
+
 				<div class="col l3 s12">
 					<h5 class="white-text">Contacts</h5>
 					<ul>
@@ -168,11 +200,12 @@
 		//script per caricare il titolo
 		var polo = getQueryVariable_q(window.location.href);
 		//polo = polo.replace("%20", " ");
-		var name = "Aule libere presso: "+polo;
-		document.getElementById("nome_polo").innerHTML = name ;
+		var name = "Aule libere presso: " + polo;
+		document.getElementById("nome_polo").innerHTML = name;
 
 	</script>
 
 
 </body>
+
 </html>
