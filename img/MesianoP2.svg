@@ -328,7 +328,7 @@ m487 27 c0 -10 2 -10 6 0 3 8 31 12 91 12 l87 0 0 -75 0 -75 -100 0 -100 0 0
 </g>
 
 <rect  style="stroke:#1a1a1a;stroke-width:1.4;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       id="2e"
+       id="2d"
        fill="red"
        y="14"
        x="14"
@@ -337,9 +337,9 @@ m487 27 c0 -10 2 -10 6 0 3 8 31 12 91 12 l87 0 0 -75 0 -75 -100 0 -100 0 0
 <text
        style="font-style:normal;font-weight:normal;font-size:14px;line-height:125%;font-family:Verdana;letter-spacing:0px;word-spacing:0px;fill-opacity:1;fill-rule:evenodd;stroke:none"
        xml:space="preserve"
-       id="2et"
+       id="2dt"
        y="35"
-       x="16"> 2E
+       x="16"> 2D
 </text>
 
 <rect  style="stroke:#1a1a1a;stroke-width:1.4;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
