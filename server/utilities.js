@@ -17,7 +17,6 @@ function inArray(sede){
     return false;
 }
 
-
 function getRoomList(events) {
     if(events === undefined) {
         throw new Error('No parameter inserted');
@@ -62,9 +61,6 @@ function getRoomList(events) {
     return rooms;
 }
 
-
-
-
 function cleanSchedule(rooms) {
     if(rooms === undefined) {
         throw new Error('No parameter inserted');
@@ -84,7 +80,6 @@ function cleanSchedule(rooms) {
     }
     return rooms;
 }
-
 
 function getFreeRooms(rooms, timeStamp) {  
     if(rooms === undefined)  {
@@ -142,8 +137,6 @@ function cleanPastSchedule(rooms, timestamp) {
     return rooms;
 }
 
-
-
 //Genera un oggetto contenente ogni room code come proprietà e il relativo id.
 function idRoomCode(uri) {
     if(uri === undefined) {
@@ -170,8 +163,6 @@ function idRoomCode(uri) {
             console.log(error);
         }); 
 }
-
-
 
 function getRoomSchedule(events, roomId) {
     if(events === undefined || roomId === undefined) {
@@ -239,11 +230,9 @@ function getRoomSchedule(events, roomId) {
     return ris == null ? "Nessuna lezione oggi in questa aula" : ris;
 }
 
-
 function getNearestLocation(userCoord) {
     return geolib.findNearest(userCoord, dataStruct.dep_coordinates, 1);
 }
-
 
 module.exports = {inArray, getRoomList, cleanSchedule, getFreeRooms,
                 cleanPastSchedule, idRoomCode, getRoomSchedule, getNearestLocation};
