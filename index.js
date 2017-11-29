@@ -1,5 +1,5 @@
 var TelegramBot = require('node-telegram-bot-api'),
-		telegram = new TelegramBot("483774152:AAFNnHRXFF_LHCQGm7fRpWDspwMMPVcPRA0", { polling: true });
+		telegram = new TelegramBot("469539955:AAFC1PpLie8atJezNoKPmkqpAwyxhoQI31I", { polling: true });
 const express = require('express');
 const path = require("path");
 const request = require('request');
@@ -18,30 +18,18 @@ var povo2pt = '/img/Povo2PT.svg';
 var photo = 'photo_2017-10-12_10-39-45.jpg';
 
 function getData(sede){
-	let rooms = [];
-	let now = new Date();
-	let day = now.getDate();
-	let month = now.getMonth() + 1;
-	let year = now.getFullYear();
-	let currentTimestamp = now.getTime() / 1000;
-	url = "https://easyroom.unitn.it/Orario/rooms_call.php?form-type=rooms&sede="+sede+"&_lang=it&date=" + day + "-" + month + "-" + year;
-	return fetch(url)
-	.then(body => {
-			return body.json();
-	})
-	.then(data => {
-			return data.events;
-	})
-	.then(events => {
-			console.log("SECONDO .then");
-			rooms = mapper.getRoomList(events); 
-			rooms = mapper.cleanSchedule(rooms);    
-			rooms = mapper.getFreeRooms(rooms, currentTimestamp);
-			rooms = mapper.cleanPastSchedule(rooms, currentTimestamp);
-			return rooms;
-	})
-	.catch(error => {
-			console.log("Errore nel parsing json: "+error);
+	return new Promise((resolve, reject) => {
+		url = "http://localhost:8080/sede/"+ sede;
+		fetch(url)
+		.then(data => {	
+			return data.json();
+		})
+		.then(body => {
+			resolve(body);
+		})
+		.catch(error => {
+			reject(error);
+		})		
 	});
 }
 
@@ -72,6 +60,9 @@ function getDataAndMaps(sede, id){
 			//console.log(rooms);
 			return rooms;
 	})
+
+
+
 	.then(rooms => {
 		var maps = mapper.getMaps(rooms,sede);
 		//console.log(maps);
@@ -98,14 +89,21 @@ function getDataAndMaps(sede, id){
 
 function Print(sede,chatid){
 		let message = "ciao";
-        let msg = "";
+		let msg = "";
 		//var maps = getDataAndMaps(sede, chatid);
-		let rooms = getData(sede).then(rooms => {
+		getData(sede)
+		.then(rooms => {
 			for(let i = 0; i < rooms.length; i++){
-				for(let j = 0; j < rooms[i].orario.length; j++){
-					msg += rooms[i].NomeAula+" libera fino alle "+rooms[i].orario[j].from+"\n";
-				    message = msg;
-                }
+				if(rooms[i].orario.length > 0) {
+					for(let j = 0; j < rooms[i].orario.length; j++){
+						msg += rooms[i].NomeAula+" libera fino alle "+rooms[i].orario[j].from+"\n";
+						message = msg;
+					}
+				}
+				else {
+					msg += rooms[i].NomeAula+" libera fino a chiusura.\n";
+					message = msg;
+				}				
 			}
             if(message.includes("ciao"))
             {
@@ -116,8 +114,11 @@ function Print(sede,chatid){
             {    
                 telegram.sendMessage(chatid, message);	
             }
-		});
-    
+		})
+		.catch(error => {
+			console.log(error);
+			reject(error);
+		})		
 }
 
 
