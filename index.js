@@ -5,7 +5,7 @@ const path = require("path");
 const request = require('request');
 const cors = require('cors');
 const fetch = require("node-fetch");
-const mapper = require('./server/utilities');
+const mapper = require('./server/utilities.js');
 const svg2png=require('svg2png');
 const unirest=require('unirest');
 const q=require('q');
@@ -24,8 +24,10 @@ function getData(sede){
 	let month = now.getMonth() + 1;
 	let year = now.getFullYear();
 	let currentTimestamp = now.getTime() / 1000;
-	url = "https://easyroom.unitn.it/Orario/rooms_call.php?form-type=rooms&sede="+sede+"&_lang=it&date=" + day + "-" + month + "-" + year;
-	return fetch(url)
+    //url= "http://localhost:8080/sede/" + sede;
+    url = "https://easyroom.unitn.it/Orario/rooms_call.php?form-type=rooms&sede="+sede+"&_lang=it&date=" + day + "-" + month + "-" + year;
+	console.log(url);
+    return fetch(url)
 	.then(body => {
 			return body.json();
 	})
@@ -34,16 +36,16 @@ function getData(sede){
 	})
 	.then(events => {
 			console.log("SECONDO .then");
-			rooms = mapper.getRoomList(events); 
-			rooms = mapper.cleanSchedule(rooms);    
-			rooms = mapper.getFreeRooms(rooms, currentTimestamp);
+			rooms = mapper.getRoomList(events);
+            rooms = mapper.cleanSchedule(rooms);
+            rooms = mapper.getFreeRooms(rooms, currentTimestamp);
 			rooms = mapper.cleanPastSchedule(rooms, currentTimestamp);
 			return rooms;
 	})
 	.catch(error => {
 			console.log("Errore nel parsing json: "+error);
 	});
-}
+}   
 
 function getDataAndMaps(sede, id){
 
@@ -102,11 +104,14 @@ function Print(sede,chatid){
 		//var maps = getDataAndMaps(sede, chatid);
 		let rooms = getData(sede).then(rooms => {
 			for(let i = 0; i < rooms.length; i++){
-				for(let j = 0; j < rooms[i].orario.length; j++){
-					msg += rooms[i].NomeAula+" libera fino alle "+rooms[i].orario[j].from+"\n";
-				    message = msg;
+                if(rooms[i].orario.length>0){
+				    for(let j = 0; j < rooms[i].orario.length; j++){
+                        msg += rooms[i].NomeAula+" libera fino alle "+rooms[i].orario[j].from+"\n";
+                    }
                 }
-			}
+                else msg += rooms[i].NomeAula + " è libera fino a chiusura\n";
+            }
+            message = msg;
             if(message.includes("ciao"))
             {
                 message = "l'uni è chiusa, sta a casa!";
@@ -119,7 +124,6 @@ function Print(sede,chatid){
 		});
     
 }
-
 
 telegram.on("text", (message) => {
 	if (message.text == "/start")
