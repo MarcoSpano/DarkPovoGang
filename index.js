@@ -24,7 +24,8 @@ function getData(sede){
 	let month = now.getMonth() + 1;
 	let year = now.getFullYear();
 	let currentTimestamp = now.getTime() / 1000;
-	url = "https://easyroom.unitn.it/Orario/rooms_call.php?form-type=rooms&sede="+sede+"&_lang=it&date=" + day + "-" + month + "-" + year;
+    url = "http://localhost:8080/sede/"+sede;
+	//url = "https://easyroom.unitn.it/Orario/rooms_call.php?form-type=rooms&sede="+sede+"&_lang=it&date=" + day + "-" + month + "-" + year;
 	return fetch(url)
 	.then(body => {
 			return body.json();
