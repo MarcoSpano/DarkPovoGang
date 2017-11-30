@@ -185,7 +185,7 @@ app.get('/schedule/:sede/:aula', (req, res) => {
     let sede = req.params.sede;  //Id della sede
     let room= req.params.aula;  //nome aula
     let roomCode = sede + '/' + room;
-
+    console.log("trying get data");
     let url = "https://easyroom.unitn.it/Orario/rooms_call.php?form-type=rooms&sede=" + sede + "&_lang=it&date=" + day + "-" + month + "-" + year;
     utilities.idRoomCode(url)
     .then(response => {
@@ -209,6 +209,7 @@ app.get('/schedule/:sede/:aula', (req, res) => {
     })
     .catch(error => {
         console.log(error);
+        console.log("damn it");
     })
 }); 
 
