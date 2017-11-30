@@ -95,10 +95,8 @@ function Print(sede,chatid){
 		.then(rooms => {
 			for(let i = 0; i < rooms.length; i++){
 				if(rooms[i].orario.length > 0) {
-					for(let j = 0; j < rooms[i].orario.length; j++){
-						msg += rooms[i].NomeAula+" libera fino alle "+rooms[i].orario[j].from+"\n";
-						message = msg;
-					}
+					msg += rooms[i].NomeAula+" libera fino alle "+rooms[i].orario[0].from+"\n";
+					message = msg;			
 				}
 				else {
 					msg += rooms[i].NomeAula+" libera fino a chiusura.\n";
