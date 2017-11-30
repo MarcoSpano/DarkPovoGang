@@ -176,40 +176,65 @@ function conversionMap(map,res){
 }
 
 
-app.get('/schedule/:sede/:aula', (req, res) => {
-    let now = new Date();
-    let day = now.getDate();
-    let month = now.getMonth() + 1;
-    let year = now.getFullYear();
-
-    let sede = req.params.sede;  //Id della sede
-    let room= req.params.aula;  //nome aula
+function getDaySchedule(sede, room, day, month, year) {
     let roomCode = sede + '/' + room;
 
     let url = "https://easyroom.unitn.it/Orario/rooms_call.php?form-type=rooms&sede=" + sede + "&_lang=it&date=" + day + "-" + month + "-" + year;
-    utilities.idRoomCode(url)
-    .then(response => {
-        return response[roomCode];
-    })
-    .then(id => { //id della stanza
-        fetch(url) 
-        .then(body => { 
-            return body.json();
+
+    return new Promise((resolve, reject) => {
+        utilities.idRoomCode(url)
+        .then(response => {
+            return response[roomCode];
         })
-        .then(data => {
-            let events = data.events; //cerchiamo tutti gli eventi in quella sede per quel determinato giorno
-            
-            let room =  utilities.getRoomSchedule(events, id); //otteniamo lo schedule della stanza prescelta e lo inviamo come json
-            
-            res.json(room);
+        .then(id => { //id della stanza
+            fetch(url) 
+            .then(body => { 
+                return body.json();
+            })
+            .then(data => {
+                let events = data.events; //cerchiamo tutti gli eventi in quella sede per quel determinato giorno
+                
+                let room =  utilities.getRoomSchedule(events, id); //otteniamo lo schedule della stanza prescelta e lo inviamo come json
+                
+                resolve(room);
+            })
+            .catch(error => {
+                console.log(error);
+            })             
         })
         .catch(error => {
             console.log(error);
-        })             
-    })
-    .catch(error => {
-        console.log(error);
-    })
+        });
+    })   
+}
+
+
+
+app.get('/schedule/sede/:sede/aula/:aula', (req, res) => {
+    let sede = req.params.sede;  //Id della sede
+    let room = req.params.aula;  //nome aula
+
+    let now = new Date();
+
+    let risultato = [];
+  
+    let monday = utilities.getMonday(now);
+
+    let currentDay = monday;
+    
+    for(let i = 0; i < 5; i++) { //Da lunedi a venerdi
+        let day = currentDay.getDate();
+        let month = currentDay.getMonth() + 1;
+        let year = currentDay.getFullYear();
+        
+        risultato.push(getDaySchedule(sede, room, day, month, year));
+        currentDay.setDate(currentDay.getDate() + 1);
+    }
+
+    Promise.all(risultato)
+    .then(results => {
+        res.json(results);
+    })  
 }); 
 
 
