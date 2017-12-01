@@ -53,7 +53,7 @@
     	};
     	//console.log("try get tha big data man");
     	//url = "http://localhost:8080/"+ sede + "/" + aula;
-    	let url = "http://localhost:8080/schedule/E0503/A105";
+    	let url = "http://localhost:8080/schedule/sede/E0503/aula/A105";
 		/*$.getJSON(url,function(data){
 			$.each(data, function(key, val){
 				if(val.orario[0])
@@ -95,7 +95,7 @@
 		$.getJSON(url,function(data){
 			//console.log(data["orario"][0].from);
 			//dic_tot[k] = val.nomeMateria + "  " + val.nomeProf;
-			console.log(data["orario"]);
+			console.log(data[0]);
 			$.each(data["orario"], function(key,val){
 				for (k in dic_tot){
 					if (tmp != k){		
