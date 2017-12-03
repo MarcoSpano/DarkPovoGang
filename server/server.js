@@ -12,7 +12,7 @@ const apiai = require('apiai');
 var nlapp = apiai("f3673557663f4ae8b3f299c5b9c8f836");
 
 
-var port = process.env.PORT || 8080;                  
+var port = process.env.PORT || 8080;
 
 const app = express();
 app.use(cors());
@@ -27,7 +27,6 @@ app.get('/sede/:sede', (req,res) => {
         sede = req.params.sede;
         if (req.query.day&&req.query.month)     //se nella request ci sono i parametri day,month,year
         {
-            //console.log("data e ora dalla request");
             let day = req.query.day;
             let month = req.query.month;
             let year = req.query.year;
@@ -44,8 +43,12 @@ app.get('/sede/:sede', (req,res) => {
 
         let now = new Date();
         let currentTimestamp = now.getTime() / 1000;
-        
 
+        let durataOre = 0;
+        if(req.query.durataOre) {
+            durataOre = req.query.durataOre;
+        }
+        
         fetch(url)
         .then(body => {
             return body.json();
@@ -54,21 +57,22 @@ app.get('/sede/:sede', (req,res) => {
             return data.events;
         })
         .then(events => {
-            let rooms = utilities.getRoomList(events); 
-            rooms =  utilities.cleanSchedule(rooms);    
+            let rooms = utilities.getRoomList(events);
+            rooms =  utilities.cleanSchedule(rooms);
             rooms =  utilities.getFreeRooms(rooms, currentTimestamp);
             rooms =  utilities.cleanPastSchedule(rooms, currentTimestamp);
+            rooms = utilities.getFreeRooms4xHours(rooms,durataOre,currentTimestamp);
             res.json(rooms); //Get the list of rooms with events that day and the hours in which they are busy.
-            
+
             /*//console.log("SECONDO .then");
-            let rooms = utilities.getRoomList(events); 
-            rooms = utilities.cleanSchedule(rooms);    
+            let rooms = utilities.getRoomList(events);
+            rooms = utilities.cleanSchedule(rooms);
             rooms = utilities.getFreeRooms(rooms, currentTimestamp);
             rooms = utilities.cleanPastSchedule(rooms, currentTimestamp);
             var map = getMaps(rooms, sede); // funzione base: attualmente fa diventare verdi le stanze presenti nel json a Povo A.
             //naturallanguage('cerco aula libera a Povo');
             conversionMap(map,res); // ritorna la mappa nel res sotto forma di file PNG. Da riadattare poi per stampare su bot.
-             
+
             //res.send(map);
             //res.json(rooms); //Get the list of rooms with events that day and the hours in which they are busy.
             */
@@ -91,14 +95,14 @@ function naturallanguage(frase) {
     request.on('error', function(error) {
         console.log(error);
     });
-    
+
     request.end();
 }
 
 function getMaps(rooms,sede){
     var output;
     var sourceBuffer;
-    
+
     switch(sede){
         case 'E0503':
 
@@ -111,8 +115,8 @@ function getMaps(rooms,sede){
                     var rect = $(stringa);
                     rect.attr('fill','green');
                     }
-            }   
-       // output = new Buffer( $.html() );       
+            }
+       // output = new Buffer( $.html() );
 
         //Povo A piano PT
         $ = cheerio.load(fs.readFileSync(path.join(__dirname+'/../img/Povo1PT.svg')));
@@ -151,7 +155,7 @@ function getMaps(rooms,sede){
             }
           output=  $.html();
         //console.log(output);
-         
+
     return output;
 
 }
@@ -162,23 +166,23 @@ function conversionMap(map,res){
     var sourceBuffer;
     svg2png(map)
     .then(function (buffer) {
-        sourceBuffer = new Buffer(buffer, 'base64'); 
+        sourceBuffer = new Buffer(buffer, 'base64');
          res.writeHead(200, {
                 'Content-Type': 'image/png',
                 'Content-Length': sourceBuffer.length
           });
-        res.end(sourceBuffer);       
+        res.end(sourceBuffer);
     })
     .catch(function (error) {
         console.log("Conversion Error!");
     });
-   
+
 }
 
 
 function getDaySchedule(sede, room, day, month, year) {
     let roomCode = sede + '/' + room;
-
+    console.log("trying get data");
     let url = "https://easyroom.unitn.it/Orario/rooms_call.php?form-type=rooms&sede=" + sede + "&_lang=it&date=" + day + "-" + month + "-" + year;
 
     return new Promise((resolve, reject) => {
@@ -187,25 +191,25 @@ function getDaySchedule(sede, room, day, month, year) {
             return response[roomCode];
         })
         .then(id => { //id della stanza
-            fetch(url) 
-            .then(body => { 
+            fetch(url)
+            .then(body => {
                 return body.json();
             })
             .then(data => {
                 let events = data.events; //cerchiamo tutti gli eventi in quella sede per quel determinato giorno
-                
+
                 let room =  utilities.getRoomSchedule(events, id); //otteniamo lo schedule della stanza prescelta e lo inviamo come json
-                
+
                 resolve(room);
             })
             .catch(error => {
                 console.log(error);
-            })             
+            })
         })
         .catch(error => {
             console.log(error);
         });
-    })   
+    })
 }
 
 
@@ -217,16 +221,16 @@ app.get('/schedule/sede/:sede/aula/:aula', (req, res) => {
     let now = new Date();
 
     let risultato = [];
-  
+
     let monday = utilities.getMonday(now);
 
     let currentDay = monday;
-    
+
     for(let i = 0; i < 5; i++) { //Da lunedi a venerdi
         let day = currentDay.getDate();
         let month = currentDay.getMonth() + 1;
         let year = currentDay.getFullYear();
-        
+
         risultato.push(getDaySchedule(sede, room, day, month, year));
         currentDay.setDate(currentDay.getDate() + 1);
     }
@@ -234,8 +238,8 @@ app.get('/schedule/sede/:sede/aula/:aula', (req, res) => {
     Promise.all(risultato)
     .then(results => {
         res.json(results);
-    })  
-}); 
+    })
+});
 
 
 app.get('/room', (req, res) => {
@@ -255,7 +259,7 @@ app.get('/room', (req, res) => {
         let year = now.getFullYear();
 
         url = "https://easyroom.unitn.it/Orario/rooms_call.php?form-type=rooms&sede="+ nearestLocation +"&_lang=it&date=" + day + "-" + month + "-" + year;
-        let currentTimestamp = now.getTime() / 1000;        
+        let currentTimestamp = now.getTime() / 1000;
 
         fetch(url)
         .then(body => {
@@ -265,8 +269,8 @@ app.get('/room', (req, res) => {
             return data.events;
         })
         .then(events => {
-            let rooms = utilities.getRoomList(events); 
-            rooms = utilities.cleanSchedule(rooms);    
+            let rooms = utilities.getRoomList(events);
+            rooms = utilities.cleanSchedule(rooms);
             rooms = utilities.getFreeRooms(rooms, currentTimestamp);
             rooms = utilities.cleanPastSchedule(rooms, currentTimestamp);
             res.json(rooms); //Get the list of rooms with events that day and the hours in which they are busy.
@@ -275,7 +279,7 @@ app.get('/room', (req, res) => {
             console.log(error);
         });
     }
-    
+
 });
 
 app.listen(port);
