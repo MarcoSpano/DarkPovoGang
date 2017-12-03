@@ -139,7 +139,7 @@ function cleanPastSchedule(rooms, timestamp) {
             }   
         }   
     }
-    return rooms;
+    return rooms.length !== 0 ? rooms : 'Nessuna aula disponibile al momento';
 }
 
 
@@ -240,6 +240,24 @@ function getRoomSchedule(events, roomId) {
 }
 
 
+function getFreeRooms4xHours(rooms, hours, currentTimestamp) {
+    let ris = [];
+    if(typeof rooms === "string") {
+        return "Nessuna lezione oggi in questa aula";
+    } else {
+        rooms.map(room => {
+            let nextLessonTimestamp = room.orario[0].timestamp_from;
+            let secondToNextLesson = nextLessonTimestamp - currentTimestamp;
+    
+            if(secondToNextLesson >= hours * 3600) { //Se la prossima lezione è tra più di hours ore
+                ris.push(room);
+            }
+        });
+    }
+
+    return ris.length !== 0 ? ris : 'Nessuna aula sarà libera per ' + hours + " ore.";
+}
+
 function getNearestLocation(userCoord) {
     return geolib.findNearest(userCoord, dataStruct.dep_coordinates, 1);
 }
@@ -253,4 +271,4 @@ function getMonday(d) {
 }
 
 module.exports = {inArray, getRoomList, cleanSchedule, getFreeRooms,
-                cleanPastSchedule, idRoomCode, getRoomSchedule, getNearestLocation, getMonday};
+                cleanPastSchedule, idRoomCode, getRoomSchedule, getNearestLocation, getMonday, getFreeRooms4xHours};
