@@ -239,11 +239,42 @@ function getRoomSchedule(events, roomId) {
     return ris == null ? "Nessuna lezione oggi in questa aula" : ris;
 }
 
+function getDaySchedule(sede, room, day, month, year) {
+    let roomCode = sede + '/' + room;
+    
+    let url = "https://easyroom.unitn.it/Orario/rooms_call.php?form-type=rooms&sede=" + sede + "&_lang=it&date=" + day + "-" + month + "-" + year;
+
+    return new Promise((resolve, reject) => {
+        idRoomCode(url)
+        .then(response => {
+            return response[roomCode];
+        })
+        .then(id => { //id della stanza
+            fetch(url)
+            .then(body => {
+                return body.json();
+            })
+            .then(data => {
+                let events = data.events; //cerchiamo tutti gli eventi in quella sede per quel determinato giorno
+
+                let room =  getRoomSchedule(events, id); //otteniamo lo schedule della stanza prescelta e lo inviamo come json
+
+                resolve(room);
+            })
+            .catch(error => {
+                console.log(error);
+            })
+        })
+        .catch(error => {
+            console.log(error);
+        });
+    })
+}
 
 function getFreeRooms4xHours(rooms, hours, currentTimestamp) {
     let ris = [];
     if(typeof rooms === "string") {
-        return "Nessuna lezione oggi in questa aula";
+        return "Nessuna aula libera";
     } else {
         rooms.map(room => {
             let nextLessonTimestamp = room.orario[0].timestamp_from;
@@ -271,4 +302,6 @@ function getMonday(d) {
 }
 
 module.exports = {inArray, getRoomList, cleanSchedule, getFreeRooms,
-                cleanPastSchedule, idRoomCode, getRoomSchedule, getNearestLocation, getMonday, getFreeRooms4xHours};
+                cleanPastSchedule, idRoomCode, getRoomSchedule,
+                 getNearestLocation, getMonday, getFreeRooms4xHours,
+                 getDaySchedule};
