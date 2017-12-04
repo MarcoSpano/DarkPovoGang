@@ -1,19 +1,3 @@
- nav{
-   position: relative;
-   z-index: 1000;
-   box-shadow: none;
- }
- 
- .nav-wrapper{
-   padding: 0 125px;
- }
-
-.icon-block {
-  padding: 0 15px;
-}
-.icon-block .material-icons {
-	font-size: inherit;
-}
 body {
 	display: flex;
 	min-height: 100vh;
@@ -24,15 +8,39 @@ main {
 	flex: 1 0 auto;
 }
 
+nav{
+   position: relative;
+   z-index: 1000;
+   box-shadow: none;
+ }
+ 
+.nav-wrapper{
+   padding: 0 125px;
+ }
+
+.icon-block {
+  padding: 0 15px;
+}
+.icon-block .material-icons {
+	font-size: inherit;
+}
+
 .maps-container{
-  
+    position: relative;
+    padding-bottom: 75%; 
+    height: 0;
+    overflow: hidden;
 }
 
-.page-footer{
-  position: relative;
-	bottom: 0px;
-
+.maps-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100% !important;
+    height: 90% !important;
 }
+
+
 /* Popup container */
 .popup {
     position: relative;
