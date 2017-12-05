@@ -28,20 +28,23 @@ function showCommand(){
 //funzione per chiamare result.html con la query inserita dall'utente
 function go(){
 	var q = document.getElementById("inserisci").value;
+	//prima bisogna parsare la q e poi aggiungere il parametro polo/aula all'url
+	var url = "result.html?q="+q;
 
-	if (q === "help")
-	{
-		console.log("q == help")
-		showCommand();
-	}
-	else
-	{
-		//prima bisogna parsare la q e poi aggiungere il parametro polo/aula all'url
-		var url = "result.html?q="+q;
-
-		location.href = url;
-	}
+	location.href = url;
 }
+
+
+function getQueryVariable(url_string,param) {
+	var url = new URL(url_string);
+	var query = url.searchParams.get(param);
+	console.log("getQueryVariable = "+query);
+	if(query)
+		return query;
+	return null;
+}
+
+
 //funzione per prendere la query inserita dall'utente
 function getQueryVariable_q(url_string) {
 	var url = new URL(url_string);
