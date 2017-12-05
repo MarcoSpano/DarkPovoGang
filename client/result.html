@@ -1,34 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0" />
 	<title>UniRoom</title>
 
 	<!-- CSS  -->
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-	<link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-	<link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+	<link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection" />
+	<link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 	<!--  Scripts-->
 	<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 	<script src="js/materialize.js"></script>
 	<script src="js/myjs.js"></script>
+	<script src="js/init.js"></script>
 	<!--<script async defer
     src ="https://maps.googleapis.com/maps/api/js?key=AIzaSyAUlRB23ZhvT108Fa6B5Gs6M5ZAphUaqbA&callback=initMap&sensor=false&v=3&libraries=geometry" >
     </script>-->
 
 	<script type="text/javascript">
 
-		let lat,lng,url;
+		let lat, lng, url;
 		//script per creare la tabella degli orari
 		var sede = getQueryVariable_q(window.location.href);
 		var geo = getQueryVariable_geoloc(window.location.href);
-		if(sede != null)
-		{
+		if (sede != null) {
 			sede = sede.replace("%20", " ");
-			switch (sede){
+			switch (sede) {
 				case "povo": sede = "E0503"; break;
 				case "economia": sede = "E0101"; break;
 				case "lettere": sede = "E0801"; break;
@@ -41,10 +42,10 @@
 				case "giuri": sede = "E0201"; break;
 
 				case "socio": sede = "E0601"; break;
-				case "help" : location.href = "index.html?q=help";
+				case "help": location.href = "index.html?q=help";
 			}
 		}
-		else{
+		else {
 			location.href = "index.html?q=dc";
 
 		}
@@ -63,16 +64,14 @@
 		else{
 			url = "http://localhost:8080/sede/"+ sede;
 		}*/
-		url = "http://localhost:8080/sede/"+ sede;
-		$.getJSON(url,function(data){
-			$.each(data, function(key, val){
-				if(val.orario[0])
-				{
-					$("#command_table").append("<tr><td>"+val.NomeAula+"</td><td>ora</td><td>"+val.orario[0].from+"</td></tr>");
+		url = "http://localhost:8080/sede/" + sede;
+		$.getJSON(url, function (data) {
+			$.each(data, function (key, val) {
+				if (val.orario[0]) {
+					$("#command_table").append("<tr><td>" + val.NomeAula + "</td><td>ora</td><td>" + val.orario[0].from + "</td></tr>");
 				}
-				else
-				{
-					$("#command_table").append("<tr><td>"+val.NomeAula+"</td><td>ora</td><td>fine giornata</td></tr>");
+				else {
+					$("#command_table").append("<tr><td>" + val.NomeAula + "</td><td>ora</td><td>fine giornata</td></tr>");
 				}
 
 			});
@@ -82,51 +81,101 @@
 	</script>
 
 </head>
+
 <body>
+	
+	<header>
 		<nav class="light-blue lighten-1" role="navigation">
 			<div class="nav-wrapper">
 				<a href="index.html" class="brand-logo white-text">UniRoom</a>
-				<a href="index.html" data-activates="mobile-menu" class="button-collapse white-text"><i class="material-icons">menu</i> </a>
+				<a href="index.html" data-activates="mobile-menu" class="button-collapse white-text">
+					<i class="material-icons">menu</i>
+				</a>
 				<ul class="right hide-on-med-and-down">
 					<li>
-						<div class="raw">
-							<form action="result.html">
-									<div class="input-field" style="max-height: 50px!important">
-										<i onclick="go()" id="icon" class="red-text material-icons prefix">search</i>
-										<input style="padding-left: 0px;" id="inserisci" name="q" type="text" class="validate">
-										<div class="popup">
-											<center>
-												<span class="popuptext" id="wrongInput" style="font-size: 15px;width: 300px">Wrong Input, try with department name</span>
-											</center>
-										</div>
-										<input type="submit" name="submit" style="visibility: hidden;">
-									</div>
-							</form>
-							
-						</div>
+						<a href="http://www.unitn.it" class="white-text">
+							<i class="material-icons left">school</i>UNITN</a>
 					</li>
-					<li><a href="http://www.unitn.it" class="white-text"><i class="material-icons left">school</i>UNITN</a></li>
-					<li><a href="https://easyroom.unitn.it/Orario/index.php?view=easycourse&_lang=it&empty_box=0" class="white-text"><i class="material-icons left">schedule</i>Schedule</a></li>
-					<li><a href="aboutus.html#about" class="white-text"><i class="material-icons left">people</i>About us</a></li>
+					<li>
+						<a href="https://easyroom.unitn.it/Orario/index.php?view=easycourse&_lang=it&empty_box=0" class="white-text">
+							<i class="material-icons left">schedule</i>Schedule</a>
+					</li>
+					<li>
+						<a href="aboutus.html" class="white-text">
+							<i class="material-icons left">people</i>About us</a>
+					</li>
 				</ul>
-
-
 				<ul id="mobile-menu" class="side-nav">
-					<li><a href="http://www.unitn.it" class="black-text"><i class="material-icons left">school</i>UNITN</a></li>
-					<li><a href="https://easyroom.unitn.it/Orario/index.php?view=easycourse&_lang=it&empty_box=0" class="black-text"><i class="material-icons left">schedule</i>Schedule</a></li>
-
-					<li><div class="divider"></div></li>
-
-					<li><a href="aboutus.html#about" class="black-text"><i class="material-icons left">people</i>About us</a></li>
-
+					<li>
+						<a href="http://www.unitn.it" class="black-text">
+							<i class="material-icons left">school</i>UNITN</a>
+					</li>
+					<li>
+						<a href="https://easyroom.unitn.it/Orario/index.php?view=easycourse&_lang=it&empty_box=0" class="black-text">
+							<i class="material-icons left">schedule</i>Schedule</a>
+					</li>
+					<li>
+						<div class="divider"></div>
+					</li>
+					<li>
+						<a href="aboutus.html" class="black-text">
+							<i class="material-icons left">people</i>About us</a>
+					</li>
 				</ul>
-
-
 			</div>
 		</nav>
+	</header>
+	
+	<main>
+		<div>
+			<center>
+				<div class="row center">
+					<form class="col s12" action="result.html" method="GET">
+						<div class="input-field col s12" style="font-size: 30px">
+
+							<div class="col s12" style="max-height: 20px">
+								<div class="col s6">
+									<div class="popup" onclick="myFunction()" style="width: 200px">
+										<center>
+											<span class="popuptext" id="myPopup" style="font-size: 15px;width: 300px">Input sbagliato! Inserisci help per la lista di comandi disponibili.</span>
+										</center>
+
+									</div>
+								</div>
+							</div>
+
+							<div class="col s10 offset-s1">
+								<div class="col s12 m4 l2">
+									<button class="btn-floating btn-large waves-effect waves-light red right" type="submit" name="geoloc" value="true" style="border-radius: 5px;">
+										<i class="material-icons">location_on</i>
+									</button>
+								</div>
+
+								<div class="col s12 m4 l8">
+
+									<input placeholder="Inserisci polo, aula o help..." id="inserisci" type="text" name="q" class="validate">
+
+									<input type="submit" name="submit" style="visibility: hidden;">
+								</div>
+
+								<div class="col s12 m4 l2">
+									<button class="btn-floating btn-large waves-effect waves-light red left" onclick="go()">
+										<i class="material-icons">forward</i>
+									</button>
+								</div>
+
+							</div>
+
+
+						</div>
+
+					</form>
+
+				</div>
+			</center>
+		</div>
 
 		<div class="container" style="padding-bottom: 100px">
-			<p style="color: red;">The application is still under construction.. forgive us!</p>
 			<center>
 				<h3 id="nome_polo"></h3>
 			</center>
@@ -145,6 +194,7 @@
 				</table>
 			</div>
 		</div>
+	</main>
 
 	<footer class="page-footer light-blue">
 		<div class="container">
@@ -154,7 +204,7 @@
 					<p class="grey-text text-lighten-4">We are a team of college students working on this project like it's our full time job. Any amount would help support
 						and continue development on this project and is greatly appreciated.</p>
 				</div>
-	
+
 				<div class="col l3 s12">
 					<h5 class="white-text">Contacts</h5>
 					<ul>
@@ -173,28 +223,12 @@
 	<script type="text/javascript">
 		//script per caricare il titolo
 		var polo = getQueryVariable_q(window.location.href);
-		var name = "Aule libere presso: "+polo;
-		document.getElementById("nome_polo").innerHTML = name ;
 		//polo = polo.replace("%20", " ");
-		
-
-		//questo codice serve se vogliamo mettere il popup di errore nella
-		//searchbar della navbar quando qualcuno scrivo cazzate
-		/*if(polo == null){
-			var name = "Aule libere presso: ";
-			document.getElementById("nome_polo").innerHTML = name ;
-			console.log("attivo popup");
-			var popup = document.getElementById("wrongInput");
-			popup.classList.toggle("show");
-			delay(5000).then(() => {popup.classList.toggle("close");});
-			console.log("finito popup");
-		}
-		else{
-			var name = "Aule libere presso: "+polo;
-			document.getElementById("nome_polo").innerHTML = name ;
-		}*/
-		
+		var name = "Aule libere presso: " + polo;
+		document.getElementById("nome_polo").innerHTML = name;
 
 	</script>
+
 </body>
+
 </html>
