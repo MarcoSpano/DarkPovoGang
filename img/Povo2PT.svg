@@ -5,8 +5,8 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
-   width="198.42885mm"
-   height="264.56793mm"
+   width="750"
+   height="1000"
    viewBox="0 0 703.09434 937.44542"
    id="svg4888"
    version="1.1">
@@ -1428,7 +1428,7 @@
        x="21.022877"
        y="844.85651"
        id="b101"
-       fill="white"
+       fill="red"
        style="stroke:#1a1a1a;stroke-width:2.13541222;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
     <rect
        width="76.764755"
@@ -1436,7 +1436,7 @@
        x="97.747314"
        y="844.85651"
        id="b102"
-       fill="white"
+       fill="red"
        style="stroke:#1a1a1a;stroke-width:2.13541222;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
     <rect
        width="76.805115"
@@ -1444,7 +1444,7 @@
        x="174.51208"
        y="844.85651"
        id="b103"
-       fill="white"
+       fill="red"
        style="stroke:#1a1a1a;stroke-width:2.13541222;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
     <rect
        width="76.764755"
@@ -1452,7 +1452,7 @@
        x="251.3172"
        y="844.85651"
        id="b104"
-       fill="white"
+       fill="red"
        style="stroke:#1a1a1a;stroke-width:2.13541222;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
     <rect
        width="76.885818"
@@ -1460,7 +1460,7 @@
        x="328.08191"
        y="844.85651"
        id="b105"
-       fill="white"
+       fill="red"
        style="stroke:#1a1a1a;stroke-width:2.13541222;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
     <text
        x="59.986599"
@@ -1512,14 +1512,5 @@
          y="909.11475"
          id="tspan3204-5-7-8"
          style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:22.78099442px;font-family:Lato;text-align:center;text-anchor:middle">B105</tspan></text>
-    <text
-       x="346.75177"
-       y="962.13977"
-       id="text3230"
-       xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:5.38352394px;line-height:125%;font-family:Lato;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none"><tspan
-         x="346.75177"
-         y="962.13977"
-         id="tspan3232">Created by andr35@github</tspan></text>
   </g>
 </svg>
