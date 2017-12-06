@@ -43,7 +43,6 @@ function go(){
 function getQueryVariable(url_string,param) {
 	var url = new URL(url_string);
 	var query = url.searchParams.get(param);
-	console.log("getQueryVariable = "+query);
 	if(query)
 		return query;
 	return null;
@@ -52,11 +51,8 @@ function getQueryVariable(url_string,param) {
 function getLocation() {
 	return new Promise(
 		function(resolve,reject){
-			console.log("enter geoloc");
 			if (navigator.geolocation) {
 				navigator.geolocation.getCurrentPosition(showPosition);
-				console.log("done with navigator");
-				
 			} else { 
 				console.log("Geolocation is not supported by this browser.") ;
 			}

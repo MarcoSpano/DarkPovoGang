@@ -45,7 +45,6 @@
 				case "help": location.href = "index.html?q=help";
 			}
 			url = "http://localhost:8080/sede/"+ sede;
-			console.log("url before jquery = "+url);
 			$.getJSON(url, function (data) {
 				$.each(data, function (key, val) {
 					if (val.orario[0]) {
@@ -65,9 +64,7 @@
 			.then((dc)=>
 			{
 				setTimeout(function(){
-					console.log("entro in .then");
 					url = "http://localhost:8080/room?lat=" + lat + "&lng=" + lng;
-					console.log("url = "+url); 
 					$.getJSON(url, function (data) 
 					{
 						$.each(data, function (key, val) 
@@ -88,8 +85,6 @@
 			}).catch((err)=>{
 				console.log("promise error!!"+err);
 			});
-			//url = "http://localhost:8080/room?lat=" + lat + "&lng=" + lng;
-			
 		}
 		else {
 			location.href = "index.html?q=dc";
