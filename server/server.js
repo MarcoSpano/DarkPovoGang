@@ -19,17 +19,88 @@ const app = express();
 app.use(cors());
 
 
-app.post('/nl', (req,res) => {
-    let stringa = req.body.stringa;
-    let nlresp = naturallanguage(stringa);
-    let place = nlresp.Place;
+app.get('/nl/', (req,res) => {
+    let frase = 'cerco aula a Mesiano';
+    //let nlresp = naturallanguage(stringa);
+    //res.json(nlresp);
+    //console.log(naturallanguage(stringa));
+    var request = nlapp.textRequest(frase , {
+        sessionId: 'dhbsajbi'
+    });
+
+    return request.on('response', function(response) {
+        //console.log(response);
+        var nlresp = {"Place" : response.result.parameters.Place};
+        place = nlresp.Place.toLowerCase();
+        console.log(place);
+        let code_place = department.department_id[8];
+        console.log(code_place);
+    
+        /*fetch('http://localhost:8080/sede/' + code_place)
+        .then(body => {
+            var x = JSON.stringify(body)
+            res.send(x);
+        });*/
+        //return nlresp;
+        //console.log(nlresp);
+
+        let now = new Date();
+        let day = now.getDate();
+        let month = now.getMonth() + 1;
+        let year = now.getFullYear();
+        url = "https://easyroom.unitn.it/Orario/rooms_call.php?form-type=rooms&sede="+ code_place +"&_lang=it&date=" + day + "-" + month + "-" + year;
+
+        now = new Date();
+        let currentTimestamp = now.getTime() / 1000;
+        
+
+        fetch(url)
+        .then(body => {
+            return body.json();
+        })
+        .then(data => {
+            return data.events;
+        })
+        .then(events => {
+            let rooms = utilities.getRoomList(events); 
+            rooms =  utilities.cleanSchedule(rooms);    
+            rooms =  utilities.getFreeRooms(rooms, currentTimestamp);
+            rooms =  utilities.cleanPastSchedule(rooms, currentTimestamp);
+            res.json(rooms); //Get the list of rooms with events that day and the hours in which they are busy.
+            
+            /*//console.log("SECONDO .then");
+            let rooms = utilities.getRoomList(events); 
+            rooms = utilities.cleanSchedule(rooms);    
+            rooms = utilities.getFreeRooms(rooms, currentTimestamp);
+            rooms = utilities.cleanPastSchedule(rooms, currentTimestamp);
+            var map = getMaps(rooms, sede); // funzione base: attualmente fa diventare verdi le stanze presenti nel json a Povo A.
+            //naturallanguage('cerco aula libera a Povo');
+            conversionMap(map,res); // ritorna la mappa nel res sotto forma di file PNG. Da riadattare poi per stampare su bot.
+             
+            //res.send(map);
+            //res.json(rooms); //Get the list of rooms with events that day and the hours in which they are busy.
+            */
+        })
+        .catch(error => {
+            console.log(error);
+        });
+    
+
+    }).on('error', function(error) {
+        console.log(error);
+    }).end();
+    //console.log(nlresp);
+    //return nlresp;
+    /*let place = nlresp.result.parameters.Place;
+    console.log(place);
     place = place.toLowerCase();
     let code_place = department.department_id['place'];
+    console.log(code_place);
 
     fetch('localhost:8080/sede/' + code_place)
     .then(body => {
-        console.log(body.json());
-    });
+        res.json(body);
+    });*/
 
 });
 
@@ -99,17 +170,16 @@ function naturallanguage(frase) {
         sessionId: 'dhbsajbi'
     });
 
-    request.on('response', function(response) {
+    return request.on('response', function(response) {
         console.log(response);
-        var nlresp = {"Place" : response.contexts.Place};
-        return nlresp;
-    });
-
-    request.on('error', function(error) {
+        var nlresp = {"Place" : response.result.parameters.Place};
+        //return nlresp;
+        console.log(nlresp);
+    }).on('error', function(error) {
         console.log(error);
-    });
-    
-    request.end();
+    }).end();
+    //console.log(nlresp);
+    //return nlresp;
 }
 
 function getMaps(rooms,sede){
