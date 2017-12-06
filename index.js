@@ -16,6 +16,20 @@ var povo2p1 = '/img/Povo2P1.svg';
 var povo2pt = '/img/Povo2PT.svg';
 var photo = 'photo_2017-10-12_10-39-45.jpg';
 
+var mesiano ={
+    "0" : "mesiano piano terra",
+    "1" : "mesiano piano 1",
+    "2" : "mesiano piano 2",
+    "3" : "mesiano piano 4",
+}
+
+var povo ={
+    "0" : "povo A piano terra",
+    "1" : "povo A piano 1",
+    "2" : "povo B piano -1",
+    "3" : "povo B piano terra",
+}
+
 function getData(sede){
 	let rooms = [];
 	let now = new Date();
@@ -84,9 +98,12 @@ function getDataAndMaps(sede, id, value){
     	.then(function (buffer) {
     		//console.log("convertito!");
         	//sourceBuffer = new Buffer(buffer, 'base64');
-        	//console.log(sourceBuffer); 
-        	telegram.sendPhoto(id,buffer);       
-    	})
+        	//console.log(sourceBuffer);
+            if(sede=="E0503")
+        	   telegram.sendPhoto(id,buffer,{caption : povo[value]});
+            else if (sede=="E0301")
+                telegram.sendPhoto(id,buffer,{caption : mesiano[value]});
+        })
     	.catch(function (error) {
         	console.log("Conversion Error! "+error);
     	});
@@ -132,12 +149,14 @@ telegram.on("text", (message) => {
 	{
 		telegram.sendMessage(message.chat.id, "I comandi disponibili sono: \n/help \n/start \n/povo \n/socio \n/economia \n/scicogn \n/lettere \n/giuri \n/mesiano \n/filosofia \n/mappePovo \n/mappeMesiano"); 
 	}
-	else if (message.text == "/mappePovo"){
+	else if (message.text == "/mappepovo"){
+        telegram.sendMessage(message.chat.id, "_Sto disegnando le mappe..._", {parse_mode: "Markdown"})
     	for(let i=0; i < 4;i++){
     		getDataAndMaps("E0503",message.chat.id,i);
     	}
     }
-    else if (message.text == "/mappeMesiano"){
+    else if (message.text == "/mappemesiano"){
+        telegram.sendMessage(message.chat.id, "_Sto disegnando le mappe..._", {parse_mode: "Markdown"})
     	for(let i=0; i < 4;i++){
     		getDataAndMaps("E0301",message.chat.id,i);
     	}
