@@ -27,9 +27,14 @@ function showCommand(){
 
 //funzione per chiamare result.html con la query inserita dall'utente
 function go(){
-	var q = document.getElementById("inserisci").value;
+	let url;
+	let q = document.getElementById("inserisci").value;
+	let geo = document.getElementById("geoloc").value;
+	if (geo == true)
+		url = "result.html?geoloc=true";
 	//prima bisogna parsare la q e poi aggiungere il parametro polo/aula all'url
-	var url = "result.html?q="+q;
+	else
+		url = "result.html?q="+q;
 
 	location.href = url;
 }
@@ -44,7 +49,23 @@ function getQueryVariable(url_string,param) {
 	return null;
 }
 
+function getLocation() {
+	console.log("enter geoloc");
+	if (navigator.geolocation) {
+		return new Promise((resolve, reject) => {
+			navigator.geolocation.getCurrentPosition(showPosition);
+		});
+	} else { 
+		console.log("Geolocation is not supported by this browser.") ;
+	}
+}
 
+function showPosition(position) {
+	console.log("enter show position");
+	lat = position.coords.latitude;
+	lng = position.coords.longitude;
+
+}
 //funzione per prendere la query inserita dall'utente
 function getQueryVariable_q(url_string) {
 	var url = new URL(url_string);
