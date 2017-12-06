@@ -50,20 +50,34 @@ function getQueryVariable(url_string,param) {
 }
 
 function getLocation() {
-	console.log("enter geoloc");
-	if (navigator.geolocation) {
-		return new Promise((resolve, reject) => {
-			navigator.geolocation.getCurrentPosition(showPosition);
-		});
-	} else { 
-		console.log("Geolocation is not supported by this browser.") ;
-	}
+	return new Promise(
+		function(resolve,reject){
+			console.log("enter geoloc");
+			if (navigator.geolocation) {
+				navigator.geolocation.getCurrentPosition(showPosition);
+				console.log("done with navigator");
+				
+			} else { 
+				console.log("Geolocation is not supported by this browser.") ;
+			}
+			//setTimeout(function(){console.log("lat = "+ lat + "   lng= "+lng);},3000);
+			resolve("finito dc");
+		}
+	);
+
 }
 
 function showPosition(position) {
-	console.log("enter show position");
-	lat = position.coords.latitude;
-	lng = position.coords.longitude;
+	return new Promise(
+		function(resolve,reject){
+			console.log("enter show position");
+			lat = position.coords.latitude;
+			lng = position.coords.longitude;
+
+			resolve("una sega");
+		}
+	);
+		
 
 }
 //funzione per prendere la query inserita dall'utente
