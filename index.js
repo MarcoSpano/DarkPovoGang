@@ -30,7 +30,7 @@ var povo ={
     "3" : "povo B piano terra",
 }
 
-function getData(sede){
+/*function getData(sede){
 	let rooms = [];
 	let now = new Date();
 	let day = now.getDate();
@@ -58,7 +58,23 @@ function getData(sede){
 	.catch(error => {
 			console.log("Errore nel parsing json: "+error);
 	});
-}   
+}   */
+
+function getData(sede) {
+    return new Promise((resolve, reject) => {
+        url = "http://localhost:8080/sede/"+ sede;
+        fetch(url)
+        .then(data => {
+            return data.json();
+        })
+        .then(body => {
+            resolve(body);
+        })
+        .catch(error => {
+            reject(error);
+        })
+    });
+}
 
 function getDataAndMaps(sede, id, value){
 
