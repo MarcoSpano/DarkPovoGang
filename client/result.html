@@ -45,19 +45,58 @@
 				case "help": location.href = "index.html?q=help";
 			}
 			url = "http://localhost:8080/sede/"+ sede;
-		} else if(geoloc != null){
-			getLocation().then(() => {
-				console.log("lat = "+ lat + "    lgn = "+lng);
+			console.log("url before jquery = "+url);
+			$.getJSON(url, function (data) {
+				$.each(data, function (key, val) {
+					if (val.orario[0]) {
+						$("#command_table").append("<tr><td>" + val.NomeAula + "</td><td>ora</td><td>" + val.orario[0].from + "</td></tr>");
+					}
+					else {
+						$("#command_table").append("<tr><td>" + val.NomeAula + "</td><td>ora</td><td>fine giornata</td></tr>");
+					}
+
+				});
 			});
-			
+
+		} 
+		else if(geoloc != null)
+		{		
+			getLocation()
+			.then((dc)=>
+			{
+				setTimeout(function(){
+					console.log("entro in .then");
+					url = "http://localhost:8080/room?lat=" + lat + "&lng=" + lng;
+					console.log("url = "+url); 
+					$.getJSON(url, function (data) 
+					{
+						$.each(data, function (key, val) 
+						{
+							if (val.orario[0]) 
+							{
+								$("#command_table").append("<tr><td>" + val.NomeAula + "</td><td>ora</td><td>" + val.orario[0].from + "</td></tr>");
+							}
+							else 
+							{
+								$("#command_table").append("<tr><td>" + val.NomeAula + "</td><td>ora</td><td>fine giornata</td></tr>");
+							}
+
+						});
+					});
+				},1000);
+				
+			}).catch((err)=>{
+				console.log("promise error!!"+err);
+			});
 			//url = "http://localhost:8080/room?lat=" + lat + "&lng=" + lng;
+			
 		}
 		else {
 			location.href = "index.html?q=dc";
 
 		}
 		
-		console.log("url before jquery = "+url);
+		/*console.log("url before jquery = "+url);
 		url = "http://localhost:8080/sede/" + sede;
 		$.getJSON(url, function (data) {
 			$.each(data, function (key, val) {
@@ -69,7 +108,7 @@
 				}
 
 			});
-		});
+		});*/
 
 
 	</script>
