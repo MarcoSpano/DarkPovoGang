@@ -26,7 +26,7 @@
 		let lat, lng, url;
 		//script per creare la tabella degli orari
 		var sede = getQueryVariable_q(window.location.href);
-		var geo = getQueryVariable_geoloc(window.location.href);
+		var geoloc = getQueryVariable_geoloc(window.location.href);
 		if (sede != null) {
 			sede = sede.replace("%20", " ");
 			switch (sede) {
@@ -44,26 +44,20 @@
 				case "socio": sede = "E0601"; break;
 				case "help": location.href = "index.html?q=help";
 			}
+			url = "http://localhost:8080/sede/"+ sede;
+		} else if(geoloc != null){
+			getLocation().then(() => {
+				console.log("lat = "+ lat + "    lgn = "+lng);
+			});
+			
+			//url = "http://localhost:8080/room?lat=" + lat + "&lng=" + lng;
 		}
 		else {
 			location.href = "index.html?q=dc";
 
 		}
-
-
-		/*if(geoloc != null)
-		{
-			if (navigator.geolocation) {
-				navigator.geolocation.getCurrentPosition(function(position){
-					lat = position.coords.latitude;
-					lng = position.coords.longitude;
-				});
-			}
-			url = "http://localhost:8080/room?lat=" + lat + "&lng=" + lng;
-		}
-		else{
-			url = "http://localhost:8080/sede/"+ sede;
-		}*/
+		
+		console.log("url before jquery = "+url);
 		url = "http://localhost:8080/sede/" + sede;
 		$.getJSON(url, function (data) {
 			$.each(data, function (key, val) {
@@ -228,7 +222,6 @@
 		document.getElementById("nome_polo").innerHTML = name;
 
 	</script>
-
 </body>
 
 </html>
