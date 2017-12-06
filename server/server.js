@@ -4,7 +4,7 @@ const request = require('request');
 const cors = require('cors');
 const utilities = require('./utilities');
 const fetch = require("node-fetch");
-//const geolib = require("geolib");
+const datastruc = require('./data')
 const cheerio = require('cheerio');
 const svg2png=require('svg2png');
 const fs=require('pn/fs');
@@ -245,7 +245,7 @@ app.get('/room', (req, res) => {
     let userCoord = {latitude:lat, longitude:lng};
     let nearestLocationInfo =  utilities.getNearestLocation(userCoord);
     let nearestLocation = nearestLocationInfo.key;
-
+    let sede = datastruc.depIdToName[nearestLocation];
     let url;
     if (utilities.inArray(nearestLocation))
     {
@@ -269,6 +269,7 @@ app.get('/room', (req, res) => {
             rooms = utilities.cleanSchedule(rooms);
             rooms = utilities.getFreeRooms(rooms, currentTimestamp);
             rooms = utilities.cleanPastSchedule(rooms, currentTimestamp);
+            rooms[0].sede = sede; //Solo il primo elemento avrà il campo sede che servirà per cambiare il titolo alla pagina
             res.json(rooms); //Get the list of rooms with events that day and the hours in which they are busy.
         })
         .catch(error => {
