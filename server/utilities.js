@@ -167,6 +167,7 @@ function getMaps(rooms,sede, value){
 }
 
 function getRoomList(events) {
+    console.log(events);
     if(events === undefined) {
         throw new Error('No parameter inserted');
     }
