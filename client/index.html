@@ -190,14 +190,11 @@
 	<script type="text/javascript">
 
 		var par = getQueryVariable_q(window.location.href);
-		console.log(par);
 		if (par === "help") {
 			console.log("par = help")
 			showCommand()
 		}
 		else if (par === "dc") {
-			console.log("dc");
-			//alert("Wrong input");
 			var popup = document.getElementById("myPopup");
 			popup.classList.toggle("show");
 			delay(5000).then(() => { popup.classList.toggle("close"); });

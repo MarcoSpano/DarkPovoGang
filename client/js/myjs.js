@@ -48,39 +48,40 @@ function getQueryVariable(url_string,param) {
 	return null;
 }
 
+//Non utilizzata
 function getLocation() {
 	return new Promise(
 		function(resolve,reject){
 			if (navigator.geolocation) {
-				navigator.geolocation.getCurrentPosition(showPosition);
+				navigator.geolocation.getCurrentPosition((pos) => {
+					resolve(showPosition1(pos));
+				});
 			} else { 
 				console.log("Geolocation is not supported by this browser.") ;
+				reject();
 			}
-			//setTimeout(function(){console.log("lat = "+ lat + "   lng= "+lng);},3000);
-			resolve("finito dc");
 		}
 	);
-
 }
 
+//Non utilizzata
 function showPosition(position) {
 	return new Promise(
 		function(resolve,reject){
 			console.log("enter show position");
 			lat = position.coords.latitude;
 			lng = position.coords.longitude;
+			let pos = {'lat':lat, 'lng':lng};
 
-			resolve("una sega");
+			resolve(pos);
 		}
 	);
-		
-
 }
+
 //funzione per prendere la query inserita dall'utente
 function getQueryVariable_q(url_string) {
 	var url = new URL(url_string);
 	var query = url.searchParams.get("q");
-	console.log("getQueryVariable_q = "+query);
 	if(query)
 		if(contains(possibilities,query))
 			return query;
