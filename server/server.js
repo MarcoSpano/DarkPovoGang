@@ -35,12 +35,14 @@ app.get('/nl', (req,res) => {
         console.log(place);
         let code_place = department.department_id[8];
         console.log(code_place);
+
+        res.send(getRoba(code_place));
     
-        fetch('http://localhost:8080/sede/' + code_place)
+        /*fetch('http://localhost:8080/sede/' + code_place)
         .then(body => {
             //var x = JSON.stringify(body)
             res.send(body);
-        });
+        });*/
         //return nlresp;
         //console.log(nlresp);
 
@@ -80,16 +82,13 @@ app.get('/nl', (req,res) => {
             //res.send(map);
             //res.json(rooms); //Get the list of rooms with events that day and the hours in which they are busy.
             */
-        })
-    /*
-        .catch(error => {
-            console.log(error);
-        });
+
+        
     
 
     }).on('error', function(error) {
         console.log(error);
-    }).end();*/
+    }).end();
     //console.log(nlresp);
     //return nlresp;
     /*let place = nlresp.result.parameters.Place;
@@ -165,6 +164,22 @@ app.get('/sede/:sede', (req,res) => {
         });
     }
 });
+
+function getRoba(sede){
+	return new Promise((resolve, reject) => {
+		url = "http://localhost:8080/sede/"+ sede;
+		fetch(url)
+		.then(data => {	
+			return data.json();
+		})
+		.then(body => {
+			resolve(body);
+		})
+		.catch(error => {
+			reject(error);
+		})		
+	});
+}
 
 function naturallanguage(frase) {
     var request = nlapp.textRequest(frase , {
