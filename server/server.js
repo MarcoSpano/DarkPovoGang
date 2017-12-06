@@ -19,8 +19,8 @@ const app = express();
 app.use(cors());
 
 
-app.get('/nl/', (req,res) => {
-    let frase = 'cerco aula a Mesiano';
+app.get('/nl', (req,res) => {
+    let frase = req.query.frase;
     //let nlresp = naturallanguage(stringa);
     //res.json(nlresp);
     //console.log(naturallanguage(stringa));
@@ -28,7 +28,7 @@ app.get('/nl/', (req,res) => {
         sessionId: 'dhbsajbi'
     });
 
-    return request.on('response', function(response) {
+    request.on('response', function(response) {
         //console.log(response);
         var nlresp = {"Place" : response.result.parameters.Place};
         place = nlresp.Place.toLowerCase();
@@ -36,15 +36,15 @@ app.get('/nl/', (req,res) => {
         let code_place = department.department_id[8];
         console.log(code_place);
     
-        /*fetch('http://localhost:8080/sede/' + code_place)
+        fetch('http://localhost:8080/sede/' + code_place)
         .then(body => {
-            var x = JSON.stringify(body)
-            res.send(x);
-        });*/
+            //var x = JSON.stringify(body)
+            res.send(body);
+        });
         //return nlresp;
         //console.log(nlresp);
 
-        let now = new Date();
+        /*let now = new Date();
         let day = now.getDate();
         let month = now.getMonth() + 1;
         let year = now.getFullYear();
@@ -67,7 +67,7 @@ app.get('/nl/', (req,res) => {
             rooms =  utilities.getFreeRooms(rooms, currentTimestamp);
             rooms =  utilities.cleanPastSchedule(rooms, currentTimestamp);
             res.json(rooms); //Get the list of rooms with events that day and the hours in which they are busy.
-            
+            */
             /*//console.log("SECONDO .then");
             let rooms = utilities.getRoomList(events); 
             rooms = utilities.cleanSchedule(rooms);    
@@ -81,6 +81,7 @@ app.get('/nl/', (req,res) => {
             //res.json(rooms); //Get the list of rooms with events that day and the hours in which they are busy.
             */
         })
+    /*
         .catch(error => {
             console.log(error);
         });
@@ -88,7 +89,7 @@ app.get('/nl/', (req,res) => {
 
     }).on('error', function(error) {
         console.log(error);
-    }).end();
+    }).end();*/
     //console.log(nlresp);
     //return nlresp;
     /*let place = nlresp.result.parameters.Place;
