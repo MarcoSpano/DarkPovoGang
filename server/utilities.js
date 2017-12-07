@@ -418,12 +418,13 @@ function getFreeRooms4xHours(rooms, hours, currentTimestamp) {
         return "Nessuna aula libera";
     } else {
         rooms.map(room => {
-            let nextLessonTimestamp = room.orario[0].timestamp_from;
-            let secondToNextLesson = nextLessonTimestamp - currentTimestamp;
-
-            if(secondToNextLesson >= hours * 3600) { //Se la prossima lezione è tra più di hours ore
-                ris.push(room);
-            }
+            if(room.orario[0]) {
+                let nextLessonTimestamp = room.orario[0].timestamp_from;
+                let secondToNextLesson = nextLessonTimestamp - currentTimestamp;
+                if(secondToNextLesson >= hours * 3600) { //Se la prossima lezione è tra più di hours ore
+                    ris.push(room);
+                }
+            }        
         });
     }
 
