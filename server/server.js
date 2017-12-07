@@ -7,6 +7,10 @@ const fetch = require("node-fetch");
 //const geolib = require("geolib");
 const map = require('./map');
 
+const datastruc = require('./data')
+const cheerio = require('cheerio');
+const svg2png=require('svg2png');
+const fs=require('pn/fs');
 const apiai = require('apiai');
 var nlapp = apiai("f3673557663f4ae8b3f299c5b9c8f836");
 
@@ -43,6 +47,7 @@ app.get('/sede/:sede', (req,res) => {
         let now = new Date();
         let currentTimestamp = now.getTime() / 1000;
 
+
         let durataOre = 0;
         if(req.query.durataOre) {
             durataOre = req.query.durataOre;
@@ -71,6 +76,7 @@ app.get('/sede/:sede', (req,res) => {
             var map = map.getMaps(rooms, sede); // funzione base: attualmente fa diventare verdi le stanze presenti nel json a Povo A.
             //naturallanguage('cerco aula libera a Povo');
             map.conversionMap(map,res); // ritorna la mappa nel res sotto forma di file PNG. Da riadattare poi per stampare su bot.
+            conversionMap(map,res); // ritorna la mappa nel res sotto forma di file PNG. Da riadattare poi per stampare su bot.
 
             //res.send(map);
             //res.json(rooms); //Get the list of rooms with events that day and the hours in which they are busy.
@@ -134,7 +140,7 @@ app.get('/room', (req, res) => {
     let userCoord = {latitude:lat, longitude:lng};
     let nearestLocationInfo =  utilities.getNearestLocation(userCoord);
     let nearestLocation = nearestLocationInfo.key;
-
+    let sede = datastruc.depIdToName[nearestLocation];
     let url;
     if (utilities.inArray(nearestLocation))
     {
@@ -158,6 +164,7 @@ app.get('/room', (req, res) => {
             rooms = utilities.cleanSchedule(rooms);
             rooms = utilities.getFreeRooms(rooms, currentTimestamp);
             rooms = utilities.cleanPastSchedule(rooms, currentTimestamp);
+            rooms[0].sede = sede; //Solo il primo elemento avrà il campo sede che servirà per cambiare il titolo alla pagina
             res.json(rooms); //Get the list of rooms with events that day and the hours in which they are busy.
         })
         .catch(error => {
