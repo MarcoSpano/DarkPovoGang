@@ -25,7 +25,7 @@
     	console.log("sede = "+sede);
     	console.log("aule = "+aula);
     	//let sede = "E0503";
-    	//let aula = "A101"; 
+    	//let aula = "A101";
     	let url = "http://localhost:8080/schedule/sede/E0503/aula/A105";
 
 		let week = [];
@@ -34,7 +34,7 @@
 		$.getJSON(url,function(data){
 			//console.log(data["orario"][0].from);
 			//dic_tot[k] = val.nomeMateria + "  " + val.nomeProf;
-			
+
 			for (let i = 0; i < 5; i++){
 				let dic_singleDay = {
 		    		'08:00': null,
@@ -63,50 +63,56 @@
 		    		'19:30': null,
 		    		'20:00': null
 		    	};
-				console.log("into the for loop");
-				$.each(data[i]["orario"], function(key,val){
-					console.log("orario giorno "+i+"  "+data[i]["orario"]);
-					for (k in dic_singleDay){
-						if (tmp != k){		
-							if(tmp === null){
+				if(data[i] == "Nessuna lezione oggi in questa aula"){
+					week.push(dic_singleDay);
+				}
+				else
+				{
+					$.each(data[i]["orario"], function(key,val){
+						console.log("in each");					for (k in dic_singleDay){
+							if (tmp != k){
+								if(tmp === null){
+									if(k === val.from.substring(0,5)){
+										tmp = val.to.substring(0,5);
+										name = val.nomeMateria + "  " + val.nomeProf;
+										dic_singleDay[k] = name;
+										/*let hour = {};
+										hour["name"] = val.nomeMateria + " " + val.nomeProf;
+										hour["s"] = val.from.substring(0,5);
+										hour["e"] = val.to.substring(0,5);
+										hours.push(hour);*/
+									}
+
+								}
+								else{		//continuo ad aggiungere la vecchia lezione
+									dic_singleDay[k] = name;
+								}
+							}
+							else{		//prossima lezione
 								if(k === val.from.substring(0,5)){
 									tmp = val.to.substring(0,5);
 									name = val.nomeMateria + "  " + val.nomeProf;
 									dic_singleDay[k] = name;
-									/*let hour = {};
-									hour["name"] = val.nomeMateria + " " + val.nomeProf;
-									hour["s"] = val.from.substring(0,5);
-									hour["e"] = val.to.substring(0,5);
-									hours.push(hour);*/
 								}
-								
-							}
-							else{		//continuo ad aggiungere la vecchia lezione
-								dic_singleDay[k] = name;
+								else{
+									tmp = null;
+									name = null;
+								}
 							}
 						}
-						else{		//prossima lezione
-							if(k === val.from.substring(0,5)){
-								tmp = val.to.substring(0,5);
-								name = val.nomeMateria + "  " + val.nomeProf;
-								dic_singleDay[k] = name;
-							}
-							else{
-								tmp = null;
-								name = null;
-							}
-						}		
-					}
-					//console.log("inizio = "+ val.from.substring(0,5) + "    fine = "+val.to.substring(0,5));
-						
-				});
-				week.push(dic_singleDay);
+						//console.log("inizio = "+ val.from.substring(0,5) + "    fine = "+val.to.substring(0,5));
+
+					});
+					week.push(dic_singleDay);
+				}
 			}
-			/*for(let k = 0; k < week.length; k++){
+
+			for(let k = 0; k < week.length; k++){
 				console.log(week[k]);
-			}*/
+			}
+
 		});
-		
+
     </script>
 </head>
 <body>
@@ -129,7 +135,7 @@
 									<input type="submit" name="submit" style="visibility: hidden;">
 								</div>
 						</form>
-						
+
 					</div>
 				</li>
 				<li><a href="http://www.unitn.it" class="white-text"><i class="material-icons left">school</i>UNITN</a></li>
@@ -167,11 +173,11 @@
 						<th>Venerdì</th>
 					</tr>
 				</thead>
-				<tbody id="schedule_table" style="background-color: #e6e6e6">			
+				<tbody id="schedule_table" style="background-color: #e6e6e6">
 				</tbody>
 			</table>
 		</div>
-		
+
 	</div>
 
 
@@ -183,7 +189,7 @@
 					<p class="grey-text text-lighten-4">We are a team of college students working on this project like it's our full time job. Any amount would help support
 						and continue development on this project and is greatly appreciated.</p>
 				</div>
-	
+
 				<div class="col l3 s12">
 					<h5 class="white-text">Contacts</h5>
 					<ul>
