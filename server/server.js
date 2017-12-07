@@ -243,39 +243,37 @@ app.get('/room', (req, res) => {
     let lng = req.query.lng;
 
     let userCoord = {latitude:lat, longitude:lng};
-    let nearestLocationInfo =  utilities.getNearestLocation(userCoord);
-    let nearestLocation = nearestLocationInfo.key;
+    let nearestLocation =  utilities.getNearestLocation(userCoord);
     let sede = datastruc.depIdToName[nearestLocation];
     let url;
-    if (utilities.inArray(nearestLocation))
-    {
-        let now = new Date();
-        let day = now.getDate();
-        let month = now.getMonth() + 1;
-        let year = now.getFullYear();
+    
+    let now = new Date();
+    let day = now.getDate();
+    let month = now.getMonth() + 1;
+    let year = now.getFullYear();
 
-        url = "https://easyroom.unitn.it/Orario/rooms_call.php?form-type=rooms&sede="+ nearestLocation +"&_lang=it&date=" + day + "-" + month + "-" + year;
-        let currentTimestamp = now.getTime() / 1000;
+    url = "https://easyroom.unitn.it/Orario/rooms_call.php?form-type=rooms&sede="+ nearestLocation +"&_lang=it&date=" + day + "-" + month + "-" + year;
+    let currentTimestamp = now.getTime() / 1000;
 
-        fetch(url)
-        .then(body => {
-            return body.json();
-        })
-        .then(data => {
-            return data.events;
-        })
-        .then(events => {
-            let rooms = utilities.getRoomList(events);
-            rooms = utilities.cleanSchedule(rooms);
-            rooms = utilities.getFreeRooms(rooms, currentTimestamp);
-            rooms = utilities.cleanPastSchedule(rooms, currentTimestamp);
-            rooms[0].sede = sede; //Solo il primo elemento avrà il campo sede che servirà per cambiare il titolo alla pagina
-            res.json(rooms); //Get the list of rooms with events that day and the hours in which they are busy.
-        })
-        .catch(error => {
-            console.log(error);
-        });
-    }
+    fetch(url)
+    .then(body => {
+        return body.json();
+    })
+    .then(data => {
+        return data.events;
+    })
+    .then(events => {
+        let rooms = utilities.getRoomList(events);
+        rooms = utilities.cleanSchedule(rooms);
+        rooms = utilities.getFreeRooms(rooms, currentTimestamp);
+        rooms = utilities.cleanPastSchedule(rooms, currentTimestamp);
+        rooms[0].sede = sede; //Solo il primo elemento avrà il campo sede che servirà per cambiare il titolo alla pagina
+        res.json(rooms); //Get the list of rooms with events that day and the hours in which they are busy.
+    })
+    .catch(error => {
+        console.log(error);
+    });
+    
 
 });
 
