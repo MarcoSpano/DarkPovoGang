@@ -167,7 +167,6 @@ function getMaps(rooms,sede, value){
 }
 
 function getRoomList(events) {
-    console.log(events);
     if(events === undefined) {
         throw new Error('No parameter inserted');
     }
@@ -254,7 +253,7 @@ function getFreeRooms(rooms, timeStamp) {
         //Check if the current time is between 00:00 and 20:00
         else if(rooms[i].orario.length > 0 && (timeStamp > rooms[i].orario[0].timestamp_day && timeStamp < closeTimeStamp)) {
             for(let j = 0; j < rooms[i].orario.length; j++) {
-                if(rooms[i].orario[j].timestamp_from < timeStamp && rooms[i].orario[j].timestamp_to > timeStamp) {
+                if(rooms[i].orario[j].timestamp_from <= timeStamp && rooms[i].orario[j].timestamp_to > timeStamp) {
                     rooms.splice(i, 1);
                     i--;
                     break;
