@@ -20,58 +20,21 @@
     src ="https://maps.googleapis.com/maps/api/js?key=AIzaSyAUlRB23ZhvT108Fa6B5Gs6M5ZAphUaqbA&callback=initMap&sensor=false&v=3&libraries=geometry" >
     </script>-->
     <script type="text/javascript">
-    	//let aula = getQueryVariable(window.location.href,"aula");
-    	//let sede = getQueryVariable(window.location.href,"sede");
-    	let sede = "E0503";
-    	let aula = "A101"; 
-    	
-    	//console.log("try get tha big data man");
-    	//url = "http://localhost:8080/"+ sede + "/" + aula;
-    	
-		/*$.getJSON(url,function(data){
-			$.each(data, function(key, val){
-				if(val.orario[0])
-				{
-					$("#schedule_table").append("<tr><td>8.00</td>"+val.NomeAula+"</td><td>ora</td><td>"+val.orario[0].from+"</td></tr>");
-				}
-				else
-				{
-					$("#schedule_table").append("<tr><td>"+val.NomeAula+"</td><td>ora</td><td>fine giornata</td></tr>");
-				}
+    	let aula = getQueryVariable(window.location.href,"aula");
+    	let sede = getQueryVariable(window.location.href,"sede");
+    	console.log("sede = "+sede);
+    	console.log("aule = "+aula);
+    	//let sede = "E0503";
+    	//let aula = "A101";
+    	let url = "http://localhost:8080/schedule/sede/E0503/aula/A105";
 
-			});
-		});*/
-		/*let hour = {
-			'name': null
-			's': null,
-			'e': null
-		};
-		let hours = [];
-
-
-		//tutti i giorni della settimana per fare le chiamate al server per avere l'orario
-		//di tutta la settimana dell'aula
-		let d = new Date();
-		day = d.getDay();
-		//console.log("oggi è: "+day+"  "+(day-1).days().ago());
-		for(let i = day - 1; i > 0; i--){		//giorni prima di oggi fino a lunedì
-			console.log((i).days().ago());
-		}
-		for(let j = 0; j < (6 - day); j++){
-			console.log((j).days().fromNow());
-		}
-
-
-
-		*/
-		let url = "http://localhost:8080/schedule/sede/E0503/aula/A101";
 		let week = [];
 		let tmp = null;		//orario di fine della scorsa lezione
 		let name;			//nome della scorsa lezione
 		$.getJSON(url,function(data){
 			//console.log(data["orario"][0].from);
 			//dic_tot[k] = val.nomeMateria + "  " + val.nomeProf;
-			
+
 			for (let i = 0; i < 5; i++){
 				let dic_singleDay = {
 		    		'08:00': null,
@@ -107,7 +70,7 @@
 				{
 					$.each(data[i]["orario"], function(key,val){
 						console.log("in each");					for (k in dic_singleDay){
-							if (tmp != k){		
+							if (tmp != k){
 								if(tmp === null){
 									if(k === val.from.substring(0,5)){
 										tmp = val.to.substring(0,5);
@@ -119,7 +82,7 @@
 										hour["e"] = val.to.substring(0,5);
 										hours.push(hour);*/
 									}
-									
+
 								}
 								else{		//continuo ad aggiungere la vecchia lezione
 									dic_singleDay[k] = name;
@@ -135,21 +98,21 @@
 									tmp = null;
 									name = null;
 								}
-							}		
+							}
 						}
 						//console.log("inizio = "+ val.from.substring(0,5) + "    fine = "+val.to.substring(0,5));
-							
+
 					});
 					week.push(dic_singleDay);
 				}
 			}
-			
+
 			for(let k = 0; k < week.length; k++){
 				console.log(week[k]);
 			}
-			
+
 		});
-		
+
     </script>
 </head>
 <body>
@@ -172,7 +135,7 @@
 									<input type="submit" name="submit" style="visibility: hidden;">
 								</div>
 						</form>
-						
+
 					</div>
 				</li>
 				<li><a href="http://www.unitn.it" class="white-text"><i class="material-icons left">school</i>UNITN</a></li>
@@ -210,11 +173,11 @@
 						<th>Venerdì</th>
 					</tr>
 				</thead>
-				<tbody id="schedule_table" style="background-color: #e6e6e6">			
+				<tbody id="schedule_table" style="background-color: #e6e6e6">
 				</tbody>
 			</table>
 		</div>
-		
+
 	</div>
 
 
@@ -226,7 +189,7 @@
 					<p class="grey-text text-lighten-4">We are a team of college students working on this project like it's our full time job. Any amount would help support
 						and continue development on this project and is greatly appreciated.</p>
 				</div>
-	
+
 				<div class="col l3 s12">
 					<h5 class="white-text">Contacts</h5>
 					<ul>
