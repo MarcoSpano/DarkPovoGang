@@ -4,6 +4,7 @@ const request = require('request');
 const cors = require('cors');
 const utilities = require('./utilities');
 const fetch = require("node-fetch");
+const department = require("./data.js");
 //const geolib = require("geolib");
 const map = require('./map');
 
@@ -14,12 +15,52 @@ const fs=require('pn/fs');
 const apiai = require('apiai');
 var nlapp = apiai("f3673557663f4ae8b3f299c5b9c8f836");
 
+var povo = ['/img/Povo1PT.svg','/img/Povo1P1.svg','/img/Povo2PT.svg','/img/Povo2P1.svg']
 
 var port = process.env.PORT || 8080;
 
 const app = express();
 app.use(cors());
 
+//funzione che data una stringa estrae i dati (place,ecc.) e redirige la richiesta
+app.get('/nl', (req,res) => {
+    let frase = req.query.frase; //frase ricevuta
+    var request = nlapp.textRequest(frase , {
+        sessionId: '0' //non ci serve, non abbiamo bisogno di creare dialoghi
+    });
+
+    request.on('response', function(response) {
+        //dati estratti dalla stringa
+        var nlresp = {"action" : response.result.action,
+            "Place" : response.result.parameters.Place,
+            "date" : response.result.parameters.date,
+            "time" : response.result.parameters.time};
+
+        let urldate = '';
+        let urltime = '';
+
+        if(nlresp.date != undefined) urldate = 'date=' + nlresp.date;
+        if(nlresp.time != undefined) urltime = 'time=' + nlresp.time;
+
+        if(nlresp.action === "return.aulalibera") {
+            if(nlresp.Place != null) {
+                place = nlresp.Place.toLowerCase();
+                let code_place = department.dep_id[place];
+
+                res.redirect('http://localhost:8080/sede/' + code_place + '?' + urldate + '&' + urltime);
+            } else res.redirect('http://localhost:8080/');
+
+        }
+        else res.redirect('http://localhost:8080/');
+
+        
+
+
+    }).on('error', function(error) {
+        console.log(error);
+    }).end();
+
+});
 
 //funzione che data sede e giorno restituisce le aule libere quel giorno
 app.get('/sede/:sede', (req,res) => {
@@ -52,7 +93,7 @@ app.get('/sede/:sede', (req,res) => {
         if(req.query.durataOre) {
             durataOre = req.query.durataOre;
         }
-        
+
         fetch(url)
         .then(body => {
             return body.json();
@@ -88,22 +129,6 @@ app.get('/sede/:sede', (req,res) => {
     }
 });
 
-function naturallanguage(frase) {
-    var request = nlapp.textRequest(frase , {
-        sessionId: 'dhbsajbi'
-    });
-
-    request.on('response', function(response) {
-        console.log(response);
-    });
-
-    request.on('error', function(error) {
-        console.log(error);
-    });
-
-    request.end();
-}
-
 
 app.get('/schedule/sede/:sede/aula/:aula', (req, res) => {
     let sede = req.params.sede;  //Id della sede
@@ -138,39 +163,37 @@ app.get('/room', (req, res) => {
     let lng = req.query.lng;
 
     let userCoord = {latitude:lat, longitude:lng};
-    let nearestLocationInfo =  utilities.getNearestLocation(userCoord);
-    let nearestLocation = nearestLocationInfo.key;
+    let nearestLocation =  utilities.getNearestLocation(userCoord);
     let sede = datastruc.depIdToName[nearestLocation];
     let url;
-    if (utilities.inArray(nearestLocation))
-    {
-        let now = new Date();
-        let day = now.getDate();
-        let month = now.getMonth() + 1;
-        let year = now.getFullYear();
 
-        url = "https://easyroom.unitn.it/Orario/rooms_call.php?form-type=rooms&sede="+ nearestLocation +"&_lang=it&date=" + day + "-" + month + "-" + year;
-        let currentTimestamp = now.getTime() / 1000;
+    let now = new Date();
+    let day = now.getDate();
+    let month = now.getMonth() + 1;
+    let year = now.getFullYear();
 
-        fetch(url)
-        .then(body => {
-            return body.json();
-        })
-        .then(data => {
-            return data.events;
-        })
-        .then(events => {
-            let rooms = utilities.getRoomList(events);
-            rooms = utilities.cleanSchedule(rooms);
-            rooms = utilities.getFreeRooms(rooms, currentTimestamp);
-            rooms = utilities.cleanPastSchedule(rooms, currentTimestamp);
-            rooms[0].sede = sede; //Solo il primo elemento avrà il campo sede che servirà per cambiare il titolo alla pagina
-            res.json(rooms); //Get the list of rooms with events that day and the hours in which they are busy.
-        })
-        .catch(error => {
-            console.log(error);
-        });
-    }
+    url = "https://easyroom.unitn.it/Orario/rooms_call.php?form-type=rooms&sede="+ nearestLocation +"&_lang=it&date=" + day + "-" + month + "-" + year;
+    let currentTimestamp = now.getTime() / 1000;
+
+    fetch(url)
+    .then(body => {
+        return body.json();
+    })
+    .then(data => {
+        return data.events;
+    })
+    .then(events => {
+        let rooms = utilities.getRoomList(events);
+        rooms = utilities.cleanSchedule(rooms);
+        rooms = utilities.getFreeRooms(rooms, currentTimestamp);
+        rooms = utilities.cleanPastSchedule(rooms, currentTimestamp);
+        rooms[0].sede = sede; //Solo il primo elemento avrà il campo sede che servirà per cambiare il titolo alla pagina
+        res.json(rooms); //Get the list of rooms with events that day and the hours in which they are busy.
+    })
+    .catch(error => {
+        console.log(error);
+    });
+
 
 });
 

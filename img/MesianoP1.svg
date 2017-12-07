@@ -304,7 +304,7 @@ c12 -37 17 -40 40 -25 13 9 13 11 0 19 -10 7 -17 6 -22 -2 -4 -7 -8 5 -8 26 0
        x="23"> 1B
 </text>
 <rect  style="stroke:#1a1a1a;stroke-width:1.4;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       id="1c"
+       id="1d"
        fill="red"
        y="74"
        x="45"
@@ -313,9 +313,9 @@ c12 -37 17 -40 40 -25 13 9 13 11 0 19 -10 7 -17 6 -22 -2 -4 -7 -8 5 -8 26 0
 <text
        style="font-style:normal;font-weight:normal;font-size:14px;line-height:125%;font-family:Verdana;letter-spacing:0px;word-spacing:0px;fill-opacity:1;fill-rule:evenodd;stroke:none"
        xml:space="preserve"
-       id="1ct"
+       id="1dt"
        y="94"
-       x="48"> 1C
+       x="48"> 1D
 </text>
 <rect  style="stroke:#1a1a1a;stroke-width:1.4;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="1a"
@@ -332,7 +332,7 @@ c12 -37 17 -40 40 -25 13 9 13 11 0 19 -10 7 -17 6 -22 -2 -4 -7 -8 5 -8 26 0
        x="75"> 1A
 </text>
 <rect  style="stroke:#1a1a1a;stroke-width:1.4;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       id="1m"
+       id="t3"
        fill="red"
        y="43"
        x="173"
@@ -341,12 +341,12 @@ c12 -37 17 -40 40 -25 13 9 13 11 0 19 -10 7 -17 6 -22 -2 -4 -7 -8 5 -8 26 0
 <text
        style="font-style:normal;font-weight:normal;font-size:14px;line-height:125%;font-family:Verdana;letter-spacing:0px;word-spacing:0px;fill-opacity:1;fill-rule:evenodd;stroke:none"
        xml:space="preserve"
-       id="1mt"
+       id="t3t"
        y="59"
-       x="181"> 1M
+       x="181"> T3
 </text>
 <rect  style="stroke:#1a1a1a;stroke-width:1.4;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       id="1n"
+       id="t4"
        fill="red"
        y="43"
        x="212"
@@ -355,9 +355,9 @@ c12 -37 17 -40 40 -25 13 9 13 11 0 19 -10 7 -17 6 -22 -2 -4 -7 -8 5 -8 26 0
 <text
        style="font-style:normal;font-weight:normal;font-size:14px;line-height:125%;font-family:Verdana;letter-spacing:0px;word-spacing:0px;fill-opacity:1;fill-rule:evenodd;stroke:none"
        xml:space="preserve"
-       id="1nt"
+       id="t4t"
        y="59"
-       x="221"> 1N
+       x="221"> T4
 </text>
 <rect  style="stroke:#1a1a1a;stroke-width:1.4;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="1p"
