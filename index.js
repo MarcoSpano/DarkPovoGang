@@ -1,5 +1,5 @@
 var TelegramBot = require('node-telegram-bot-api'),
-		telegram = new TelegramBot("483774152:AAFNnHRXFF_LHCQGm7fRpWDspwMMPVcPRA0", { polling: true });
+		telegram = new TelegramBot("469539955:AAFC1PpLie8atJezNoKPmkqpAwyxhoQI31I", { polling: true });
 const express = require('express');
 const path = require("path");
 const request = require('request');
