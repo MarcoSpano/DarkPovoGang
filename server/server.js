@@ -4,6 +4,7 @@ const request = require('request');
 const cors = require('cors');
 const utilities = require('./utilities');
 const fetch = require("node-fetch");
+const department = require("./data.js");
 //const geolib = require("geolib");
 const map = require('./map');
 
@@ -21,6 +22,45 @@ var port = process.env.PORT || 8080;
 const app = express();
 app.use(cors());
 
+//funzione che data una stringa estrae i dati (place,ecc.) e redirige la richiesta
+app.get('/nl', (req,res) => {
+    let frase = req.query.frase; //frase ricevuta
+    var request = nlapp.textRequest(frase , {
+        sessionId: '0' //non ci serve, non abbiamo bisogno di creare dialoghi
+    });
+
+    request.on('response', function(response) {
+        //dati estratti dalla stringa
+        var nlresp = {"action" : response.result.action,
+            "Place" : response.result.parameters.Place,
+            "date" : response.result.parameters.date,
+            "time" : response.result.parameters.time};
+
+        let urldate = '';
+        let urltime = '';
+
+        if(nlresp.date != undefined) urldate = 'date=' + nlresp.date;
+        if(nlresp.time != undefined) urltime = 'time=' + nlresp.time;
+
+        if(nlresp.action === "return.aulalibera") {
+            if(nlresp.Place != null) {
+                place = nlresp.Place.toLowerCase();
+                let code_place = department.dep_id[place];
+
+                res.redirect('http://localhost:8080/sede/' + code_place + '?' + urldate + '&' + urltime);
+            } else res.redirect('http://localhost:8080/');
+
+        }
+        else res.redirect('http://localhost:8080/');
+
+        
+
+
+    }).on('error', function(error) {
+        console.log(error);
+    }).end();
+
+});
 
 //funzione che data sede e giorno restituisce le aule libere quel giorno
 app.get('/sede/:sede', (req,res) => {
@@ -88,22 +128,6 @@ app.get('/sede/:sede', (req,res) => {
         });
     }
 });
-
-function naturallanguage(frase) {
-    var request = nlapp.textRequest(frase , {
-        sessionId: 'dhbsajbi'
-    });
-
-    request.on('response', function(response) {
-       // console.log(response);
-    });
-
-    request.on('error', function(error) {
-        console.log(error);
-    });
-
-    request.end();
-}
 
 
 app.get('/schedule/sede/:sede/aula/:aula', (req, res) => {
