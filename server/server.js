@@ -14,6 +14,7 @@ const fs=require('pn/fs');
 const apiai = require('apiai');
 var nlapp = apiai("f3673557663f4ae8b3f299c5b9c8f836");
 
+var povo = ['/img/Povo1PT.svg','/img/Povo1P1.svg','/img/Povo2PT.svg','/img/Povo2P1.svg']
 
 var port = process.env.PORT || 8080;
 
@@ -94,7 +95,7 @@ function naturallanguage(frase) {
     });
 
     request.on('response', function(response) {
-        console.log(response);
+       // console.log(response);
     });
 
     request.on('error', function(error) {
@@ -104,6 +105,7 @@ function naturallanguage(frase) {
     request.end();
 }
 
+<<<<<<< HEAD
 
 app.get('/schedule/sede/:sede/aula/:aula', (req, res) => {
     let sede = req.params.sede;  //Id della sede
@@ -114,6 +116,70 @@ app.get('/schedule/sede/:sede/aula/:aula', (req, res) => {
     let risultato = [];
 
     let monday = utilities.getMonday(now);
+=======
+function getMaps(rooms,sede, value){
+    var output;
+    var $;
+    
+    switch(sede){
+        case 'E0503':
+        
+        switch(value){
+            case 1:  //Povo A piano P1
+                $ = cheerio.load(fs.readFileSync(path.join(__dirname+'/../img/Povo1P1.svg')));
+                for(i = 0; i<rooms.length;i++){
+                    if(rooms[i].room <= 437 && rooms[i].room >= 414){
+                        var id = 201 + (437 - rooms[i].room) ;
+                        var stringa = "#a" + id;
+                        var rect = $(stringa);
+                        rect.attr('fill','green');
+                    }
+                } 
+                output =  $.html();
+            break;
+            case 0: //Povo A piano PT
+                $ = cheerio.load(fs.readFileSync(path.join(__dirname+'/../img/Povo1PT.svg')));
+                for(i = 0; i<rooms.length;i++){
+                    if(rooms[i].room <= 445 && rooms[i].room >= 438){
+                        var id = 101 + (445 - rooms[i].room) ;
+                        var stringa = "#a" + id;
+                        var rect = $(stringa);
+                        rect.attr('fill','green');
+                    }
+                }
+                output =  $.html();
+            break;
+            case 2:   //Povo B piano PT
+                $ = cheerio.load(fs.readFileSync(path.join(__dirname+'/../img/Povo2PT.svg')));
+                for(i = 0; i<rooms.length;i++){
+                    if(rooms[i].room <= 408 && rooms[i].room >= 404){
+                        var id = 101 + (408 - rooms[i].room) ;
+                        var stringa = "#b" + id;
+                        var rect = $(stringa);
+                        rect.attr('fill','green');
+                    }
+                }
+            output=  $.html();
+            break;
+            case 3:   //Povo B piano P1
+                $ = cheerio.load(fs.readFileSync(path.join(__dirname+'/../img/Povo2P1.svg')));
+                for(i = 0; i<rooms.length;i++){
+                    if(rooms[i].room <= 403 && rooms[i].room >= 402){
+                        var id = 106 + (403 - rooms[i].room) ;
+                        var stringa = "#b" + id;
+                        var rect = $(stringa);
+                        rect.attr('fill','green');
+                    }
+                }
+                output = $.html();
+            break;
+        }
+
+        break;
+    }
+        //console.log(output);     
+    return output;
+>>>>>>> TelegramBotV2
 
     let currentDay = monday;
 
