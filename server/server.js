@@ -18,89 +18,27 @@ var port = process.env.PORT || 8080;
 const app = express();
 app.use(cors());
 
-
+//funzione che data una stringa estrae i dati (place,ecc.) e redirige la richiesta
 app.get('/nl', (req,res) => {
-    let frase = req.query.frase;
-    //let nlresp = naturallanguage(stringa);
-    //res.json(nlresp);
-    //console.log(naturallanguage(stringa));
+    let frase = req.query.frase; //frase ricevuta
     var request = nlapp.textRequest(frase , {
-        sessionId: 'dhbsajbi'
+        sessionId: '0' //non ci serve, non abbiamo bisogno di creare dialoghi
     });
 
     request.on('response', function(response) {
-        //console.log(response);
+        //dati estratti dalla stringa
         var nlresp = {"Place" : response.result.parameters.Place};
+
         place = nlresp.Place.toLowerCase();
-        console.log(place);
-        let code_place = department.department_id[8];
-        console.log(code_place);
-
-        res.send(getRoba(code_place));
-    
-        /*fetch('http://localhost:8080/sede/' + code_place)
-        .then(body => {
-            //var x = JSON.stringify(body)
-            res.send(body);
-        });*/
-        //return nlresp;
-        //console.log(nlresp);
-
-        /*let now = new Date();
-        let day = now.getDate();
-        let month = now.getMonth() + 1;
-        let year = now.getFullYear();
-        url = "https://easyroom.unitn.it/Orario/rooms_call.php?form-type=rooms&sede="+ code_place +"&_lang=it&date=" + day + "-" + month + "-" + year;
-
-        now = new Date();
-        let currentTimestamp = now.getTime() / 1000;
-        
-
-        fetch(url)
-        .then(body => {
-            return body.json();
-        })
-        .then(data => {
-            return data.events;
-        })
-        .then(events => {
-            let rooms = utilities.getRoomList(events); 
-            rooms =  utilities.cleanSchedule(rooms);    
-            rooms =  utilities.getFreeRooms(rooms, currentTimestamp);
-            rooms =  utilities.cleanPastSchedule(rooms, currentTimestamp);
-            res.json(rooms); //Get the list of rooms with events that day and the hours in which they are busy.
-            */
-            /*//console.log("SECONDO .then");
-            let rooms = utilities.getRoomList(events); 
-            rooms = utilities.cleanSchedule(rooms);    
-            rooms = utilities.getFreeRooms(rooms, currentTimestamp);
-            rooms = utilities.cleanPastSchedule(rooms, currentTimestamp);
-            var map = getMaps(rooms, sede); // funzione base: attualmente fa diventare verdi le stanze presenti nel json a Povo A.
-            //naturallanguage('cerco aula libera a Povo');
-            conversionMap(map,res); // ritorna la mappa nel res sotto forma di file PNG. Da riadattare poi per stampare su bot.
-             
-            //res.send(map);
-            //res.json(rooms); //Get the list of rooms with events that day and the hours in which they are busy.
-            */
+        let code_place = department.dep_id[place];
 
         
-    
+        res.redirect('http://localhost:8080/sede/' + code_place);
+
 
     }).on('error', function(error) {
         console.log(error);
     }).end();
-    //console.log(nlresp);
-    //return nlresp;
-    /*let place = nlresp.result.parameters.Place;
-    console.log(place);
-    place = place.toLowerCase();
-    let code_place = department.department_id['place'];
-    console.log(code_place);
-
-    fetch('localhost:8080/sede/' + code_place)
-    .then(body => {
-        res.json(body);
-    });*/
 
 });
 
@@ -179,23 +117,6 @@ function getRoba(sede){
 			reject(error);
 		})		
 	});
-}
-
-function naturallanguage(frase) {
-    var request = nlapp.textRequest(frase , {
-        sessionId: 'dhbsajbi'
-    });
-
-    return request.on('response', function(response) {
-        console.log(response);
-        var nlresp = {"Place" : response.result.parameters.Place};
-        //return nlresp;
-        console.log(nlresp);
-    }).on('error', function(error) {
-        console.log(error);
-    }).end();
-    //console.log(nlresp);
-    //return nlresp;
 }
 
 function getMaps(rooms,sede){
