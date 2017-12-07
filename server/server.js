@@ -68,12 +68,21 @@ app.get('/sede/:sede', (req,res) => {
     let sede;
     if (utilities.inArray(req.params.sede))
     {
+        let timeStamp;
         sede = req.params.sede;
-        if (req.query.day&&req.query.month)     //se nella request ci sono i parametri day,month,year
+        if (req.query.date != undefined && req.query.time != undefined)       //se nella request ci sono i parametri day,month,year
         {
-            let day = req.query.day;
-            let month = req.query.month;
-            let year = req.query.year;
+            let datePar = req.query.date;
+            let date = new Date(datePar);
+            let day = date.getDate();
+            let month = date.getMonth() + 1;
+            let year = date.getFullYear();
+
+            let time = req.query.time;
+            let timeString = time.split(':');
+            date.setHours(parseInt(timeString[0]));
+            date.setMinutes(parseInt(timeString[1]));
+            timeStamp = date.getTime() / 1000;
             url = "https://easyroom.unitn.it/Orario/rooms_call.php?form-type=rooms&sede="+ sede +"&_lang=it&date=" + day + "-" + month + "-" + year;
         }
         else        //se nella request non ci sono i parametri day,month,year significa "in questo momento"
@@ -82,12 +91,9 @@ app.get('/sede/:sede', (req,res) => {
             let day = now.getDate();
             let month = now.getMonth() + 1;
             let year = now.getFullYear();
+            timeStamp = now.getTime() / 1000;
             url = "https://easyroom.unitn.it/Orario/rooms_call.php?form-type=rooms&sede="+ sede +"&_lang=it&date=" + day + "-" + month + "-" + year;
         }
-
-        let now = new Date();
-        let currentTimestamp = now.getTime() / 1000;
-
 
         let durataOre = 0;
         if(req.query.durataOre) {
@@ -104,24 +110,12 @@ app.get('/sede/:sede', (req,res) => {
         .then(events => {
             let rooms = utilities.getRoomList(events);
             rooms =  utilities.cleanSchedule(rooms);
-            rooms =  utilities.getFreeRooms(rooms, currentTimestamp);
-            rooms =  utilities.cleanPastSchedule(rooms, currentTimestamp);
-            rooms = utilities.getFreeRooms4xHours(rooms,durataOre,currentTimestamp);
+            rooms =  utilities.getFreeRooms(rooms, timeStamp);
+            rooms =  utilities.cleanPastSchedule(rooms, timeStamp);
+            if(durataOre > 0) {
+                rooms = utilities.getFreeRooms4xHours(rooms,durataOre,timeStamp);
+            }         
             res.json(rooms); //Get the list of rooms with events that day and the hours in which they are busy.
-
-            /*//console.log("SECONDO .then");
-            let rooms = utilities.getRoomList(events);
-            rooms = utilities.cleanSchedule(rooms);
-            rooms = utilities.getFreeRooms(rooms, currentTimestamp);
-            rooms = utilities.cleanPastSchedule(rooms, currentTimestamp);
-            var map = map.getMaps(rooms, sede); // funzione base: attualmente fa diventare verdi le stanze presenti nel json a Povo A.
-            //naturallanguage('cerco aula libera a Povo');
-            map.conversionMap(map,res); // ritorna la mappa nel res sotto forma di file PNG. Da riadattare poi per stampare su bot.
-            conversionMap(map,res); // ritorna la mappa nel res sotto forma di file PNG. Da riadattare poi per stampare su bot.
-
-            //res.send(map);
-            //res.json(rooms); //Get the list of rooms with events that day and the hours in which they are busy.
-            */
         })
         .catch(error => {
             console.log(error);
