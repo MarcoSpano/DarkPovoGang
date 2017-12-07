@@ -27,13 +27,29 @@ app.get('/nl', (req,res) => {
 
     request.on('response', function(response) {
         //dati estratti dalla stringa
-        var nlresp = {"Place" : response.result.parameters.Place};
+        var nlresp = {"action" : response.result.action,
+            "Place" : response.result.parameters.Place,
+            "date" : response.result.parameters.date,
+            "time" : response.result.parameters.time};
 
-        place = nlresp.Place.toLowerCase();
-        let code_place = department.dep_id[place];
+        let urldate = '';
+        let urltime = '';
+
+        if(nlresp.date != undefined) urldate = 'date=' + nlresp.date;
+        if(nlresp.time != undefined) urltime = 'time=' + nlresp.time;
+
+        if(nlresp.action === "return.aulalibera") {
+            if(nlresp.Place != null) {
+                place = nlresp.Place.toLowerCase();
+                let code_place = department.dep_id[place];
+
+                res.redirect('http://localhost:8080/sede/' + code_place + '?' + urldate + '&' + urltime);
+            } else res.redirect('http://localhost:8080/');
+
+        }
+        else res.redirect('http://localhost:8080/');
 
         
-        res.redirect('http://localhost:8080/sede/' + code_place);
 
 
     }).on('error', function(error) {
