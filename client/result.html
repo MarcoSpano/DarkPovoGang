@@ -188,15 +188,21 @@
 			}
 			url = "http://localhost:8080/sede/"+ sede;
 			$.getJSON(url, function (data) {
-				$.each(data, function (key, val) {
-					if (val.orario[0]) {
-						$("#command_table").append("<tr><td>" + val.NomeAula + "</td><td>ora</td><td>" + val.orario[0].from + "</td></tr>");
-					}
-					else {
-						$("#command_table").append("<tr><td>" + val.NomeAula + "</td><td>ora</td><td>fine giornata</td></tr>");
-					}
+				if(data == "Nessuna aula libera"){
+					$("#command_table").append("<tr><td>Nessuna aula libera</td><td></td><td></td></tr>");
+				}
+				else{
+					$.each(data, function (key, val) {
+						if (val.orario[0]) {
+							$("#command_table").append("<tr><td>" + val.NomeAula + "</td><td>ora</td><td>" + val.orario[0].from + "</td></tr>");
+						}
+						else {
+							$("#command_table").append("<tr><td>" + val.NomeAula + "</td><td>ora</td><td>fine giornata</td></tr>");
+						}
 
-				});
+					});
+				}
+				
 			});
 		} 
 		else if(geoloc != null)
