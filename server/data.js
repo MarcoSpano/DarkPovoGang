@@ -8,6 +8,17 @@ var department_id =[("economia","E0101"),
 ("scienze cognitive","E0705"),
 ("povo","E0503")];
 
+var depIdToName = {
+    'E0101': 'economia',
+    'E0801': 'lettere',
+    'E0801': 'filosofia',
+    'E0301': 'ingegneria',
+    'E0201': 'giurisprudenza',
+    'E0601': 'sociologia',
+    'E0705': 'scienze cognitive',
+    'E0503': 'povo'
+}
+
 var dep_coordinates = {
 "E0601" : {latitude:46.06666060000001, longitude:11.1196512},
 "E0705" : {latitude:45.89370539999999, longitude:11.0435276},
@@ -18,4 +29,4 @@ var dep_coordinates = {
 "E0503" : {latitude:46.067012, longitude:11.1499029}
 };
 
-module.exports = {department_id, dep_coordinates};
+module.exports = {department_id, dep_coordinates, depIdToName};
