@@ -20,50 +20,14 @@
     src ="https://maps.googleapis.com/maps/api/js?key=AIzaSyAUlRB23ZhvT108Fa6B5Gs6M5ZAphUaqbA&callback=initMap&sensor=false&v=3&libraries=geometry" >
     </script>-->
     <script type="text/javascript">
-    	//let aula = getQueryVariable(window.location.href,"aula");
-    	//let sede = getQueryVariable(window.location.href,"sede");
-    	let sede = "E0503";
-    	let aula = "A101"; 
-    	
-    	//console.log("try get tha big data man");
-    	//url = "http://localhost:8080/"+ sede + "/" + aula;
+    	let aula = getQueryVariable(window.location.href,"aula");
+    	let sede = getQueryVariable(window.location.href,"sede");
+    	console.log("sede = "+sede);
+    	console.log("aule = "+aula);
+    	//let sede = "E0503";
+    	//let aula = "A101"; 
     	let url = "http://localhost:8080/schedule/sede/E0503/aula/A105";
-		/*$.getJSON(url,function(data){
-			$.each(data, function(key, val){
-				if(val.orario[0])
-				{
-					$("#schedule_table").append("<tr><td>8.00</td>"+val.NomeAula+"</td><td>ora</td><td>"+val.orario[0].from+"</td></tr>");
-				}
-				else
-				{
-					$("#schedule_table").append("<tr><td>"+val.NomeAula+"</td><td>ora</td><td>fine giornata</td></tr>");
-				}
 
-			});
-		});*/
-		/*let hour = {
-			'name': null
-			's': null,
-			'e': null
-		};
-		let hours = [];
-
-
-		//tutti i giorni della settimana per fare le chiamate al server per avere l'orario
-		//di tutta la settimana dell'aula
-		let d = new Date();
-		day = d.getDay();
-		//console.log("oggi è: "+day+"  "+(day-1).days().ago());
-		for(let i = day - 1; i > 0; i--){		//giorni prima di oggi fino a lunedì
-			console.log((i).days().ago());
-		}
-		for(let j = 0; j < (6 - day); j++){
-			console.log((j).days().fromNow());
-		}
-
-
-
-		*/
 		let week = [];
 		let tmp = null;		//orario di fine della scorsa lezione
 		let name;			//nome della scorsa lezione
