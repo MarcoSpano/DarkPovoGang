@@ -34,22 +34,27 @@ app.get('/nl', (req,res) => {
         var nlresp = {"action" : response.result.action,
             "Place" : response.result.parameters.Place,
             "date" : response.result.parameters.date,
-            "time" : response.result.parameters.time};
+            "time" : response.result.parameters.time,
+            "durata" : response.result.parameters.durata.time};
 
         let urldate = '';
         let urltime = '';
+        let urldurata = '';
 
         if(nlresp.date != undefined) urldate = 'date=' + nlresp.date;
         if(nlresp.time != undefined) urltime = 'time=' + nlresp.time;
+        if(nlresp.durata != undefined) urldurata = 'durataOre=' + nlresp.durata;
 
         if(nlresp.action === "return.aulalibera") {
             if(nlresp.Place != null) {
                 place = nlresp.Place.toLowerCase();
                 let code_place = department.dep_id[place];
 
-                res.redirect('http://localhost:8080/sede/' + code_place + '?' + urldate + '&' + urltime);
+                res.redirect('http://localhost:8080/sede/' + code_place + '?' + urldate + '&' + urltime + '&' + urldurata);
             } else res.redirect('http://localhost:8080/');
 
+        } else if(nlresp.action === "return.scheduleaula") {
+            res.redirect('http://www.google.com/');
         }
         else res.redirect('http://localhost:8080/');
 
