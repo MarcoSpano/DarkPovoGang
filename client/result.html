@@ -166,6 +166,79 @@
 
 	<script type="text/javascript">	
 		let url;
+		let q = getQueryVariable(window.location.href,"q");
+		let geoloc = getQueryVariable(window.location.href,"geoloc");
+		if(q!=null){
+			url = "http://localhost:8080/nl?frase="+q;
+			$.getJSON(url, function (data) {
+				if((data == "Nessuna aula disponibile al momento")||(data == null)||(data == undefined)){
+					$("#command_table").append("<tr><td>Nessuna aula libera</td><td></td><td></td></tr>");
+				}
+				else{
+					$.each(data, function (key, val) {
+						if (val.orario[0]) {
+							$("#command_table").append("<tr><td>" + val.NomeAula + "</td><td>ora</td><td>" + val.orario[0].from + "</td></tr>");
+						}
+						else {
+							$("#command_table").append("<tr><td>" + val.NomeAula + "</td><td>ora</td><td>fine giornata</td></tr>");
+						}
+
+					});
+				}
+				
+			});
+		}
+		else if(geoloc != null)
+		{
+			console.log("enter geolocation");
+			var getPosition = function (options) {
+				return new Promise(function (resolve, reject) {
+					navigator.geolocation.getCurrentPosition(resolve, reject, options);
+				});
+			}
+
+			getPosition()
+			.then((position) => {
+				document.getElementById("nome_polo").innerHTML = "Ricerca in corso";
+				let lat = position.coords.latitude;
+				let lng = position.coords.longitude;
+				fetch("http://localhost:8080/room?lat="+ lat + "&&lng=" + lng)
+				.then(ris => {
+					console.log("fetching data for geolocation");
+					let data = ris.json();
+					data.then(result => {
+						var name = "Aule libere presso: " + result[0].sede;
+						document.getElementById("nome_polo").innerHTML = name;
+						if((data == "Nessuna aula disponibile al momento")||(data == null)||(data == undefined)){
+							$("#command_table").append("<tr><td>Nessuna aula libera</td><td></td><td></td></tr>");
+						}
+						else{
+							$.each(result, function (key, val) 
+							{
+								if (val.orario[0]) 
+								{
+									$("#command_table").append("<tr><td>" + val.NomeAula + "</td><td>ora</td><td>" + val.orario[0].from + "</td></tr>");
+								}
+								else 
+								{
+									$("#command_table").append("<tr><td>" + val.NomeAula + "</td><td>ora</td><td>fine giornata</td></tr>");
+								}
+							});
+						}
+					})
+					.catch((err) => {
+						console.error(err.message);
+					})					
+				})
+			})
+			.catch((err) => {
+				console.error("Errore nella geo" + err.message);
+			});		
+		}
+		else {
+			location.href = "index.html?q=dc";
+		}
+		/*let url;
 		//script per creare la tabella degli orari
 		var sede = getQueryVariable_q(window.location.href);
 		var geoloc = getQueryVariable_geoloc(window.location.href);
@@ -247,12 +320,12 @@
 		}
 		else {
 			location.href = "index.html?q=dc";
-		}
+		}*/
 	</script>
 
 	<script type="text/javascript">
 		//script per caricare il titolo
-		var polo = getQueryVariable_q(window.location.href);
+		var polo = getQueryVariable(window.location.href,"q");
 		//polo = polo.replace("%20", " ");
 		if(polo !== null) {
 			var name = "Aule libere presso: " + polo;
