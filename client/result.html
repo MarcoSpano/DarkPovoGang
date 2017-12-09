@@ -188,7 +188,7 @@
 			}
 			url = "http://localhost:8080/sede/"+ sede;
 			$.getJSON(url, function (data) {
-				if(data == "Nessuna aula libera"){
+				if((data == "Nessuna aula libera")||(data == null)||(data == undefined)){
 					$("#command_table").append("<tr><td>Nessuna aula libera</td><td></td><td></td></tr>");
 				}
 				else{
