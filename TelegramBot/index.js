@@ -28,7 +28,7 @@ var povo ={
 
 function getData(sede) {
     return new Promise((resolve, reject) => {
-        url = "http://localhost:8080/sede/"+ sede;
+        url = "https://awawa.herokuapp.com/sede/"+ sede;
         fetch(url)
         .then(data => {
             return data.json();
@@ -46,7 +46,7 @@ function getDataAndMaps(sede, id, value){
 	getData(sede)
 	.then(rooms => {
 		if(rooms === "Nessuna aula disponibile al momento") {
-			return noInfoAvaible(id);
+			return noInfoAvaible(id,value);
 		} else {
 			var maps = mapper.getMaps(rooms,sede,value);
 			return maps;
@@ -70,9 +70,9 @@ function getDataAndMaps(sede, id, value){
 }
 
 
-function noInfoAvaible(id) {
+function noInfoAvaible(id,value) {
 	return new Promise((resolve, reject) => {
-		telegram.sendMessage(id,"Nessuna informazione disponibile");
+		if(value == 0)	telegram.sendMessage(id,"Nessuna informazione disponibile");
 	});
 }
 
