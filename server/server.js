@@ -30,22 +30,27 @@ app.get('/nl', (req,res) => {
     });
 
     request.on('response', function(response) {
+        //console.log(response);
         //dati estratti dalla stringa
-        var nlresp = {"action" : response.result.action,
-            "Place" : response.result.parameters.Place,
+        
+
+        
+
+        if(response.result.action === "return.aulalibera") {
+
+            var nlresp = {"Place" : response.result.parameters.Place,
             "date" : response.result.parameters.date,
             "time" : response.result.parameters.time,
             "durata" : response.result.parameters.durata.time};
 
-        let urldate = '';
-        let urltime = '';
-        let urldurata = '';
+            let urldate = '';
+            let urltime = '';
+            let urldurata = '';
 
-        if(nlresp.date != undefined) urldate = 'date=' + nlresp.date;
-        if(nlresp.time != undefined) urltime = 'time=' + nlresp.time;
-        if(nlresp.durata != undefined) urldurata = 'durataOre=' + nlresp.durata;
+            if(nlresp.date != undefined) urldate = 'date=' + nlresp.date;
+            if(nlresp.time != undefined) urltime = 'time=' + nlresp.time;
+            if(nlresp.durata != undefined) urldurata = 'durataOre=' + nlresp.durata;
 
-        if(nlresp.action === "return.aulalibera") {
             if(nlresp.Place != null) {
                 place = nlresp.Place.toLowerCase();
                 let code_place = department.dep_id[place];
@@ -53,8 +58,8 @@ app.get('/nl', (req,res) => {
                 res.redirect('http://localhost:8080/sede/' + code_place + '?' + urldate + '&' + urltime + '&' + urldurata);
             } else res.redirect('http://localhost:8080/');
 
-        } else if(nlresp.action === "return.scheduleaula") {
-            res.redirect('http://www.google.com/');
+        } else if(response.result.action === "return.scheduleaula") {
+            res.redirect('http://localhost:8080/sede/E0503');
         }
         else res.redirect('http://localhost:8080/');
 
