@@ -1,13 +1,7 @@
-const fetch = require("node-fetch");
-const geolib = require("geolib");
 const cheerio = require('cheerio');
 const svg2png=require('svg2png');
-const utilities = require('./utilities.js');
 const path = require("path");
 const fs=require('pn/fs');
-const request = require('request');
-const cors = require('cors');
-const dataStruct = require('./data');
 
 var mesianoFloor2 ={
     "398" : "#2d",
@@ -33,7 +27,6 @@ var mesianoFloor1 ={
 function getMaps(rooms,sede, value){
     var output;
     var $;
-
     switch(sede){
         case 'E0503':
 
@@ -142,12 +135,8 @@ function getMaps(rooms,sede, value){
                 }
                 output =  $.html();
             break;
-
         }
-
-        //console.log(rooms);
     }
-        //console.log(output);
     return output;
 
 }

@@ -187,8 +187,6 @@ app.get('/room', (req, res) => {
     .catch(error => {
         console.log(error);
     });
-
-
 });
 
 app.listen(port);
