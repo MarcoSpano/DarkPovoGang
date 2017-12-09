@@ -24,8 +24,33 @@
     	let sede = getQueryVariable(window.location.href,"sede");
     	console.log("sede = "+sede);
     	console.log("aule = "+aula);
-    	//let sede = "E0503";
-    	//let aula = "A101"; 
+    	let day = {
+			'08:00': null,
+			'08:30': null,
+			'09:00': null,
+			'09:30': null,
+			'10:00': null,
+			'10:30': null,
+			'11:00': null,
+			'11:30': null,
+			'12:00': null,
+			'12:30': null,
+			'13:00': null,
+			'13:30': null,
+			'14:00': null,
+			'14:30': null,
+			'15:00': null,
+			'15:30': null,
+			'16:00': null,
+			'16:30': null,
+			'17:00': null,
+			'17:30': null,
+			'18:00': null,
+			'18:30': null,
+			'19:00': null,
+			'19:30': null,
+			'20:00': null
+		};
     	let url = "http://localhost:8080/schedule/sede/E0503/aula/A105";
 
 		let week = [];
@@ -34,7 +59,7 @@
 		$.getJSON(url,function(data){
 			//console.log(data["orario"][0].from);
 			//dic_tot[k] = val.nomeMateria + "  " + val.nomeProf;
-			
+
 			for (let i = 0; i < 5; i++){
 				let dic_singleDay = {
 		    		'08:00': null,
@@ -63,116 +88,171 @@
 		    		'19:30': null,
 		    		'20:00': null
 		    	};
-				console.log("into the for loop");
-				$.each(data[i]["orario"], function(key,val){
-					console.log("orario giorno "+i+"  "+data[i]["orario"]);
-					for (k in dic_singleDay){
-						if (tmp != k){		
-							if(tmp === null){
+				if(data[i] == "Nessuna lezione oggi in questa aula"){
+					week.push(dic_singleDay);
+				}
+				else
+				{
+					$.each(data[i]["orario"], function(key,val){
+						for (k in dic_singleDay){
+							if (tmp != k){
+								if(tmp === null){
+									if(k === val.from.substring(0,5)){
+										tmp = val.to.substring(0,5);
+										name = val.nomeMateria + "  " + val.nomeProf;
+										dic_singleDay[k] = name;
+									}
+
+								}
+								else{		//continuo ad aggiungere la vecchia lezione
+									dic_singleDay[k] = name;
+								}
+							}
+							else{		//prossima lezione
 								if(k === val.from.substring(0,5)){
 									tmp = val.to.substring(0,5);
 									name = val.nomeMateria + "  " + val.nomeProf;
 									dic_singleDay[k] = name;
-									/*let hour = {};
-									hour["name"] = val.nomeMateria + " " + val.nomeProf;
-									hour["s"] = val.from.substring(0,5);
-									hour["e"] = val.to.substring(0,5);
-									hours.push(hour);*/
 								}
-								
-							}
-							else{		//continuo ad aggiungere la vecchia lezione
-								dic_singleDay[k] = name;
+								else{
+									tmp = null;
+									name = null;
+								}
 							}
 						}
-						else{		//prossima lezione
-							if(k === val.from.substring(0,5)){
-								tmp = val.to.substring(0,5);
-								name = val.nomeMateria + "  " + val.nomeProf;
-								dic_singleDay[k] = name;
-							}
-							else{
-								tmp = null;
-								name = null;
-							}
-						}		
-					}
-					//console.log("inizio = "+ val.from.substring(0,5) + "    fine = "+val.to.substring(0,5));
-						
-				});
-				week.push(dic_singleDay);
+					});
+					week.push(dic_singleDay);
+				}
 			}
-			/*for(let k = 0; k < week.length; k++){
-				console.log(week[k]);
-			}*/
+			for(let k in day){
+				let string = "<tr><td>" + k + "</td>";
+				for (let i = 0; i < week.length; i++){
+					if(week[i][k] != null)
+						string = string.concat("<td>"+week[i][k]+"</td>");
+					else
+						string = string.concat("<td></td>");
+				}
+				$("#schedule_table").append(string);
+			}
+
 		});
-		
+
     </script>
 </head>
 <body>
-	<nav class="light-blue lighten-1" role="navigation">
-		<div class="nav-wrapper">
-			<a href="index.html" class="brand-logo white-text">UniRoom</a>
-			<a href="index.html" data-activates="mobile-menu" class="button-collapse white-text"><i class="material-icons">menu</i> </a>
-			<ul class="right hide-on-med-and-down">
-				<li>
-					<div class="raw">
-						<form action="result.html">
-								<div class="input-field" style="max-height: 50px!important">
-									<i onclick="go()" id="icon" class="red-text material-icons prefix">search</i>
-									<input style="padding-left: 0px;" id="inserisci" name="q" type="text" class="validate">
-									<div class="popup">
+	<header>
+		<nav class="light-blue lighten-1" role="navigation">
+			<div class="nav-wrapper">
+				<a href="index.html" class="brand-logo white-text">UniRoom</a>
+				<a href="index.html" data-activates="mobile-menu" class="button-collapse white-text">
+					<i class="material-icons">menu</i>
+				</a>
+				<ul class="right hide-on-med-and-down">
+					<li>
+						<a href="http://www.unitn.it" class="white-text">
+							<i class="material-icons left">school</i>UNITN</a>
+					</li>
+					<li>
+						<a href="https://easyroom.unitn.it/Orario/index.php?view=easycourse&_lang=it&empty_box=0" class="white-text">
+							<i class="material-icons left">schedule</i>Schedule</a>
+					</li>
+					<li>
+						<a href="aboutus.html" class="white-text">
+							<i class="material-icons left">people</i>About us</a>
+					</li>
+				</ul>
+				<ul id="mobile-menu" class="side-nav">
+					<li>
+						<a href="http://www.unitn.it" class="black-text">
+							<i class="material-icons left">school</i>UNITN</a>
+					</li>
+					<li>
+						<a href="https://easyroom.unitn.it/Orario/index.php?view=easycourse&_lang=it&empty_box=0" class="black-text">
+							<i class="material-icons left">schedule</i>Schedule</a>
+					</li>
+					<li>
+						<div class="divider"></div>
+					</li>
+					<li>
+						<a href="aboutus.html" class="black-text">
+							<i class="material-icons left">people</i>About us</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+	</header>
+	
+	<main>
+		<div>
+			<center>
+				<div class="row center">
+					<form class="col s12" action="result.html" method="GET">
+						<div class="input-field col s12" style="font-size: 30px">
+
+							<div class="col s12" style="max-height: 20px">
+								<div class="col s6">
+									<div class="popup" onclick="myFunction()" style="width: 200px">
 										<center>
-											<span class="popuptext" id="wrongInput" style="font-size: 15px;width: 300px">Wrong Input, try with department name</span>
+											<span class="popuptext" id="myPopup" style="font-size: 15px;width: 300px">Input sbagliato! Inserisci help per la lista di comandi disponibili.</span>
 										</center>
+
 									</div>
+								</div>
+							</div>
+
+							<div class="col s10 offset-s1">
+								<div class="col s12 m4 l2">
+									<button class="btn-floating btn-large waves-effect waves-light red right" type="submit" name="geoloc" value="true" style="border-radius: 5px;">
+										<i class="material-icons">location_on</i>
+									</button>
+								</div>
+
+								<div class="col s12 m4 l8">
+
+									<input placeholder="Inserisci polo, aula o help..." id="inserisci" type="text" name="q" class="validate">
+
 									<input type="submit" name="submit" style="visibility: hidden;">
 								</div>
-						</form>
-						
-					</div>
-				</li>
-				<li><a href="http://www.unitn.it" class="white-text"><i class="material-icons left">school</i>UNITN</a></li>
-				<li><a href="https://easyroom.unitn.it/Orario/index.php?view=easycourse&_lang=it&empty_box=0" class="white-text"><i class="material-icons left">schedule</i>Schedule</a></li>
-				<li><a href="aboutus.html#about" class="white-text"><i class="material-icons left">people</i>About us</a></li>
-			</ul>
+
+								<div class="col s12 m4 l2">
+									<button class="btn-floating btn-large waves-effect waves-light red left" onclick="go()">
+										<i class="material-icons">forward</i>
+									</button>
+								</div>
+
+							</div>
 
 
-			<ul id="mobile-menu" class="side-nav">
-				<li><a href="http://www.unitn.it" class="black-text"><i class="material-icons left">school</i>UNITN</a></li>
-				<li><a href="https://easyroom.unitn.it/Orario/index.php?view=easycourse&_lang=it&empty_box=0" class="black-text"><i class="material-icons left">schedule</i>Schedule</a></li>
+						</div>
 
-				<li><div class="divider"></div></li>
+					</form>
 
-				<li><a href="aboutus.html#about" class="black-text"><i class="material-icons left">people</i>About us</a></li>
+				</div>
+			</center>
+		</div>
 
-			</ul>
 
+		<div class="container">
+			<h3 style="text-align: center;" class="mdc-typography--display1" id="headerText"></h3>
+			<div id="table_container">
+				<table class="bordered centered" style="table-layout: fixed;">
+					<thead>
+						<tr>
+							<th>Ora</th>
+							<th>Lunedì</th>
+							<th>Martedì</th>
+							<th>Mercoledì</th>
+							<th>Giovedì</th>
+							<th>Venerdì</th>
+						</tr>
+					</thead>
+					<tbody id="schedule_table" style="background-color: #e6e6e6">
+					</tbody>
+				</table>
+			</div>
 
 		</div>
-	</nav>
-
-
-	<div class="container">
-		<h3 style="text-align: center;" class="mdc-typography--display1" id="headerText"></h3>
-		<div id="table_container">
-			<table class="bordered centered" style="table-layout: fixed;">
-				<thead>
-					<tr>
-						<th>Ora</th>
-						<th>Lunedì</th>
-						<th>Martedì</th>
-						<th>Mercoledì</th>
-						<th>Giovedì</th>
-						<th>Venerdì</th>
-					</tr>
-				</thead>
-				<tbody id="schedule_table" style="background-color: #e6e6e6">			
-				</tbody>
-			</table>
-		</div>
-		
-	</div>
+	</main>
 
 
 	<footer class="page-footer light-blue">
@@ -183,7 +263,7 @@
 					<p class="grey-text text-lighten-4">We are a team of college students working on this project like it's our full time job. Any amount would help support
 						and continue development on this project and is greatly appreciated.</p>
 				</div>
-	
+
 				<div class="col l3 s12">
 					<h5 class="white-text">Contacts</h5>
 					<ul>
