@@ -13,6 +13,10 @@ var port = process.env.PORT || 8080;
 const app = express();
 app.use(cors());
 
+app.get('/void',(req,res) => {
+    res.json("Errore!");
+});
+
 //funzione che data una stringa estrae i dati (place,ecc.) e redirige la richiesta
 app.get('/nl', (req,res) => {
     let frase = req.query.frase; //frase ricevuta
@@ -38,11 +42,11 @@ app.get('/nl', (req,res) => {
                 place = nlresp.Place.toLowerCase();
                 let code_place = datastruc.dep_id[place];
 
-                res.redirect('http://localhost:8080/sede/' + code_place + '?' + urldate + '&' + urltime);
-            } else res.redirect('http://localhost:8080/');
+                res.redirect('http://uniroomtn.herokuapp.com/sede/' + code_place + '?' + urldate + '&' + urltime);
+            } else res.redirect('http://uniroomtn.herokuapp.com/void');
 
         }
-        else res.redirect('http://localhost:8080/');
+        else res.redirect('http://uniroomtn.herokuapp.com/void');
 
         
 
