@@ -167,29 +167,19 @@
 	<script type="text/javascript">	
 		let url;
 		//script per creare la tabella degli orari
-		var sede = getQueryVariable_q(window.location.href);
+		var frase = getQueryVariable_q(window.location.href);
 		var geoloc = getQueryVariable_geoloc(window.location.href);
-		if (sede != null) {
-			sede = sede.replace("%20", " ");
-			switch (sede) {
-				case "povo": case "Povo": sede = "E0503"; break;
-				case "economia": case "Economia": sede = "E0101"; break;
-				case "lettere": case "Lettere": sede = "E0801"; break;
-				case "filosofia": case "Filosofia": sede = "E0801"; break;
-				case "mesiano": case "Mesiano": sede = "E0301"; break;
-				case "ingegneria": case "Ingegneria": sede = "E0301"; break;
-				case "giurisprudenza": case "Giurisprudenza": sede = "E0201"; break;
-				case "sociologia": case "Sociologia": sede = "E0601"; break;
-				case "scienze cognitive": case "Science cognitive": sede = "E0705"; break;
-				case "giuri": case "Giuri": sede = "E0201"; break;
-
-				case "socio": case "Socio": sede = "E0601"; break;
-				case "help": case "Help": location.href = "index.html?q=help";
-			}
-			url = "https://uniroomtn.herokuapp.com/sede/"+ sede;
+		console.log("Frase: "+frase);
+		if (frase != null) {
+			
+			
+			url = "https://uniroomtn.herokuapp.com/nl?frase="+ frase;
 			$.getJSON(url, function (data) {
 				if(data == "Nessuna aula disponibile al momento"){
-					$("#command_table").append("<tr><td>Nessuna aula libera</td><td></td><td></td></tr>");
+					$("#command_table").append("<tr><td>Nessuna aula disponibile al momento</td><td></td><td></td></tr>");
+				}
+				else if(data == "Errore!"){
+					location.href = "index.html?q=dc";
 				}
 				else{
 					$.each(data, function (key, val) {
@@ -248,20 +238,22 @@
 		else {
 			location.href = "index.html?q=dc";
 		}
-	</script>
-
-	<script type="text/javascript">
 		//script per caricare il titolo
-		var polo = getQueryVariable_q(window.location.href);
+		var x="Povo6: " + frase;
+		console.log(x);
 		//polo = polo.replace("%20", " ");
-		if(polo !== null) {
-			var name = "Aule libere presso: " + polo;
+		if(frase != null) {
+			frase = frase.replace("+", " ");
+			var name = "Risultati per: " + frase;
+			console.log("Oh si!");
 			
 		} else {
+			console.log("Oh no!");
 			var name = "Tentativo di utilizzo geolocalizzazione";
 		}
 		document.getElementById("nome_polo").innerHTML = name;
 	</script>
+
 </body>
 
 </html>

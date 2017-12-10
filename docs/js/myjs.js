@@ -31,7 +31,7 @@ function go(){
 	let q = document.getElementById("inserisci").value;
 	let geo = document.getElementById("geoloc").value;
 	if (geo == true)
-		url = "result.html?geoloc=true";
+		url = "result.html?geoloc=true&q="+q;
 	//prima bisogna parsare la q e poi aggiungere il parametro polo/aula all'url
 	else
 		url = "result.html?q="+q;
@@ -83,12 +83,7 @@ function getQueryVariable_q(url_string) {
 	var url = new URL(url_string);
 	var query = url.searchParams.get("q");
 	if(query)
-		if(contains(possibilities,query))
-			return query;
-		else if (query === "dc")
-			return query;
-		else
-			return null;
+		return query;
 	return null;
 }
 
