@@ -186,7 +186,7 @@
 				case "socio": sede = "E0601"; break;
 				case "help": location.href = "index.html?q=help";
 			}
-			url = "http://localhost:8080/sede/"+ sede;
+			url = "https://uniroomtn.herokuapp.com/sede/"+ sede;
 			$.getJSON(url, function (data) {
 				if(data == "Nessuna aula libera"){
 					$("#command_table").append("<tr><td>Nessuna aula libera</td><td></td><td></td></tr>");
@@ -218,7 +218,7 @@
 				document.getElementById("nome_polo").innerHTML = "Ricerca in corso";
 				let lat = position.coords.latitude;
 				let lng = position.coords.longitude;
-				fetch("http://localhost:8080/room?lat="+ lat + "&&lng=" + lng)
+				fetch("https://uniroomtn.herokuapp.com/room?lat="+ lat + "&&lng=" + lng)
 				.then(ris => {
 					let data = ris.json();
 					data.then(result => {
