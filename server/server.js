@@ -1,21 +1,12 @@
 const express = require('express');
-const path = require("path");
 const request = require('request');
 const cors = require('cors');
 const utilities = require('./utilities');
 const fetch = require("node-fetch");
-const department = require("./data.js");
-//const geolib = require("geolib");
-const map = require('./map');
-
-const datastruc = require('./data')
-const cheerio = require('cheerio');
-const svg2png=require('svg2png');
-const fs=require('pn/fs');
+const datastruc = require('./data');
 const apiai = require('apiai');
 var nlapp = apiai("f3673557663f4ae8b3f299c5b9c8f836");
 
-var povo = ['/img/Povo1PT.svg','/img/Povo1P1.svg','/img/Povo2PT.svg','/img/Povo2P1.svg']
 
 var port = process.env.PORT || 8080;
 
@@ -45,7 +36,7 @@ app.get('/nl', (req,res) => {
         if(nlresp.action === "return.aulalibera") {
             if(nlresp.Place != null) {
                 place = nlresp.Place.toLowerCase();
-                let code_place = department.dep_id[place];
+                let code_place = datastruc.dep_id[place];
 
                 res.redirect('http://localhost:8080/sede/' + code_place + '?' + urldate + '&' + urltime);
             } else res.redirect('http://localhost:8080/');

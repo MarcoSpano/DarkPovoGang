@@ -64,19 +64,28 @@ else if(geoloc != null)
         .then(ris => {
             let data = ris.json();
             data.then(result => {
-                var name = "Aule libere presso: " + result[0].sede;
-                document.getElementById("nome_polo").innerHTML = name;
-                $.each(result, function (key, val) 
-                    {
-                    if (val.orario[0]) 
-                    {
-                        $("#command_table").append("<tr><td>" + val.NomeAula + "</td><td>ora</td><td>" + val.orario[0].from + "</td></tr>");
-                    }
-                    else 
-                    {
-                        $("#command_table").append("<tr><td>" + val.NomeAula + "</td><td>ora</td><td>fine giornata</td></tr>");
-                    }
-                });
+                var testo = document.getElementById("nome_polo");
+                if(result === "Nessuna aula disponibile al momento") {
+                    var name = "Nessuna aula libera nel polo a te più vicino";
+                    testo.innerHTML = name;
+                    testo.style.color = "red";
+                    document.getElementById('table_div').hidden = true;
+                } else {
+                    var name = "Aule libere presso: " + result[0].sede;     
+                    testo.innerHTML = name;              
+                    $.each(result, function (key, val) 
+                        {
+                        if (val.orario[0]) 
+                        {
+                            $("#command_table").append("<tr><td>" + val.NomeAula + "</td><td>ora</td><td>" + val.orario[0].from + "</td></tr>");
+                        }
+                        else 
+                        {
+                            $("#command_table").append("<tr><td>" + val.NomeAula + "</td><td>ora</td><td>fine giornata</td></tr>");
+                        }
+                    });
+                }
+                
             })
             .catch((err) => {
                 console.error(err.message);

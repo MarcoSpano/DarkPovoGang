@@ -472,6 +472,6 @@ function getMonday(d) {
 }
 
 module.exports = {inArray, getRoomList, cleanSchedule, getFreeRooms,
-                cleanPastSchedule, idRoomCode, getRoomSchedule,
+                 cleanPastSchedule, idRoomCode, getRoomSchedule,
                  getNearestLocation, getMonday, getFreeRooms4xHours,
                  getDaySchedule};
