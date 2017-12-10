@@ -172,23 +172,23 @@
 		if (sede != null) {
 			sede = sede.replace("%20", " ");
 			switch (sede) {
-				case "povo": sede = "E0503"; break;
-				case "economia": sede = "E0101"; break;
-				case "lettere": sede = "E0801"; break;
-				case "filosofia": sede = "E0801"; break;
-				case "mesiano": sede = "E0301"; break;
-				case "ingegneria": sede = "E0301"; break;
-				case "giurisprudenza": sede = "E0201"; break;
-				case "sociologia": sede = "E0601"; break;
-				case "scienze cognitive": sede = "E0705"; break;
-				case "giuri": sede = "E0201"; break;
+				case "povo": case "Povo": sede = "E0503"; break;
+				case "economia": case "Economia": sede = "E0101"; break;
+				case "lettere": case "Lettere": sede = "E0801"; break;
+				case "filosofia": case "Filosofia": sede = "E0801"; break;
+				case "mesiano": case "Mesiano": sede = "E0301"; break;
+				case "ingegneria": case "Ingegneria": sede = "E0301"; break;
+				case "giurisprudenza": case "Giurisprudenza": sede = "E0201"; break;
+				case "sociologia": case "Sociologia": sede = "E0601"; break;
+				case "scienze cognitive": case "Science cognitive": sede = "E0705"; break;
+				case "giuri": case "Giuri": sede = "E0201"; break;
 
-				case "socio": sede = "E0601"; break;
-				case "help": location.href = "index.html?q=help";
+				case "socio": case "Socio": sede = "E0601"; break;
+				case "help": case "Help": location.href = "index.html?q=help";
 			}
 			url = "https://uniroomtn.herokuapp.com/sede/"+ sede;
 			$.getJSON(url, function (data) {
-				if(data == "Nessuna aula libera"){
+				if(data == "Nessuna aula disponibile al momento"){
 					$("#command_table").append("<tr><td>Nessuna aula libera</td><td></td><td></td></tr>");
 				}
 				else{
