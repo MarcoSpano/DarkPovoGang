@@ -49,9 +49,7 @@ app.get('/nl', (req,res) => {
 
             var nlresp = {"Place" : response.result.parameters.Place,
             "date" : response.result.parameters.date,
-            "time" : response.result.parameters.time,
-            "durata" : response.result.parameters.durata.duration.amount,
-            "durataUnit" : response.result.parameters.durata.duration.unit};
+            "time" : response.result.parameters.time};
 
             let urldate = 'date=null';
             let urltime = 'time=null';
@@ -60,8 +58,11 @@ app.get('/nl', (req,res) => {
 
             if(nlresp.date != '') urldate = 'date=' + nlresp.date;
             if(nlresp.time != '') urltime = 'time=' + nlresp.time;
-            if(nlresp.durata != '') urldurata = 'durataOre=' + nlresp.durata;
-            if(nlresp.durataUnit != '') urldurataunit = 'durataunit=' + nlresp.durataUnit;
+            if(response.result.parameters.durata != '') {
+                if(response.result.parameters.durata.duration.amount != '') urldurata = 'durataOre=' + response.result.parameters.durata.duration.amount;
+                if(response.result.parameters.durata.duration.unit != '') urldurataunit = 'durataunit=' + response.result.parameters.durata.duration.unit;
+            }
+            
 
             if(nlresp.date == 'date='){
                 nlresp.date = 'date=null';
