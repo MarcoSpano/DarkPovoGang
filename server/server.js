@@ -30,7 +30,7 @@ app.get('/void',(req,res) => {
 app.get('/nl', (req,res) => {
     let frase = req.query.frase; //frase ricevuta
 
-    if(frase == undefined) res.redirect('https://uniroomtn.herokuapp.com/'); 
+    if(frase == undefined) res.redirect('https://uniroomtn.herokuapp.com/');
 
     //throw error
 
@@ -41,9 +41,9 @@ app.get('/nl', (req,res) => {
     request.on('response', function(response) {
         //console.log(response);
         //dati estratti dalla stringa
-        
 
-        
+
+
 
         if(response.result.action === "return.aulalibera") {
 
@@ -67,7 +67,7 @@ app.get('/nl', (req,res) => {
                 nlresp.time = 'time=null';
             }
 
-            
+
             if(nlresp.Place != null) {
                 place = nlresp.Place.toLowerCase();
                 let code_place = datastruc.dep_id[place];
@@ -105,7 +105,7 @@ app.get('/nl', (req,res) => {
         }
         else res.redirect('https://uniroomtn.herokuapp.com/void');
 
-        
+
 
 
     }).on('error', function(error) {
@@ -202,7 +202,7 @@ app.get('/sede/:sede', (req,res) => {
             //console.log("4: "+rooms);
             if(durataOre > 0) {
                 rooms = utilities.getFreeRooms4xHours(rooms,durataOre,timeStamp);
-            }         
+            }
             //rooms[0].time = req.query.time;
             //rooms[0].time = req.query.time; //Solo il primo elemento avrà il campo sede che servirà per cambiare il titolo alla pagina
             res.json(rooms); //Get the list of rooms with events that day and the hours in which they are busy.
