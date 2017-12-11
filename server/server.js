@@ -21,7 +21,7 @@ app.get('/void',(req,res) => {
 app.get('/nl', (req,res) => {
     let frase = req.query.frase; //frase ricevuta
 
-    if(frase == undefined) res.redirect('http://localhost:8080/'); 
+    if(frase == undefined) res.redirect('http://uniroomtn.herokuapp.com/'); 
 
     //throw error
 
@@ -74,18 +74,18 @@ app.get('/nl', (req,res) => {
 
             //console.log(aularesp);
 
-            if(aularesp.povoA1P != '') res.redirect('http://localhost:8080/schedule/sede/' + department.dep_id['povo'] + '/aula/' + aularesp.povoA1P);
-            else if(aularesp.povoAPT != '')res.redirect('http://localhost:8080/schedule/sede/' + department.dep_id['povo'] + '/aula/' + aularesp.povoAPT);
-            else if(aularesp.povoB1P != '')res.redirect('http://localhost:8080/schedule/sede/' + department.dep_id['povo'] + '/aula/' + aularesp.povoB1P);
-            else if(aularesp.povoBPT != '')res.redirect('http://localhost:8080/schedule/sede/' + department.dep_id['povo'] + '/aula/' + aularesp.povoBPT);
-            else if(aularesp.povoaltro != '')res.redirect('http://localhost:8080/schedule/sede/' + department.dep_id['povo'] + '/aula/' + aularesp.povoaltro);
-            else if(aularesp.cognitive != '')res.redirect('http://localhost:8080/schedule/sede/' + department.dep_id['scienze cognitive'] + '/aula/' + aularesp.cognitive);
-            else if(aularesp.economia != '')res.redirect('http://localhost:8080/schedule/sede/' + department.dep_id['economia'] + '/aula/' + aularesp.economia);
-            else if(aularesp.giurisprudenza != '')res.redirect('http://localhost:8080/schedule/sede/' + department.dep_id['giurisprudenza'] + '/aula/' + aularesp.giurisprudenza);
-            else if(aularesp.lettere != '')res.redirect('http://localhost:8080/schedule/sede/' + department.dep_id['lettere'] + '/aula/' + aularesp.lettere);
-            else if(aularesp.mesiano != '')res.redirect('http://localhost:8080/schedule/sede/' + department.dep_id['mesiano'] + '/aula/' + aularesp.mesiano);
-            else if(aularesp.sociologia != '')res.redirect('http://localhost:8080/schedule/sede/' + department.dep_id['sociologia'] + '/aula/' + aularesp.sociologia);
-            else res.redirect('http://localhost:8080/schedule/sede/' + 'E0503' + '/aula/' + aula);
+            if(aularesp.povoA1P != '') res.redirect('https://uniroomtn.herokuapp.com/schedule/sede/' + department.dep_id['povo'] + '/aula/' + aularesp.povoA1P);
+            else if(aularesp.povoAPT != '')res.redirect('https://uniroomtn.herokuapp.com/schedule/sede/' + department.dep_id['povo'] + '/aula/' + aularesp.povoAPT);
+            else if(aularesp.povoB1P != '')res.redirect('https://uniroomtn.herokuapp.com/schedule/sede/' + department.dep_id['povo'] + '/aula/' + aularesp.povoB1P);
+            else if(aularesp.povoBPT != '')res.redirect('https://uniroomtn.herokuapp.com/schedule/sede/' + department.dep_id['povo'] + '/aula/' + aularesp.povoBPT);
+            else if(aularesp.povoaltro != '')res.redirect('https://uniroomtn.herokuapp.com/schedule/sede/' + department.dep_id['povo'] + '/aula/' + aularesp.povoaltro);
+            else if(aularesp.cognitive != '')res.redirect('https://uniroomtn.herokuapp.com/schedule/sede/' + department.dep_id['scienze cognitive'] + '/aula/' + aularesp.cognitive);
+            else if(aularesp.economia != '')res.redirect('https://uniroomtn.herokuapp.com/schedule/sede/' + department.dep_id['economia'] + '/aula/' + aularesp.economia);
+            else if(aularesp.giurisprudenza != '')res.redirect('https://uniroomtn.herokuapp.com/schedule/sede/' + department.dep_id['giurisprudenza'] + '/aula/' + aularesp.giurisprudenza);
+            else if(aularesp.lettere != '')res.redirect('https://uniroomtn.herokuapp.com/schedule/sede/' + department.dep_id['lettere'] + '/aula/' + aularesp.lettere);
+            else if(aularesp.mesiano != '')res.redirect('https://uniroomtn.herokuapp.com/schedule/sede/' + department.dep_id['mesiano'] + '/aula/' + aularesp.mesiano);
+            else if(aularesp.sociologia != '')res.redirect('https://uniroomtn.herokuapp.com/schedule/sede/' + department.dep_id['sociologia'] + '/aula/' + aularesp.sociologia);
+            else res.redirect('https://uniroomtn.herokuapp.com/schedule/sede/' + 'E0503' + '/aula/' + aula);
         }
         else res.redirect('http://uniroomtn.herokuapp.com/void');
 
