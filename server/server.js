@@ -37,8 +37,13 @@ app.get('/nl', (req,res) => {
         if(nlresp.date != undefined) urldate = 'date=' + nlresp.date;
         if(nlresp.time != undefined) urltime = 'time=' + nlresp.time;
 
-        if(urldate == 'date=') urldate='';
-        if(urltime == 'time=') urltime='';
+        
+        if(urldate == 'date='){
+            urldate='date=null';
+        } 
+        if(urltime == 'time=') {
+            urltime='time=null';
+        }
 
         if(nlresp.action === "return.aulalibera") {
             if(nlresp.Place != null) {
@@ -68,7 +73,7 @@ app.get('/sede/:sede', (req,res) => {
     {
         let timeStamp;
         sede = req.params.sede;
-        if (req.query.date != undefined && req.query.time != undefined)       //se nella request ci sono i parametri day,month,year
+        if ( (typeof req.query.date !== undefined) && req.query.date != "null" && req.query.time != undefined && req.query.time != "null")       //se nella request ci sono i parametri day,month,year
         {
             let datePar = req.query.date;
             let date = new Date(datePar);
@@ -82,8 +87,22 @@ app.get('/sede/:sede', (req,res) => {
             date.setMinutes(parseInt(timeString[1]));
             timeStamp = date.getTime() / 1000;
             url = "https://easyroom.unitn.it/Orario/rooms_call.php?form-type=rooms&sede="+ sede +"&_lang=it&date=" + day + "-" + month + "-" + year;
+            //console.log("Caso 1");
         }
-        else        //se nella request non ci sono i parametri day,month,year significa "in questo momento"
+        else if(req.query.time != undefined && req.query.time != "null"){ //nella request abbiamo solo il tempo, prendiamo come data "in questo momento"
+            let now = new Date();
+            let day = now.getDate();
+            let month = now.getMonth() + 1;
+            let year = now.getFullYear();
+            let time = req.query.time;
+            let timeString = time.split(':');
+            now.setHours(parseInt(timeString[0]));
+            now.setMinutes(parseInt(timeString[1]));
+            timeStamp = now.getTime() / 1000;
+            url = "https://easyroom.unitn.it/Orario/rooms_call.php?form-type=rooms&sede="+ sede +"&_lang=it&date=" + day + "-" + month + "-" + year;
+             //console.log("Caso 2");
+        }
+        else      //se nella request non ci sono i parametri day,month,year significa "in questo momento"
         {
             let now = new Date();
             let day = now.getDate();
@@ -91,6 +110,7 @@ app.get('/sede/:sede', (req,res) => {
             let year = now.getFullYear();
             timeStamp = now.getTime() / 1000;
             url = "https://easyroom.unitn.it/Orario/rooms_call.php?form-type=rooms&sede="+ sede +"&_lang=it&date=" + day + "-" + month + "-" + year;
+             //console.log("Caso 3");
         }
 
         let durataOre = 0;
