@@ -21,7 +21,7 @@ app.get('/void',(req,res) => {
 app.get('/nl', (req,res) => {
     let frase = req.query.frase; //frase ricevuta
 
-    if(frase == undefined) res.redirect('http://localhost:8080/'); 
+    if(frase == undefined) res.redirect('http://localhost:8080/');
 
     //throw error
 
@@ -32,9 +32,9 @@ app.get('/nl', (req,res) => {
     request.on('response', function(response) {
         //console.log(response);
         //dati estratti dalla stringa
-        
 
-        
+
+
 
         if(response.result.action === "return.aulalibera") {
 
@@ -51,7 +51,7 @@ app.get('/nl', (req,res) => {
             if(nlresp.time != '') urltime = 'time=' + nlresp.time;
             if(nlresp.durata != '') urldurata = 'durataOre=' + nlresp.durata;
 
-            
+
             if(nlresp.Place != null) {
                 place = nlresp.Place.toLowerCase();
                 let code_place = datastruc.dep_id[place];
@@ -89,7 +89,7 @@ app.get('/nl', (req,res) => {
         }
         else res.redirect('http://uniroomtn.herokuapp.com/void');
 
-        
+
 
 
     }).on('error', function(error) {
@@ -165,7 +165,7 @@ app.get('/sede/:sede', (req,res) => {
             rooms =  utilities.cleanPastSchedule(rooms, timeStamp);
             if(durataOre > 0) {
                 rooms = utilities.getFreeRooms4xHours(rooms,durataOre,timeStamp);
-            }         
+            }
             res.json(rooms); //Get the list of rooms with events that day and the hours in which they are busy.
         })
         .catch(error => {

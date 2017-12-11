@@ -9,8 +9,8 @@ var povo1p1 = '../img/Povo1P1.svg';
 var povo1pt = '../img/Povo1PT.svg';
 var povo2p1 = '../img/Povo2P1.svg';
 var povo2pt = '../img/Povo2PT.svg';
-var photo = '../photo_2017-10-12_10-39-45.jpg';
 
+var months = ["Gennaio","Febbraio","Marzo","Aprile","Maggio","Giugno","Luglio","Agosto","Settembre","Ottobre","Novembre","Dicembre"];
 
 var mesiano ={
     "0" : "mesiano piano terra",
@@ -28,8 +28,8 @@ var povo ={
 
 function getData(sede) {
     return new Promise((resolve, reject) => {
-        url = "https://awawa.herokuapp.com/sede/"+ sede;
-        fetch(url)
+				url = "https://uniroomtn.herokuapp.com/nl?frase="+ sede;
+				fetch(url)
         .then(data => {
             return data.json();
         })
@@ -81,21 +81,23 @@ function Print(sede,chatid){
 		let msg = "";
 		getData(sede)
 		.then(rooms => {
-			if(rooms !== "Nessuna aula disponibile al momento") {
+			if(rooms === "Errore!") message="Comando non riconosciuto, usa /help per vedere i comandi disponibili";
+			if(rooms.includes("stebranchi"))message = rooms;
+			else if(rooms !== "Nessuna aula disponibile al momento") {
 				for(let i = 0; i < rooms.length; i++) {
 					if(rooms[i].orario.length > 0) {
-						msg += rooms[i].NomeAula+" libera fino alle "+rooms[i].orario[0].from+"\n";
+						msg += rooms[i].NomeAula +" libera fino alle "+ rooms[i].orario[0].from+"\n";
 						message = msg;
 					}
 					else {
-						msg += rooms[i].NomeAula+" libera fino a chiusura.\n";
+						msg += rooms[i].NomeAula + " libera fino a chiusura.\n";
 						message = msg;
 					}
 				}
 			} else {
 				message = rooms;
-				telegram.sendMessage(chatid, message);
 			}
+				telegram.sendMessage(chatid, message);
 		})
 		.catch(error => {
 			console.error(error);
@@ -123,7 +125,7 @@ telegram.on("text", (message) => {
     		getDataAndMaps("E0301",message.chat.id,i);
     	}
     }
-	else if (message.text.toLowerCase().includes("povo"))Print("E0503",message.chat.id);
+	/*else if (message.text.toLowerCase().includes("povo"))Print("E0503",message.chat.id);
 	else if (message.text.toLowerCase().includes("ingegneria") || message.text.toLowerCase().includes("mesiano"))Print("E0301",message.chat.id);
 	else if (message.text.toLowerCase().includes("giurisprudenza") || message.text.toLowerCase().includes("giuri"))Print("E0201",message.chat.id);
 	else if (message.text.toLowerCase().includes("sociologia") || message.text.toLowerCase().includes("socio"))Print("E0601",message.chat.id);
@@ -135,5 +137,11 @@ telegram.on("text", (message) => {
 	else
     {
 		telegram.sendMessage(message.chat.id,"Comando non riconosciuto! Digita /help per conoscere la lista dei comandi.")
+	}*/
+	else {
+		var mex = message.text;
+		if(mex.charAt(0) === '/')mex=mex.substr(1);
+		console.log(mex);
+		Print(mex,message.chat.id);
 	}
 });
