@@ -54,7 +54,7 @@ app.get('/nl', (req,res) => {
 
             let urldate = 'date=null';
             let urltime = 'time=null';
-            let urldurata = '';
+            let urldurata = 'durata=null';
 
             if(nlresp.date != '') urldate = 'date=' + nlresp.date;
             if(nlresp.time != '') urltime = 'time=' + nlresp.time;
@@ -76,32 +76,32 @@ app.get('/nl', (req,res) => {
             } else res.redirect('https://uniroomtn.herokuapp.com/void');
 
         } else if(response.result.action === "return.scheduleaula") {
-            var aularesp = {"povoA1P" : response.result.parameters.aulepovoA1p,
-            "povoAPT" : response.result.parameters.aulepovoAPT,
-            "povoB1P" : response.result.parameters.aulepovoB1p,
-            "povoBPT" : response.result.parameters.aulepovoBPT,
-            "povoaltro" : response.result.parameters.aulepovoaltro,
-            "cognitive" : response.result.parameters.aulecognitive,
-            "economia" : response.result.parameters.auleeconomia,
-            "giurisprudenza" : response.result.parameters.aulegiurisprudenza,
-            "lettere" : response.result.parameters.aulelettere,
-            "mesiano" : response.result.parameters.aulemesiano,
-            "sociologia" : response.result.parameters.aulesociologia };
+            var aularesp = {"povoA1P" : response.result.parameters.aulepovoA1p.toUpperCase(),
+            "povoAPT" : response.result.parameters.aulepovoAPT.toUpperCase(),
+            "povoB1P" : response.result.parameters.aulepovoB1p.toUpperCase(),
+            "povoBPT" : response.result.parameters.aulepovoBPT.toUpperCase(),
+            "povoaltro" : response.result.parameters.aulepovoaltro.toUpperCase(),
+            "cognitive" : response.result.parameters.aulecognitive.toUpperCase(),
+            "economia" : response.result.parameters.auleeconomia.toUpperCase(),
+            "giurisprudenza" : response.result.parameters.aulegiurisprudenza.toUpperCase(),
+            "lettere" : response.result.parameters.aulelettere.toUpperCase(),
+            "mesiano" : response.result.parameters.aulemesiano.toUpperCase(),
+            "sociologia" : response.result.parameters.aulesociologia.toUpperCase() };
 
             //console.log(aularesp); https://stebranchi.github.io/DarkPovoGang/aula.html?aula=A105&sede=E0503
 
-            if(aularesp.povoA1P != '') res.redirect('https://stebranchi.github.io/DarkPovoGang/aula.html?sede=' + datastruc.dep_id['povo'] + '&aula=' + aularesp.povoA1P);
-            else if(aularesp.povoAPT != '')res.redirect('https://stebranchi.github.io/DarkPovoGang/aula.html?sede=' + datastruc.dep_id['povo'] + '&aula=' + aularesp.povoAPT);
-            else if(aularesp.povoB1P != '')res.redirect('https://stebranchi.github.io/DarkPovoGang/aula.html?sede=' + datastruc.dep_id['povo'] + '&aula=' + aularesp.povoB1P);
-            else if(aularesp.povoBPT != '')res.redirect('https://stebranchi.github.io/DarkPovoGang/aula.html?sede=' + datastruc.dep_id['povo'] + '&aula=' + aularesp.povoBPT);
-            else if(aularesp.povoaltro != '')res.redirect('https://stebranchi.github.io/DarkPovoGang/aula.html?sede=' + datastruc.dep_id['povo'] + '&aula=' + aularesp.povoaltro);
-            else if(aularesp.cognitive != '')res.redirect('https://stebranchi.github.io/DarkPovoGang/aula.html?sede=' + datastruc.dep_id['scienze cognitive'] + '&aula=' + aularesp.cognitive);
-            else if(aularesp.economia != '')res.redirect('https://stebranchi.github.io/DarkPovoGang/aula.html?sede=' + datastruc.dep_id['economia'] + '&aula=' + aularesp.economia);
-            else if(aularesp.giurisprudenza != '')res.redirect('https://stebranchi.github.io/DarkPovoGang/aula.html?sede=' + datastruc.dep_id['giurisprudenza'] + '&aula=' + aularesp.giurisprudenza);
-            else if(aularesp.lettere != '')res.redirect('https://stebranchi.github.io/DarkPovoGang/aula.html?sede=' + datastruc.dep_id['lettere'] + '&aula=' + aularesp.lettere);
-            else if(aularesp.mesiano != '')res.redirect('https://stebranchi.github.io/DarkPovoGang/aula.html?sede=' + datastruc.dep_id['mesiano'] + '&aula=' + aularesp.mesiano);
-            else if(aularesp.sociologia != '')res.redirect('https://stebranchi.github.io/DarkPovoGang/aula.html?sede=' + datastruc.dep_id['sociologia'] + '&aula=' + aularesp.sociologia);
-            else res.redirect('https://uniroomtn.herokuapp.com/void');
+            if(aularesp.povoA1P != '') res.json('https://stebranchi.github.io/DarkPovoGang/aula.html?sede=' + datastruc.dep_id['povo'] + '&aula=' + aularesp.povoA1P);
+            else if(aularesp.povoAPT != '')res.json('https://stebranchi.github.io/DarkPovoGang/aula.html?sede=' + datastruc.dep_id['povo'] + '&aula=' + aularesp.povoAPT);
+            else if(aularesp.povoB1P != '')res.json('https://stebranchi.github.io/DarkPovoGang/aula.html?sede=' + datastruc.dep_id['povo'] + '&aula=' + aularesp.povoB1P);
+            else if(aularesp.povoBPT != '')res.json('https://stebranchi.github.io/DarkPovoGang/aula.html?sede=' + datastruc.dep_id['povo'] + '&aula=' + aularesp.povoBPT);
+            else if(aularesp.povoaltro != '')res.json('https://stebranchi.github.io/DarkPovoGang/aula.html?sede=' + datastruc.dep_id['povo'] + '&aula=' + aularesp.povoaltro);
+            else if(aularesp.cognitive != '')res.json('https://stebranchi.github.io/DarkPovoGang/aula.html?sede=' + datastruc.dep_id['scienze cognitive'] + '&aula=' + aularesp.cognitive);
+            else if(aularesp.economia != '')res.json('https://stebranchi.github.io/DarkPovoGang/aula.html?sede=' + datastruc.dep_id['economia'] + '&aula=' + aularesp.economia);
+            else if(aularesp.giurisprudenza != '')res.json('https://stebranchi.github.io/DarkPovoGang/aula.html?sede=' + datastruc.dep_id['giurisprudenza'] + '&aula=' + aularesp.giurisprudenza);
+            else if(aularesp.lettere != '')res.json('https://stebranchi.github.io/DarkPovoGang/aula.html?sede=' + datastruc.dep_id['lettere'] + '&aula=' + aularesp.lettere);
+            else if(aularesp.mesiano != '')res.json('https://stebranchi.github.io/DarkPovoGang/aula.html?sede=' + datastruc.dep_id['mesiano'] + '&aula=' + aularesp.mesiano);
+            else if(aularesp.sociologia != '')res.json('https://stebranchi.github.io/DarkPovoGang/aula.html?sede=' + datastruc.dep_id['sociologia'] + '&aula=' + aularesp.sociologia);
+            else res.json('https://uniroomtn.herokuapp.com/void');
         }
         else res.redirect('https://uniroomtn.herokuapp.com/void');
 
