@@ -37,6 +37,9 @@ app.get('/nl', (req,res) => {
         if(nlresp.date != undefined) urldate = 'date=' + nlresp.date;
         if(nlresp.time != undefined) urltime = 'time=' + nlresp.time;
 
+        if(urldate == 'date=') urldate='';
+        if(urltime == 'time=') urltime='';
+
         if(nlresp.action === "return.aulalibera") {
             if(nlresp.Place != null) {
                 place = nlresp.Place.toLowerCase();
