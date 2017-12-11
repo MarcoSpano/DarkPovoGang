@@ -85,7 +85,7 @@ app.get('/sede/:sede', (req,res) => {
             let timeString = time.split(':');
             date.setHours(parseInt(timeString[0]));
             date.setMinutes(parseInt(timeString[1]));
-            timeStamp = date.getTime() / 1000;
+             timeStamp = (now.getTime() / 1000) -3200;
             url = "https://easyroom.unitn.it/Orario/rooms_call.php?form-type=rooms&sede="+ sede +"&_lang=it&date=" + day + "-" + month + "-" + year;
             //console.log("Caso 1");
         }
@@ -98,7 +98,7 @@ app.get('/sede/:sede', (req,res) => {
             let timeString = time.split(':');
             now.setHours(parseInt(timeString[0]));
             now.setMinutes(parseInt(timeString[1]));
-            timeStamp = now.getTime() / 1000;
+             timeStamp = (now.getTime() / 1000) -3200;
             url = "https://easyroom.unitn.it/Orario/rooms_call.php?form-type=rooms&sede="+ sede +"&_lang=it&date=" + day + "-" + month + "-" + year;
              //console.log("Caso 2");
         }
