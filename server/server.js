@@ -20,39 +20,72 @@ app.get('/void',(req,res) => {
 //funzione che data una stringa estrae i dati (place,ecc.) e redirige la richiesta
 app.get('/nl', (req,res) => {
     let frase = req.query.frase; //frase ricevuta
+
+    if(frase == undefined) res.redirect('http://localhost:8080/'); 
+
+    //throw error
+
     var request = nlapp.textRequest(frase , {
         sessionId: '0' //non ci serve, non abbiamo bisogno di creare dialoghi
     });
 
     request.on('response', function(response) {
+        //console.log(response);
         //dati estratti dalla stringa
-        var nlresp = {"action" : response.result.action,
-            "Place" : response.result.parameters.Place,
-            "date" : response.result.parameters.date,
-            "time" : response.result.parameters.time};
-
-        let urldate = '';
-        let urltime = '';
-
-        if(nlresp.date != undefined) urldate = 'date=' + nlresp.date;
-        if(nlresp.time != undefined) urltime = 'time=' + nlresp.time;
+        
 
         
-        if(urldate == 'date='){
-            urldate='date=null';
-        } 
-        if(urltime == 'time=') {
-            urltime='time=null';
-        }
 
-        if(nlresp.action === "return.aulalibera") {
+        if(response.result.action === "return.aulalibera") {
+
+            var nlresp = {"Place" : response.result.parameters.Place,
+            "date" : response.result.parameters.date,
+            "time" : response.result.parameters.time,
+            "durata" : response.result.parameters.durata.time};
+
+            let urldate = '';
+            let urltime = '';
+            let urldurata = '';
+
+            if(nlresp.date != '') urldate = 'date=' + nlresp.date;
+            if(nlresp.time != '') urltime = 'time=' + nlresp.time;
+            if(nlresp.durata != '') urldurata = 'durataOre=' + nlresp.durata;
+
+            
             if(nlresp.Place != null) {
                 place = nlresp.Place.toLowerCase();
                 let code_place = datastruc.dep_id[place];
 
-                res.redirect('http://uniroomtn.herokuapp.com/sede/' + code_place + '?' + urldate + '&' + urltime);
+                res.redirect('http://uniroomtn.herokuapp.com/sede/' + code_place + '?' + urldate + '&' + urltime + '&' + urldurata);
             } else res.redirect('http://uniroomtn.herokuapp.com/void');
 
+        } else if(response.result.action === "return.scheduleaula") {
+            var aularesp = {"povoA1P" : response.result.parameters.aulepovoA1p,
+            "povoAPT" : response.result.parameters.aulepovoAPT,
+            "povoB1P" : response.result.parameters.aulepovoB1p,
+            "povoBPT" : response.result.parameters.aulepovoBPT,
+            "povoaltro" : response.result.parameters.aulepovoaltro,
+            "cognitive" : response.result.parameters.aulecognitive,
+            "economia" : response.result.parameters.auleeconomia,
+            "giurisprudenza" : response.result.parameters.aulegiurisprudenza,
+            "lettere" : response.result.parameters.aulelettere,
+            "mesiano" : response.result.parameters.aulemesiano,
+            "sociologia" : response.result.parameters.aulesociologia };
+
+            //console.log(aularesp);
+
+            if(aularesp.povoA1P != '') res.redirect('http://localhost:8080/schedule/sede/' + department.dep_id['povo'] + '/aula/' + aularesp.povoA1P);
+            else if(aularesp.povoAPT != '')res.redirect('http://localhost:8080/schedule/sede/' + department.dep_id['povo'] + '/aula/' + aularesp.povoAPT);
+            else if(aularesp.povoB1P != '')res.redirect('http://localhost:8080/schedule/sede/' + department.dep_id['povo'] + '/aula/' + aularesp.povoB1P);
+            else if(aularesp.povoBPT != '')res.redirect('http://localhost:8080/schedule/sede/' + department.dep_id['povo'] + '/aula/' + aularesp.povoBPT);
+            else if(aularesp.povoaltro != '')res.redirect('http://localhost:8080/schedule/sede/' + department.dep_id['povo'] + '/aula/' + aularesp.povoaltro);
+            else if(aularesp.cognitive != '')res.redirect('http://localhost:8080/schedule/sede/' + department.dep_id['scienze cognitive'] + '/aula/' + aularesp.cognitive);
+            else if(aularesp.economia != '')res.redirect('http://localhost:8080/schedule/sede/' + department.dep_id['economia'] + '/aula/' + aularesp.economia);
+            else if(aularesp.giurisprudenza != '')res.redirect('http://localhost:8080/schedule/sede/' + department.dep_id['giurisprudenza'] + '/aula/' + aularesp.giurisprudenza);
+            else if(aularesp.lettere != '')res.redirect('http://localhost:8080/schedule/sede/' + department.dep_id['lettere'] + '/aula/' + aularesp.lettere);
+            else if(aularesp.mesiano != '')res.redirect('http://localhost:8080/schedule/sede/' + department.dep_id['mesiano'] + '/aula/' + aularesp.mesiano);
+            else if(aularesp.sociologia != '')res.redirect('http://localhost:8080/schedule/sede/' + department.dep_id['sociologia'] + '/aula/' + aularesp.sociologia);
+            else res.redirect('http://localhost:8080/schedule/sede/' + 'E0503' + '/aula/' + aula);
         }
         else res.redirect('http://uniroomtn.herokuapp.com/void');
 
