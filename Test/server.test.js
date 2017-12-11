@@ -92,8 +92,8 @@ test('expect getFreeRooms(input,131234) with input as empty object to return emp
     expect(utilities.getFreeRooms(input, 131234)).toEqual({});
 })
 
-test('expect getFreeRooms(data.cleanedSchedule) to be equal data.freeRooms', () => {
-    expect(utilities.getFreeRooms(data.cleanedSchedule, 1511427600)).toEqual(data.freeRooms);
+test('expect getFreeRooms(data.cleanedSchedule,1511427600) to be equal data.freeRooms1', () => {
+    expect(utilities.getFreeRooms(data.cleanedSchedule, 1511427600)).toEqual(data.freeRooms1);
 })
 
 test('expect getFreeRooms(data.cleanedSchedule, -1) to throw Error', () => {
@@ -131,8 +131,8 @@ test('expect idRoomCode() to throw error', () => {
     expect(function() {utilities.idRoomCode()}).toThrow(Error);
 });
 
-test('Wrong url(wer.lol) as idRoomCode parameter should catch error', () => {
-    return utilities.idRoomCode('wer.lol').catch(e => expect(e).toMatch(e));
+test('Wrong url("https://www.google.it") as idRoomCode parameter should catch error', () => {
+    return utilities.idRoomCode('https://www.google.it').catch(e => expect(e).toMatch(e));
   });
 
 test('expect idRoomCode() to throw error', () => {

@@ -1,20 +1,16 @@
 var TelegramBot = require('node-telegram-bot-api'),
 		telegram = new TelegramBot("483774152:AAFNnHRXFF_LHCQGm7fRpWDspwMMPVcPRA0", { polling: true });
-const express = require('express');
-const path = require("path");
-const request = require('request');
-const cors = require('cors');
 const fetch = require("node-fetch");
-const mapper = require('./server/map.js');
-const utilities = require ('./server/utilities.js')
+const mapper = require('../server/map.js');
+const utilities = require ('../server/utilities.js')
 const svg2png=require('svg2png');
-const unirest=require('unirest');
-const q=require('q');
 
-var povo1p1 = '/img/Povo1P1.svg';
-var povo1pt = '/img/Povo1PT.svg';
-var povo2p1 = '/img/Povo2P1.svg';
-var povo2pt = '/img/Povo2PT.svg';
+var povo1p1 = '../img/Povo1P1.svg';
+var povo1pt = '../img/Povo1PT.svg';
+var povo2p1 = '../img/Povo2P1.svg';
+var povo2pt = '../img/Povo2PT.svg';
+var photo = '../photo_2017-10-12_10-39-45.jpg';
+
 
 var mesiano ={
     "0" : "mesiano piano terra",
@@ -32,7 +28,7 @@ var povo ={
 
 function getData(sede) {
     return new Promise((resolve, reject) => {
-        url = "http://localhost:8080/sede/"+ sede;
+        url = "https://awawa.herokuapp.com/sede/"+ sede;
         fetch(url)
         .then(data => {
             return data.json();
@@ -47,92 +43,62 @@ function getData(sede) {
 }
 
 function getDataAndMaps(sede, id, value){
-
-	let rooms = [];
-	let now = new Date();
-	let day = now.getDate();
-	let month = now.getMonth() + 1;
-	let year = now.getFullYear();
-	let currentTimestamp = now.getTime() / 1000;
-	var sourceBuffer;
-	url = "https://easyroom.unitn.it/Orario/rooms_call.php?form-type=rooms&sede="+sede+"&_lang=it&date=" + day + "-" + month + "-" + year;
-
-	return fetch(url)
-	.then(body => {
-			return body.json();
-	})
-	.then(data => {
-			return data.events;
-	})
-	.then(events => {
-
-			console.log("SECONDO .then");
-			rooms = utilities.getRoomList(events);
-			rooms = utilities.cleanSchedule(rooms);
-			rooms = utilities.getFreeRooms(rooms, currentTimestamp);
-			rooms = utilities.cleanPastSchedule(rooms, currentTimestamp);
-			console.log(rooms);
-			return rooms;
-	})
-
-
-
+	getData(sede)
 	.then(rooms => {
-		var maps = mapper.getMaps(rooms,sede,value);
-		//console.log(maps);
-		return maps;
+		if(rooms === "Nessuna aula disponibile al momento") {
+			return noInfoAvaible(id,value);
+		} else {
+			var maps = mapper.getMaps(rooms,sede,value);
+			return maps;
+		}
 	})
 	.then(maps => {
-		var sourceBuffer;
   	  	svg2png(maps)
     	.then(function (buffer) {
-    		//console.log("convertito!");
-        	//sourceBuffer = new Buffer(buffer, 'base64');
-        	//console.log(sourceBuffer);
             if(sede=="E0503")
         	   telegram.sendPhoto(id,buffer,{caption : povo[value]});
             else if (sede=="E0301")
                 telegram.sendPhoto(id,buffer,{caption : mesiano[value]});
         })
     	.catch(function (error) {
-        	console.log("Conversion Error! "+error);
+        	console.error("Conversion Error! "+error);
     	});
-    	//console.log(sourceBuffer);
 	})
 	.catch(error => {
-			console.log("Errore nel parsing json: "+error);
+			console.error("Errore nel parsing json: "+error);
+	});
+}
+
+
+function noInfoAvaible(id,value) {
+	return new Promise((resolve, reject) => {
+		if(value == 0)	telegram.sendMessage(id,"Nessuna informazione disponibile");
 	});
 }
 
 function Print(sede,chatid){
-		let message = "ciao";
+		let message;
 		let msg = "";
-		//var maps = getDataAndMaps(sede, chatid);
 		getData(sede)
 		.then(rooms => {
-			for(let i = 0; i < rooms.length; i++){
-				if(rooms[i].orario.length > 0) {
-					msg += rooms[i].NomeAula+" libera fino alle "+rooms[i].orario[0].from+"\n";
-					message = msg;
+			if(rooms !== "Nessuna aula disponibile al momento") {
+				for(let i = 0; i < rooms.length; i++) {
+					if(rooms[i].orario.length > 0) {
+						msg += rooms[i].NomeAula+" libera fino alle "+rooms[i].orario[0].from+"\n";
+						message = msg;
+					}
+					else {
+						msg += rooms[i].NomeAula+" libera fino a chiusura.\n";
+						message = msg;
+					}
 				}
-				else {
-					msg += rooms[i].NomeAula+" libera fino a chiusura.\n";
-					message = msg;
-				}
+			} else {
+				message = rooms;
+				telegram.sendMessage(chatid, message);
 			}
-            if(message.includes("ciao"))
-            {
-                message = "l'uni è chiusa, sta a casa!";
-                telegram.sendMessage(chatid, message);
-            }
-            else
-            {
-                telegram.sendMessage(chatid, message);
-            }
 		})
 		.catch(error => {
-			console.log(error);
-			reject(error);
+			console.error(error);
 		})
 }
 
@@ -165,7 +131,7 @@ telegram.on("text", (message) => {
 	else if (message.text.toLowerCase().includes("scienze cognitive") || message.text.toLowerCase().includes("scicogn"))Print("E0705",message.chat.id);
 	else if (message.text.toLowerCase().includes("economia"))Print("E0101",message.chat.id);
     else if (message.text.toLowerCase().includes("a101"))telegram.sendMessage(message.chat.id, "Qua va mandato l'orario dell'aula richiesta");
-    
+
 	else
     {
 		telegram.sendMessage(message.chat.id,"Comando non riconosciuto! Digita /help per conoscere la lista dei comandi.")
