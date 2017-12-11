@@ -15,8 +15,6 @@ var povo1p1 = '/img/Povo1P1.svg';
 var povo1pt = '/img/Povo1PT.svg';
 var povo2p1 = '/img/Povo2P1.svg';
 var povo2pt = '/img/Povo2PT.svg';
-var photo = 'photo_2017-10-12_10-39-45.jpg';
-
 
 var mesiano ={
     "0" : "mesiano piano terra",
@@ -145,7 +143,7 @@ telegram.on("text", (message) => {
 	}
 	else if (message.text == "/help")
 	{
-		telegram.sendMessage(message.chat.id, "I comandi disponibili sono: \n/help \n/start \n/povo \n/socio \n/economia \n/scicogn \n/lettere \n/giuri \n/mesiano \n/filosofia \n/mappePovo \n/mappeMesiano");
+		telegram.sendMessage(message.chat.id, "I comandi disponibili sono: \n/help \n/start \n/povo \n/socio \n/economia \n/scicogn \n/lettere \n/giuri \n/mesiano \n/filosofia \n/mappepovo \n/mappemesiano");
 	}
 	else if (message.text == "/mappepovo"){
         telegram.sendMessage(message.chat.id, "_Sto disegnando le mappe..._", {parse_mode: "Markdown"})
@@ -166,7 +164,8 @@ telegram.on("text", (message) => {
 	else if (message.text.toLowerCase().includes("filosofia") || message.text.toLowerCase().includes("lettere"))Print("E0801",message.chat.id);
 	else if (message.text.toLowerCase().includes("scienze cognitive") || message.text.toLowerCase().includes("scicogn"))Print("E0705",message.chat.id);
 	else if (message.text.toLowerCase().includes("economia"))Print("E0101",message.chat.id);
-
+    else if (message.text.toLowerCase().includes("a101"))telegram.sendMessage(message.chat.id, "Qua va mandato l'orario dell'aula richiesta");
+    
 	else
     {
 		telegram.sendMessage(message.chat.id,"Comando non riconosciuto! Digita /help per conoscere la lista dei comandi.")
