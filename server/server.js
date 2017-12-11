@@ -1,12 +1,21 @@
 const express = require('express');
+const path = require("path");
 const request = require('request');
 const cors = require('cors');
 const utilities = require('./utilities');
 const fetch = require("node-fetch");
-const datastruc = require('./data');
+const department = require("./data.js");
+//const geolib = require("geolib");
+const map = require('./map');
+
+const datastruc = require('./data')
+const cheerio = require('cheerio');
+const svg2png=require('svg2png');
+const fs=require('pn/fs');
 const apiai = require('apiai');
 var nlapp = apiai("f3673557663f4ae8b3f299c5b9c8f836");
 
+var povo = ['/img/Povo1PT.svg','/img/Povo1P1.svg','/img/Povo2PT.svg','/img/Povo2P1.svg']
 
 var port = process.env.PORT || 8080;
 
@@ -21,7 +30,7 @@ app.get('/void',(req,res) => {
 app.get('/nl', (req,res) => {
     let frase = req.query.frase; //frase ricevuta
 
-    if(frase == undefined) res.redirect('http://uniroomtn.herokuapp.com/'); 
+    if(frase == undefined) res.redirect('https://uniroomtn.herokuapp.com/'); 
 
     //throw error
 
@@ -43,21 +52,28 @@ app.get('/nl', (req,res) => {
             "time" : response.result.parameters.time,
             "durata" : response.result.parameters.durata.time};
 
-            let urldate = '';
-            let urltime = '';
+            let urldate = 'date=null';
+            let urltime = 'time=null';
             let urldurata = '';
 
             if(nlresp.date != '') urldate = 'date=' + nlresp.date;
             if(nlresp.time != '') urltime = 'time=' + nlresp.time;
             if(nlresp.durata != '') urldurata = 'durataOre=' + nlresp.durata;
 
+            if(nlresp.date == 'date='){
+                nlresp.date = 'date=null';
+            }
+            if(nlresp.time == 'time='){
+                nlresp.time = 'time=null';
+            }
+
             
             if(nlresp.Place != null) {
                 place = nlresp.Place.toLowerCase();
                 let code_place = datastruc.dep_id[place];
 
-                res.redirect('http://uniroomtn.herokuapp.com/sede/' + code_place + '?' + urldate + '&' + urltime + '&' + urldurata);
-            } else res.redirect('http://uniroomtn.herokuapp.com/void');
+                res.redirect('https://uniroomtn.herokuapp.com/sede/' + code_place + '?' + urldate + '&' + urltime + '&' + urldurata);
+            } else res.redirect('https://uniroomtn.herokuapp.com/void');
 
         } else if(response.result.action === "return.scheduleaula") {
             var aularesp = {"povoA1P" : response.result.parameters.aulepovoA1p,
@@ -72,6 +88,7 @@ app.get('/nl', (req,res) => {
             "mesiano" : response.result.parameters.aulemesiano,
             "sociologia" : response.result.parameters.aulesociologia };
 
+<<<<<<< HEAD
             //console.log(aularesp); https://stebranchi.github.io/DarkPovoGang/aula.html?aula=A105&sede=E0503
 
             if(aularesp.povoA1P != '') res.redirect('https://stebranchi.github.io/DarkPovoGang/aula.html?sede' + datastruc.dep_id['povo'] + '&aula=' + aularesp.povoA1P);
@@ -85,9 +102,24 @@ app.get('/nl', (req,res) => {
             else if(aularesp.lettere != '')res.redirect('https://stebranchi.github.io/DarkPovoGang/aula.html?sede' + datastruc.dep_id['lettere'] + '&aula=' + aularesp.lettere);
             else if(aularesp.mesiano != '')res.redirect('https://stebranchi.github.io/DarkPovoGang/aula.html?sede' + datastruc.dep_id['mesiano'] + '&aula=' + aularesp.mesiano);
             else if(aularesp.sociologia != '')res.redirect('https://stebranchi.github.io/DarkPovoGang/aula.html?sede' + datastruc.dep_id['sociologia'] + '&aula=' + aularesp.sociologia);
+=======
+            //console.log(aularesp);
+
+            if(aularesp.povoA1P != '') res.redirect('https://uniroomtn.herokuapp.com/schedule/sede/' + department.dep_id['povo'] + '/aula/' + aularesp.povoA1P);
+            else if(aularesp.povoAPT != '')res.redirect('https://uniroomtn.herokuapp.com/schedule/sede/' + department.dep_id['povo'] + '/aula/' + aularesp.povoAPT);
+            else if(aularesp.povoB1P != '')res.redirect('https://uniroomtn.herokuapp.com/schedule/sede/' + department.dep_id['povo'] + '/aula/' + aularesp.povoB1P);
+            else if(aularesp.povoBPT != '')res.redirect('https://uniroomtn.herokuapp.com/schedule/sede/' + department.dep_id['povo'] + '/aula/' + aularesp.povoBPT);
+            else if(aularesp.povoaltro != '')res.redirect('https://uniroomtn.herokuapp.com/schedule/sede/' + department.dep_id['povo'] + '/aula/' + aularesp.povoaltro);
+            else if(aularesp.cognitive != '')res.redirect('https://uniroomtn.herokuapp.com/schedule/sede/' + department.dep_id['scienze cognitive'] + '/aula/' + aularesp.cognitive);
+            else if(aularesp.economia != '')res.redirect('https://uniroomtn.herokuapp.com/schedule/sede/' + department.dep_id['economia'] + '/aula/' + aularesp.economia);
+            else if(aularesp.giurisprudenza != '')res.redirect('https://uniroomtn.herokuapp.com/schedule/sede/' + department.dep_id['giurisprudenza'] + '/aula/' + aularesp.giurisprudenza);
+            else if(aularesp.lettere != '')res.redirect('https://uniroomtn.herokuapp.com/schedule/sede/' + department.dep_id['lettere'] + '/aula/' + aularesp.lettere);
+            else if(aularesp.mesiano != '')res.redirect('https://uniroomtn.herokuapp.com/schedule/sede/' + department.dep_id['mesiano'] + '/aula/' + aularesp.mesiano);
+            else if(aularesp.sociologia != '')res.redirect('https://uniroomtn.herokuapp.com/schedule/sede/' + department.dep_id['sociologia'] + '/aula/' + aularesp.sociologia);
+>>>>>>> 67e8662851bd47fdb54f3adc452e9a35eca452d8
             else res.redirect('https://uniroomtn.herokuapp.com/void');
         }
-        else res.redirect('http://uniroomtn.herokuapp.com/void');
+        else res.redirect('https://uniroomtn.herokuapp.com/void');
 
         
 
@@ -118,22 +150,39 @@ app.get('/sede/:sede', (req,res) => {
             let timeString = time.split(':');
             date.setHours(parseInt(timeString[0]));
             date.setMinutes(parseInt(timeString[1]));
-             timeStamp = (now.getTime() / 1000) -3200;
+            timeStamp = (date.getTime() / 1000) - 3200;
             url = "https://easyroom.unitn.it/Orario/rooms_call.php?form-type=rooms&sede="+ sede +"&_lang=it&date=" + day + "-" + month + "-" + year;
             //console.log("Caso 1");
         }
-        else if(req.query.time != undefined && req.query.time != "null"){ //nella request abbiamo solo il tempo, prendiamo come data "in questo momento"
+        else if(req.query.time != undefined && req.query.time != "null" && req.query.date =="null"){ //nella request abbiamo solo il tempo, prendiamo come data "in questo momento"
             let now = new Date();
             let day = now.getDate();
             let month = now.getMonth() + 1;
             let year = now.getFullYear();
+
             let time = req.query.time;
             let timeString = time.split(':');
             now.setHours(parseInt(timeString[0]));
             now.setMinutes(parseInt(timeString[1]));
-             timeStamp = (now.getTime() / 1000) -3200;
+            timeStamp = (now.getTime() / 1000) -3200;
+            console.log(timeStamp);
             url = "https://easyroom.unitn.it/Orario/rooms_call.php?form-type=rooms&sede="+ sede +"&_lang=it&date=" + day + "-" + month + "-" + year;
              //console.log("Caso 2");
+        }
+        else if(req.query.date != undefined && req.query.date != "null" && req.query.time =="null"){ //Abbiamo solo il giorno, partirà dall'ora attuale
+            let datePar = req.query.date;
+            let date = new Date(datePar);
+            let day = date.getDate();
+            let month = date.getMonth() + 1;
+            let year = date.getFullYear();
+
+            let date2 = new Date();
+            let hours = date2.getHours();
+            let minutes = date2.getMinutes();
+            date.setHours(hours);
+            date.setMinutes(minutes);
+            timeStamp = (date.getTime() / 1000);
+            url = "https://easyroom.unitn.it/Orario/rooms_call.php?form-type=rooms&sede="+ sede +"&_lang=it&date=" + day + "-" + month + "-" + year;
         }
         else      //se nella request non ci sono i parametri day,month,year significa "in questo momento"
         {
@@ -160,9 +209,13 @@ app.get('/sede/:sede', (req,res) => {
         })
         .then(events => {
             let rooms = utilities.getRoomList(events);
+            //console.log("1: "+rooms);
             rooms =  utilities.cleanSchedule(rooms);
+            //console.log("2: "+rooms);
             rooms =  utilities.getFreeRooms(rooms, timeStamp);
+            //console.log("3: "+rooms);
             rooms =  utilities.cleanPastSchedule(rooms, timeStamp);
+            //console.log("4: "+rooms);
             if(durataOre > 0) {
                 rooms = utilities.getFreeRooms4xHours(rooms,durataOre,timeStamp);
             }         
