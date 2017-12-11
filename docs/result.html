@@ -176,7 +176,10 @@
 				location.href = "index.html?q=help";
 			url = "https://uniroomtn.herokuapp.com/nl?frase="+ frase;
 			$.getJSON(url, function (data) {
-				if((data == "Nessuna aula disponibile al momento")||(data == null)||(data == undefined)){
+				if(data.includes("aula.html")){
+					location.href = data;
+				}
+				else if((data == "Nessuna aula disponibile al momento")||(data == null)||(data == undefined)){
 					$("#command_table").append("<tr><td>Nessuna aula disponibile al momento</td><td></td><td></td></tr>");
 				}
 				else if(data == "Errore!"){
