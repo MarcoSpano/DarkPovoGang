@@ -50,15 +50,18 @@ app.get('/nl', (req,res) => {
             var nlresp = {"Place" : response.result.parameters.Place,
             "date" : response.result.parameters.date,
             "time" : response.result.parameters.time,
-            "durata" : response.result.parameters.durata.time};
+            "durata" : response.result.parameters.durata.duration.amount,
+            "durataUnit" : response.result.parameters.durata.duration.unit};
 
             let urldate = 'date=null';
             let urltime = 'time=null';
             let urldurata = 'durata=null';
+            let urldurataunit = 'durataunit=null';
 
             if(nlresp.date != '') urldate = 'date=' + nlresp.date;
             if(nlresp.time != '') urltime = 'time=' + nlresp.time;
             if(nlresp.durata != '') urldurata = 'durataOre=' + nlresp.durata;
+            if(nlresp.durataUnit != '') urldurataunit = 'durataunit=' + nlresp.durataUnit;
 
             if(nlresp.date == 'date='){
                 nlresp.date = 'date=null';
@@ -72,7 +75,7 @@ app.get('/nl', (req,res) => {
                 place = nlresp.Place.toLowerCase();
                 let code_place = datastruc.dep_id[place];
 
-                res.redirect('https://uniroomtn.herokuapp.com/sede/' + code_place + '?' + urldate + '&' + urltime + '&' + urldurata);
+                res.redirect('https://uniroomtn.herokuapp.com/sede/' + code_place + '?' + urldate + '&' + urltime + '&' + urldurata + '&' + urldurataunit);
             } else res.redirect('https://uniroomtn.herokuapp.com/void');
 
         } else if(response.result.action === "return.scheduleaula") {
