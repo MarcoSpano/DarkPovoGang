@@ -1,16 +1,7 @@
-
+let myurl;
 var possibilities = ["povo","economia","lettere","filosofia","mesiano",
 					"ingegneria","giurisprudenza","sociologia","scienze cognitive",
 					"giuri","socio","help"];
-
-function contains(arr, element) {
-	for (var i = 0; i < arr.length; i++) {
-		if (arr[i] === element) {
-		return true;
-		}
-	}
-	return false;
-}
 
 function delay(t) {
 	return new Promise(function(resolve) { 
@@ -36,7 +27,7 @@ function go(){
 	//prima bisogna parsare la q e poi aggiungere il parametro polo/aula all'url
 	else
 		url = "result.html?q="+q;
-
+	myurl = url;
 	location.href = url;
 }
 
@@ -48,6 +39,16 @@ function getQueryVariable(url_string,param) {
 		return query;
 	return null;
 }
+
+/*function contains(arr, element) {
+	for (var i = 0; i < arr.length; i++) {
+		if (arr[i] === element) {
+		return true;
+		}
+	}
+	return false;
+}*/
+
 
 /*function getLocation() {
 	return new Promise(
