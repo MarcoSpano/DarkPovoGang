@@ -25,6 +25,11 @@ app.use(cors());
 //funzione che data una stringa estrae i dati (place,ecc.) e redirige la richiesta
 app.get('/nl', (req,res) => {
     let frase = req.query.frase; //frase ricevuta
+
+    if(frase == undefined) res.redirect('http://localhost:8080/'); 
+
+    //throw error
+
     var request = nlapp.textRequest(frase , {
         sessionId: '0' //non ci serve, non abbiamo bisogno di creare dialoghi
     });
@@ -47,9 +52,9 @@ app.get('/nl', (req,res) => {
             let urltime = '';
             let urldurata = '';
 
-            if(nlresp.date != undefined) urldate = 'date=' + nlresp.date;
-            if(nlresp.time != undefined) urltime = 'time=' + nlresp.time;
-            if(nlresp.durata != undefined) urldurata = 'durataOre=' + nlresp.durata;
+            if(nlresp.date != '') urldate = 'date=' + nlresp.date;
+            if(nlresp.time != '') urltime = 'time=' + nlresp.time;
+            if(nlresp.durata != '') urldurata = 'durataOre=' + nlresp.durata;
 
             if(nlresp.Place != null) {
                 place = nlresp.Place.toLowerCase();
@@ -59,7 +64,32 @@ app.get('/nl', (req,res) => {
             } else res.redirect('http://localhost:8080/');
 
         } else if(response.result.action === "return.scheduleaula") {
-            res.redirect('http://localhost:8080/sede/E0503');
+            var aularesp = {"povoA1P" : response.result.parameters.aulepovoA1p,
+            "povoAPT" : response.result.parameters.aulepovoAPT,
+            "povoB1P" : response.result.parameters.aulepovoB1p,
+            "povoBPT" : response.result.parameters.aulepovoBPT,
+            "povoaltro" : response.result.parameters.aulepovoaltro,
+            "cognitive" : response.result.parameters.aulecognitive,
+            "economia" : response.result.parameters.auleeconomia,
+            "giurisprudenza" : response.result.parameters.aulegiurisprudenza,
+            "lettere" : response.result.parameters.aulelettere,
+            "mesiano" : response.result.parameters.aulemesiano,
+            "sociologia" : response.result.parameters.aulesociologia };
+
+            //console.log(aularesp);
+
+            if(aularesp.povoA1P != '') res.redirect('http://localhost:8080/schedule/sede/' + department.dep_id['povo'] + '/aula/' + aularesp.povoA1P);
+            else if(aularesp.povoAPT != '')res.redirect('http://localhost:8080/schedule/sede/' + department.dep_id['povo'] + '/aula/' + aularesp.povoAPT);
+            else if(aularesp.povoB1P != '')res.redirect('http://localhost:8080/schedule/sede/' + department.dep_id['povo'] + '/aula/' + aularesp.povoB1P);
+            else if(aularesp.povoBPT != '')res.redirect('http://localhost:8080/schedule/sede/' + department.dep_id['povo'] + '/aula/' + aularesp.povoBPT);
+            else if(aularesp.povoaltro != '')res.redirect('http://localhost:8080/schedule/sede/' + department.dep_id['povo'] + '/aula/' + aularesp.povoaltro);
+            else if(aularesp.cognitive != '')res.redirect('http://localhost:8080/schedule/sede/' + department.dep_id['scienze cognitive'] + '/aula/' + aularesp.cognitive);
+            else if(aularesp.economia != '')res.redirect('http://localhost:8080/schedule/sede/' + department.dep_id['economia'] + '/aula/' + aularesp.economia);
+            else if(aularesp.giurisprudenza != '')res.redirect('http://localhost:8080/schedule/sede/' + department.dep_id['giurisprudenza'] + '/aula/' + aularesp.giurisprudenza);
+            else if(aularesp.lettere != '')res.redirect('http://localhost:8080/schedule/sede/' + department.dep_id['lettere'] + '/aula/' + aularesp.lettere);
+            else if(aularesp.mesiano != '')res.redirect('http://localhost:8080/schedule/sede/' + department.dep_id['mesiano'] + '/aula/' + aularesp.mesiano);
+            else if(aularesp.sociologia != '')res.redirect('http://localhost:8080/schedule/sede/' + department.dep_id['sociologia'] + '/aula/' + aularesp.sociologia);
+            else res.redirect('http://localhost:8080/schedule/sede/' + 'E0503' + '/aula/' + aula);
         }
         else res.redirect('http://localhost:8080/');
 
