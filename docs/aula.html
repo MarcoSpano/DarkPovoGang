@@ -24,8 +24,33 @@
     	let sede = getQueryVariable(window.location.href,"sede");
     	console.log("sede = "+sede);
     	console.log("aule = "+aula);
-    	//let sede = "E0503";
-    	//let aula = "A101"; 
+    	let day = {
+			'08:00': null,
+			'08:30': null,
+			'09:00': null,
+			'09:30': null,
+			'10:00': null,
+			'10:30': null,
+			'11:00': null,
+			'11:30': null,
+			'12:00': null,
+			'12:30': null,
+			'13:00': null,
+			'13:30': null,
+			'14:00': null,
+			'14:30': null,
+			'15:00': null,
+			'15:30': null,
+			'16:00': null,
+			'16:30': null,
+			'17:00': null,
+			'17:30': null,
+			'18:00': null,
+			'18:30': null,
+			'19:00': null,
+			'19:30': null,
+			'20:00': null
+		};
     	let url = "https://uniroomtn.herokuapp.com/schedule/sede/"+sede+"/aula/"+aula;
 
 		let week = [];
@@ -34,7 +59,7 @@
 		$.getJSON(url,function(data){
 			//console.log(data["orario"][0].from);
 			//dic_tot[k] = val.nomeMateria + "  " + val.nomeProf;
-			
+
 			for (let i = 0; i < 5; i++){
 				let dic_singleDay = {
 		    		'08:00': null,
@@ -63,50 +88,55 @@
 		    		'19:30': null,
 		    		'20:00': null
 		    	};
-				console.log("into the for loop");
-				$.each(data[i]["orario"], function(key,val){
-					console.log("orario giorno "+i+"  "+data[i]["orario"]);
-					for (k in dic_singleDay){
-						if (tmp != k){		
-							if(tmp === null){
+				if(data[i] == "Nessuna lezione oggi in questa aula"){
+					week.push(dic_singleDay);
+				}
+				else
+				{
+					$.each(data[i]["orario"], function(key,val){
+						for (k in dic_singleDay){
+							if (tmp != k){
+								if(tmp === null){
+									if(k === val.from.substring(0,5)){
+										tmp = val.to.substring(0,5);
+										name = val.nomeMateria + "  " + val.nomeProf;
+										dic_singleDay[k] = name;
+									}
+
+								}
+								else{		//continuo ad aggiungere la vecchia lezione
+									dic_singleDay[k] = name;
+								}
+							}
+							else{		//prossima lezione
 								if(k === val.from.substring(0,5)){
 									tmp = val.to.substring(0,5);
 									name = val.nomeMateria + "  " + val.nomeProf;
 									dic_singleDay[k] = name;
-									/*let hour = {};
-									hour["name"] = val.nomeMateria + " " + val.nomeProf;
-									hour["s"] = val.from.substring(0,5);
-									hour["e"] = val.to.substring(0,5);
-									hours.push(hour);*/
 								}
-								
-							}
-							else{		//continuo ad aggiungere la vecchia lezione
-								dic_singleDay[k] = name;
+								else{
+									tmp = null;
+									name = null;
+								}
 							}
 						}
-						else{		//prossima lezione
-							if(k === val.from.substring(0,5)){
-								tmp = val.to.substring(0,5);
-								name = val.nomeMateria + "  " + val.nomeProf;
-								dic_singleDay[k] = name;
-							}
-							else{
-								tmp = null;
-								name = null;
-							}
-						}		
-					}
-					//console.log("inizio = "+ val.from.substring(0,5) + "    fine = "+val.to.substring(0,5));
-						
-				});
-				week.push(dic_singleDay);
+					});
+					week.push(dic_singleDay);
+				}
 			}
-			/*for(let k = 0; k < week.length; k++){
-				console.log(week[k]);
-			}*/
+			for(let k in day){
+				let string = "<tr><td>" + k + "</td>";
+				for (let i = 0; i < week.length; i++){
+					if(week[i][k] != null)
+						string = string.concat("<td>"+week[i][k]+"</td>");
+					else
+						string = string.concat("<td></td>");
+				}
+				$("#schedule_table").append(string);
+			}
+
 		});
-		
+
     </script>
 </head>
 <body>

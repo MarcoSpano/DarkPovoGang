@@ -188,7 +188,7 @@
 
 	<script type="text/javascript">
 
-		var par = getQueryVariable_q(window.location.href);
+		var par = getQueryVariable(window.location.href,"q");
 		if (par === "help") {
 			console.log("par = help")
 			showCommand()
