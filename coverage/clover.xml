@@ -1,26 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1513077705165" clover="3.2.0">
-  <project timestamp="1513077705165" name="All files">
-    <metrics statements="184" coveredstatements="126" conditionals="92" coveredconditionals="70" methods="32" coveredmethods="15" elements="308" coveredelements="211" complexity="0" loc="184" ncloc="184" packages="3" files="4" classes="4">
+<coverage generated="1513080798530" clover="3.2.0">
+  <project timestamp="1513080798530" name="All files">
+    <metrics statements="185" coveredstatements="146" conditionals="92" coveredconditionals="74" methods="32" coveredmethods="19" elements="309" coveredelements="239" complexity="0" loc="185" ncloc="185" packages="3" files="4" classes="4">
       <package name="Test">
-        <metrics statements="10" coveredstatements="10" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-        <file name="data.js" path="/Users/giovanniferronato/Documents/UNIVERSITA/INGEGNERIA DEL SOFTWARE 2/progetto/DarkPovoGang/Test/data.js">
-          <metrics statements="10" coveredstatements="10" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <metrics statements="11" coveredstatements="11" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <file name="data.js" path="/home/stefano/Scrivania/SEII/DarkPovoGang/Test/data.js">
+          <metrics statements="11" coveredstatements="11" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
           <line num="1" count="1" type="stmt"/>
-          <line num="4" count="1" type="stmt"/>
-          <line num="7" count="1" type="stmt"/>
-          <line num="10" count="1" type="stmt"/>
-          <line num="13" count="1" type="stmt"/>
+          <line num="3" count="1" type="stmt"/>
+          <line num="6" count="1" type="stmt"/>
+          <line num="9" count="1" type="stmt"/>
+          <line num="12" count="1" type="stmt"/>
           <line num="15" count="1" type="stmt"/>
-          <line num="18" count="1" type="stmt"/>
-          <line num="21" count="1" type="stmt"/>
+          <line num="17" count="1" type="stmt"/>
+          <line num="20" count="1" type="stmt"/>
           <line num="23" count="1" type="stmt"/>
           <line num="25" count="1" type="stmt"/>
+          <line num="27" count="1" type="stmt"/>
         </file>
       </package>
       <package name="client.js">
         <metrics statements="21" coveredstatements="7" conditionals="4" coveredconditionals="0" methods="5" coveredmethods="2"/>
-        <file name="myjs.js" path="/Users/giovanniferronato/Documents/UNIVERSITA/INGEGNERIA DEL SOFTWARE 2/progetto/DarkPovoGang/client/js/myjs.js">
+        <file name="myjs.js" path="/home/stefano/Scrivania/SEII/DarkPovoGang/client/js/myjs.js">
           <metrics statements="21" coveredstatements="7" conditionals="4" coveredconditionals="0" methods="5" coveredmethods="2"/>
           <line num="1" count="1" type="stmt"/>
           <line num="6" count="0" type="stmt"/>
@@ -46,8 +47,8 @@
         </file>
       </package>
       <package name="server">
-        <metrics statements="153" coveredstatements="109" conditionals="88" coveredconditionals="70" methods="27" coveredmethods="13"/>
-        <file name="data.js" path="/Users/giovanniferronato/Documents/UNIVERSITA/INGEGNERIA DEL SOFTWARE 2/progetto/DarkPovoGang/server/data.js">
+        <metrics statements="153" coveredstatements="128" conditionals="88" coveredconditionals="74" methods="27" coveredmethods="17"/>
+        <file name="data.js" path="/home/stefano/Scrivania/SEII/DarkPovoGang/server/data.js">
           <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
           <line num="1" count="1" type="stmt"/>
           <line num="11" count="1" type="stmt"/>
@@ -55,8 +56,8 @@
           <line num="32" count="1" type="stmt"/>
           <line num="42" count="1" type="stmt"/>
         </file>
-        <file name="utilities.js" path="/Users/giovanniferronato/Documents/UNIVERSITA/INGEGNERIA DEL SOFTWARE 2/progetto/DarkPovoGang/server/utilities.js">
-          <metrics statements="148" coveredstatements="104" conditionals="88" coveredconditionals="70" methods="27" coveredmethods="13"/>
+        <file name="utilities.js" path="/home/stefano/Scrivania/SEII/DarkPovoGang/server/utilities.js">
+          <metrics statements="148" coveredstatements="123" conditionals="88" coveredconditionals="74" methods="27" coveredmethods="17"/>
           <line num="1" count="1" type="stmt"/>
           <line num="2" count="1" type="stmt"/>
           <line num="3" count="1" type="stmt"/>
@@ -174,9 +175,9 @@
           <line num="261" count="0" type="stmt"/>
           <line num="264" count="0" type="stmt"/>
           <line num="268" count="0" type="stmt"/>
-          <line num="274" count="0" type="stmt"/>
-          <line num="275" count="0" type="cond" truecount="0" falsecount="2"/>
-          <line num="276" count="0" type="stmt"/>
+          <line num="274" count="1" type="stmt"/>
+          <line num="275" count="1" type="cond" truecount="1" falsecount="1"/>
+          <line num="276" count="1" type="stmt"/>
           <line num="278" count="0" type="stmt"/>
           <line num="279" count="0" type="cond" truecount="0" falsecount="2"/>
           <line num="280" count="0" type="stmt"/>
@@ -184,22 +185,22 @@
           <line num="282" count="0" type="cond" truecount="0" falsecount="2"/>
           <line num="283" count="0" type="stmt"/>
           <line num="289" count="0" type="cond" truecount="0" falsecount="2"/>
-          <line num="293" count="0" type="stmt"/>
-          <line num="295" count="0" type="stmt"/>
-          <line num="296" count="0" type="cond" truecount="0" falsecount="2"/>
-          <line num="297" count="0" type="stmt"/>
-          <line num="299" count="0" type="cond" truecount="0" falsecount="2"/>
-          <line num="300" count="0" type="stmt"/>
-          <line num="301" count="0" type="stmt"/>
-          <line num="305" count="0" type="stmt"/>
-          <line num="309" count="0" type="stmt"/>
-          <line num="310" count="0" type="stmt"/>
-          <line num="311" count="0" type="stmt"/>
-          <line num="313" count="0" type="stmt"/>
-          <line num="317" count="0" type="stmt"/>
-          <line num="318" count="0" type="stmt"/>
-          <line num="319" count="0" type="stmt"/>
-          <line num="323" count="0" type="stmt"/>
+          <line num="293" count="1" type="stmt"/>
+          <line num="295" count="1" type="stmt"/>
+          <line num="296" count="7" type="cond" truecount="1" falsecount="1"/>
+          <line num="297" count="7" type="stmt"/>
+          <line num="299" count="7" type="cond" truecount="2" falsecount="0"/>
+          <line num="300" count="3" type="stmt"/>
+          <line num="301" count="3" type="stmt"/>
+          <line num="305" count="1" type="stmt"/>
+          <line num="309" count="7" type="stmt"/>
+          <line num="310" count="7" type="stmt"/>
+          <line num="311" count="7" type="stmt"/>
+          <line num="313" count="7" type="stmt"/>
+          <line num="317" count="7" type="stmt"/>
+          <line num="318" count="7" type="stmt"/>
+          <line num="319" count="7" type="stmt"/>
+          <line num="323" count="28" type="stmt"/>
           <line num="327" count="0" type="stmt"/>
           <line num="328" count="0" type="stmt"/>
           <line num="329" count="0" type="cond" truecount="0" falsecount="2"/>

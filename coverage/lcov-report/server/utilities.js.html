@@ -20,28 +20,28 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">70.27% </span>
+        <span class="strong">83.11% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>104/148</span>
+        <span class='fraction'>123/148</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">79.55% </span>
+        <span class="strong">84.09% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>70/88</span>
+        <span class='fraction'>74/88</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">48.15% </span>
+        <span class="strong">62.96% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>13/27</span>
+        <span class='fraction'>17/27</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">70.27% </span>
+        <span class="strong">83.11% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>104/148</span>
+        <span class='fraction'>123/148</span>
       </div>
     </div>
   </div>
-  <div class='status-line medium'></div>
+  <div class='status-line high'></div>
 <pre><table class="coverage">
 <tr><td class="line-count quiet">1
 2
@@ -652,9 +652,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -671,37 +671,37 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">28x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -879,7 +879,7 @@ function idRoomCode(uri) {
             let couple = {};
             Object.keys(areaRooms).map(sede =&gt; {
                 Object.keys(areaRooms[sede]).map(room =&gt; {
-                    couple[areaRooms[sede][room ].room_code] = areaRooms[sede][room].id;
+                    couple[areaRooms[sede][room ].room_name] = areaRooms[sede][room].id;
                 });
             });
             return couple;
@@ -987,10 +987,10 @@ function <span class="fstat-no" title="function not covered" >getDaySchedule(</s
     })
 }
 &nbsp;
-function <span class="fstat-no" title="function not covered" >getFreeRooms4xHours(</span>rooms, hours, currentTimestamp) {
-    let ris = <span class="cstat-no" title="statement not covered" >[];</span>
-<span class="cstat-no" title="statement not covered" >    if(typeof rooms === "string") {</span>
-<span class="cstat-no" title="statement not covered" >        return "Nessuna aula libera";</span>
+function getFreeRooms4xHours(rooms, hours, currentTimestamp) {
+    let ris = [];
+    <span class="missing-if-branch" title="else path not taken" >E</span>if(typeof rooms === "string") {
+        return "Nessuna aula libera";
     } else {
 <span class="cstat-no" title="statement not covered" >        rooms.map(<span class="fstat-no" title="function not covered" >ro</span>om =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >            if(room.orario[0]) {</span>
@@ -1006,38 +1006,38 @@ function <span class="fstat-no" title="function not covered" >getFreeRooms4xHour
 <span class="cstat-no" title="statement not covered" >    return ris.length !== 0 ? ris : 'Nessuna aula sarà libera per ' + hours + " ore.";</span>
 }
 &nbsp;
-function <span class="fstat-no" title="function not covered" >getNearestLocation(</span>userCoord) {
-    let min = <span class="cstat-no" title="statement not covered" >100000;</span>
+function getNearestLocation(userCoord) {
+    let min = 100000;
     let ris;
-<span class="cstat-no" title="statement not covered" >    for (var sede in dataStruct.dep_coordinates) {</span>
-<span class="cstat-no" title="statement not covered" >        if (dataStruct.dep_coordinates.hasOwnProperty(sede)) {</span>
-            let d = <span class="cstat-no" title="statement not covered" >getDistanceFromLatLonInKm(userCoord.latitude, userCoord.longitude,</span>
+    for (var sede in dataStruct.dep_coordinates) {
+        <span class="missing-if-branch" title="else path not taken" >E</span>if (dataStruct.dep_coordinates.hasOwnProperty(sede)) {
+            let d = getDistanceFromLatLonInKm(userCoord.latitude, userCoord.longitude,
                  dataStruct.dep_coordinates[sede].latitude, dataStruct.dep_coordinates[sede].longitude);
-<span class="cstat-no" title="statement not covered" >            if(d &lt; min) {</span>
-<span class="cstat-no" title="statement not covered" >                min = d;</span>
-<span class="cstat-no" title="statement not covered" >                ris = sede;</span>
+            if(d &lt; min) {
+                min = d;
+                ris = sede;
             }
         }
     }
-<span class="cstat-no" title="statement not covered" >    return ris;</span>
+    return ris;
 }
 &nbsp;
-function <span class="fstat-no" title="function not covered" >getDistanceFromLatLonInKm(</span>lat1,lon1,lat2,lon2) {
-    var R = <span class="cstat-no" title="statement not covered" >6371;</span> // Radius of the earth in km
-    var dLat = <span class="cstat-no" title="statement not covered" >deg2rad(lat2-lat1);</span>  // deg2rad below
-    var dLon = <span class="cstat-no" title="statement not covered" >deg2rad(lon2-lon1);</span>
+function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
+    var R = 6371; // Radius of the earth in km
+    var dLat = deg2rad(lat2-lat1);  // deg2rad below
+    var dLon = deg2rad(lon2-lon1);
     var a =
-<span class="cstat-no" title="statement not covered" >      Math.sin(dLat/2) * Math.sin(dLat/2) +</span>
+      Math.sin(dLat/2) * Math.sin(dLat/2) +
       Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
       Math.sin(dLon/2) * Math.sin(dLon/2)
       ;
-    var c = <span class="cstat-no" title="statement not covered" >2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));</span>
-    var d = <span class="cstat-no" title="statement not covered" >R * c;</span> // Distance in km
-<span class="cstat-no" title="statement not covered" >    return d;</span>
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    var d = R * c; // Distance in km
+    return d;
   }
 &nbsp;
-function <span class="fstat-no" title="function not covered" >deg2rad(</span>deg) {
-<span class="cstat-no" title="statement not covered" >    return deg * (Math.PI/180)</span>
+function deg2rad(deg) {
+    return deg * (Math.PI/180)
 }
 &nbsp;
 function <span class="fstat-no" title="function not covered" >getMonday(</span>d) {
@@ -1057,7 +1057,7 @@ module.exports = {inArray, getRoomList, cleanSchedule, getFreeRooms,
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Tue Dec 12 2017 12:21:45 GMT+0100 (CET)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Tue Dec 12 2017 13:13:18 GMT+0100 (CET)
 </div>
 </div>
 <script src="../prettify.js"></script>

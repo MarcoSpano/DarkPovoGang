@@ -62,7 +62,7 @@ app.get('/nl', (req,res) => {
                 if(response.result.parameters.durata.duration.amount != '') urldurata = 'durataOre=' + response.result.parameters.durata.duration.amount;
                 if(response.result.parameters.durata.duration.unit != '') urldurataunit = 'durataunit=' + response.result.parameters.durata.duration.unit;
             }
-            
+
 
             if(nlresp.date == 'date='){
                 nlresp.date = 'date=null';

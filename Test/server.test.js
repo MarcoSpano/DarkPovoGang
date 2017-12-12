@@ -23,15 +23,15 @@ test('inArray("povo") should return false', () => {
 
 test('inArray("E0000") should return false', () => {
     expect(utilities.inArray('E0000')).not.toBeTruthy();
-});  
+});
 
 test('inArray() to throw error', () => {
     expect(utilities.inArray).toThrow(Error);
-}); 
+});
 
 test('inArray(23) to throw TypeError', () => {
     expect(function() {utilities.inArray(23)}).toThrow(TypeError);
-}); 
+});
 
 
 
@@ -137,7 +137,7 @@ test('Wrong url("https://www.google.it") as idRoomCode parameter should catch er
 
 test('expect idRoomCode() to throw error', () => {
     expect(typeof utilities.idRoomCode(url)).toBe("object");
-});  
+});
 
 test('expect idRoomCode(url) to be equal data.roomCode', () => {
     return utilities.idRoomCode(url).then(response => {
@@ -161,4 +161,22 @@ test('expect getRoomSchedule(data.eventi, 440) to be data.scheduleA106', () => {
 
 test('expect getRoomSchedule({}, 440) to send "Nessuna lezione oggi in questa aula"', () => {
     expect(utilities.getRoomSchedule({},440)).toEqual("Nessuna lezione oggi in questa aula");
+});
+
+
+//getFreeRooms4xHours function tests.
+const date = new Date();
+const timestamp = date.getTime()/1000;
+test('expect getFreeRooms4xHours(string , 3, date) to send "nessuna aula libera"', () => {
+  expect(utilities.getFreeRooms4xHours("ciao" , 3 , timestamp)).toEqual("Nessuna aula libera");
+});
+/*
+test('expect getFreeRooms4xHours(rooms , 48 ,date) to throw typeError', () => {
+  expect(utilities.getFreeRooms4xHours(data.roomsxhours, 48,  timestamp)).toThrow(TypeError);
+});*/
+
+//getNearestLocation function tests.
+const usercoord = {"latitude" : 46.067012, "longitude" : 11.1499029};
+test('expect getNearestLocation(usercoord) to send "E0503"', () => {
+  expect(utilities.getNearestLocation(usercoord)).toEqual("E0503");
 });
