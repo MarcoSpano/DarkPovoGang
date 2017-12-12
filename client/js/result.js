@@ -1,5 +1,5 @@
 //script per caricare il titolo
-var polo = getQueryVariable_q(window.location.href);
+var polo = getQueryVariable(window.location.href,"q");
 if(polo !== null) {
     var name = "Aule libere presso: " + polo;    
 } else {
@@ -12,8 +12,8 @@ document.getElementById("nome_polo").innerHTML = name;
 
 let url;
 //script per creare la tabella degli orari
-var sede = getQueryVariable_q(window.location.href);
-var geoloc = getQueryVariable_geoloc(window.location.href);
+var sede = getQueryVariable(window.location.href,"q");
+var geoloc = getQueryVariable(window.location.href,"geoloc");
 if (sede != null) {
     sede = sede.replace("%20", " ");
     switch (sede) {
