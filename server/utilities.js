@@ -239,14 +239,12 @@ function getRoomSchedule(events, roomId) {
 }
 
 function getDaySchedule(sede, room, day, month, year) {
-    let roomCode = sede + '/' + room;
-
     let url = "https://easyroom.unitn.it/Orario/rooms_call.php?form-type=rooms&sede=" + sede + "&_lang=it&date=" + day + "-" + month + "-" + year;
 
     return new Promise((resolve, reject) => {
         idRoomCode(url)
         .then(response => {
-            return response[roomCode];
+            return response[room];
         })
         .then(id => { //id della stanza
             fetch(url)
