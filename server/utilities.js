@@ -162,7 +162,7 @@ function idRoomCode(uri) {
             let couple = {};
             Object.keys(areaRooms).map(sede => {
                 Object.keys(areaRooms[sede]).map(room => {
-                    couple[areaRooms[sede][room ].room_code] = areaRooms[sede][room].id;
+                    couple[areaRooms[sede][room ].room_name] = areaRooms[sede][room].id;
                 });
             });
             return couple;
