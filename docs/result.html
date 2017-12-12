@@ -181,13 +181,8 @@
 				if (data.includes("aula.html")) {
 					location.href = data;
 				}
-<<<<<<< HEAD
 				else if((data.includes("Nessuna"))||(data == null)||(data == undefined)){
 					$("#command_table").append("<tr><td>Nessuna aula disponibile</td><td></td><td></td></tr>");
-=======
-				else if ((data == "Nessuna aula disponibile al momento") || (data == null) || (data == undefined)) {
-					$("#command_table").append("<tr><td>Nessuna aula disponibile al momento</td><td></td><td></td></tr>");
->>>>>>> preloader
 				}
 				else if (data == "Errore!") {
 					location.href = "index.html?q=dc";
@@ -195,7 +190,6 @@
 				else {
 					let time = data[0].time;
 					let orario;
-<<<<<<< HEAD
 					if(time == null){
 							let date = new Date();
 							let min = date.getMinutes();
@@ -210,14 +204,6 @@
 							orario = time;
 						}
 					$.each(data, function (key, val) {						
-=======
-					if (time == null) {
-						orario = "ora";
-					} else {
-						orario = time;
-					}
-					$.each(data, function (key, val) {
->>>>>>> preloader
 						if (val.orario[0]) {
 							$("#command_table").append("<tr><td>" + val.NomeAula + "</td><td>" + orario + "</td><td>" + val.orario[0].from + "</td></tr>");
 						}
