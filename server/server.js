@@ -141,7 +141,6 @@ app.get('/sede/:sede', (req,res) => {
             date.setMinutes(parseInt(timeString[1]));
             timeStamp = (date.getTime() / 1000) - 3200;
             url = "https://easyroom.unitn.it/Orario/rooms_call.php?form-type=rooms&sede="+ sede +"&_lang=it&date=" + day + "-" + month + "-" + year;
-            //console.log("Caso 1");
         }
         else if(req.query.time != undefined && req.query.time != "null" && req.query.date =="null"){ //nella request abbiamo solo il tempo, prendiamo come data "in questo momento"
             let now = new Date();
@@ -156,7 +155,6 @@ app.get('/sede/:sede', (req,res) => {
             timeStamp = (now.getTime() / 1000) -3200;
             console.log(timeStamp);
             url = "https://easyroom.unitn.it/Orario/rooms_call.php?form-type=rooms&sede="+ sede +"&_lang=it&date=" + day + "-" + month + "-" + year;
-             //console.log("Caso 2");
         }
         else if(req.query.date != undefined && req.query.date != "null" && req.query.time =="null"){ //Abbiamo solo il giorno, partirà dall'ora attuale
             let datePar = req.query.date;
@@ -198,7 +196,7 @@ app.get('/sede/:sede', (req,res) => {
 
             rooms = utilities.getRoomList(data.events, rooms);
 
-            /*rooms =  utilities.cleanSchedule(rooms);
+            rooms =  utilities.cleanSchedule(rooms);
             
             rooms =  utilities.getFreeRooms(rooms, timeStamp);
 
@@ -207,7 +205,7 @@ app.get('/sede/:sede', (req,res) => {
             if(durataOre > 0) {
                 rooms = utilities.getFreeRooms4xHours(rooms,durataOre,timeStamp);
             }
-            rooms[0].time = time;*/
+            rooms[0].time = time;
             res.json(rooms); //Get the list of rooms with events that day and the hours in which they are busy.
         })
         .catch(error => {

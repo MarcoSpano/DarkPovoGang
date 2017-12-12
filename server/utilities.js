@@ -1,12 +1,4 @@
 const fetch = require("node-fetch");
-const geolib = require("geolib");
-const cheerio = require('cheerio');
-const svg2png=require('svg2png');
-const fs=require('pn/fs');
-const express = require('express');
-const path = require("path");
-const request = require('request');
-const cors = require('cors');
 const dataStruct = require('./data');
 
 
@@ -44,6 +36,9 @@ function getRoomList(events, rooms) {
     }
     if(typeof events != "object") {
         throw new TypeError('No object parameter inserted');
+    }
+    if(rooms.length == 0) {
+        return [];
     }
     for(let i = 0; i < events.length; i++) {
         let id = -1;
@@ -158,7 +153,7 @@ function idRoomCode(uri) {
             let couple = {};
             Object.keys(areaRooms).map(sede => {
                 Object.keys(areaRooms[sede]).map(room => {
-                    couple[areaRooms[sede][room ].room_name] = areaRooms[sede][room].id;
+                    couple[areaRooms[sede][room].room_name] = areaRooms[sede][room].id;
                 });
             });
             return couple;
@@ -281,7 +276,6 @@ function getFreeRooms4xHours(rooms, hours, currentTimestamp) {
             }       
         });
     }
-
     return ris.length !== 0 ? ris : 'Nessuna aula sarà libera per ' + hours + " ore.";
 }
 
