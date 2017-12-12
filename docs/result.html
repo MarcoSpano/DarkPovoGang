@@ -192,7 +192,11 @@
 							let date = new Date();
 							let min = date.getMinutes();
 							let hour = date.getHours();
-							let s = hour + ":" + min + ":00";
+							let s;
+							if(min < 10)
+								s = hour + ":0" + min + ":00";
+							else
+								s = hour + ":" + min + ":00";
 							orario = s;
 						} else {
 							orario = time;
