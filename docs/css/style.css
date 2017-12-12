@@ -13,7 +13,29 @@ nav{
    z-index: 1000;
    box-shadow: none;
  }
- 
+
+.row .input-field input:focus {
+    border-bottom: 1px solid #03a9f4 !important;
+}
+
+.progress{
+    background-color: white;
+}
+
+.preloader-background {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+
+    position: relative;
+    z-index: 100;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
 .nav-wrapper{
    padding: 0 25px;
  }
