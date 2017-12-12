@@ -82,8 +82,8 @@ function Print(sede,chatid){
 		let msg = "";
 		getData(sede)
 		.then(rooms => {
-			if(rooms === "Errore!") message="Comando non riconosciuto, usa /help per vedere i comandi disponibili";
-			if(rooms.includes("stebranchi"))message = rooms;
+			if(rooms == "Errore!") message="Comando non riconosciuto, usa /help per vedere i comandi disponibili";
+			else if(rooms.includes("stebranchi"))message = rooms;
 			else if(rooms !== "Nessuna aula disponibile al momento") {
 				for(let i = 0; i < rooms.length; i++) {
 					if(rooms[i].orario.length > 0) {
