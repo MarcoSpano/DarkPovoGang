@@ -40,7 +40,7 @@ function getQueryVariable(url_string,param) {
 	return null;
 }
 
-module.exports = {getQueryVariable, showCommand, go};
+
 /*function contains(arr, element) {
 	for (var i = 0; i < arr.length; i++) {
 		if (arr[i] === element) {
@@ -96,4 +96,4 @@ function getQueryVariable_geoloc(url_string) {
 		return query;
 	return null;
 }*/
-
+module.exports = {getQueryVariable, showCommand, go};
