@@ -193,11 +193,12 @@ app.get('/sede/:sede', (req,res) => {
             return body.json();
         })
         .then(data => {
+            res.json(data.events);
             let rooms = utilities.getAllRooms(data.area_rooms, sede);
 
             rooms = utilities.getRoomList(data.events, rooms);
 
-            rooms =  utilities.cleanSchedule(rooms);
+            /*rooms =  utilities.cleanSchedule(rooms);
             
             rooms =  utilities.getFreeRooms(rooms, timeStamp);
 
@@ -206,7 +207,7 @@ app.get('/sede/:sede', (req,res) => {
             if(durataOre > 0) {
                 rooms = utilities.getFreeRooms4xHours(rooms,durataOre,timeStamp);
             }
-            rooms[0].time = time;
+            rooms[0].time = time;*/
             res.json(rooms); //Get the list of rooms with events that day and the hours in which they are busy.
         })
         .catch(error => {
@@ -266,13 +267,16 @@ app.get('/room', (req, res) => {
         return body.json();
     })
     .then(data => {
-        return data.events;
-    })
-    .then(events => {
-        let rooms = utilities.getRoomList(events);
-        rooms = utilities.cleanSchedule(rooms);
-        rooms = utilities.getFreeRooms(rooms, currentTimestamp);
-        rooms = utilities.cleanPastSchedule(rooms, currentTimestamp);
+        let rooms = utilities.getAllRooms(data.area_rooms, nearestLocation);
+        
+        rooms = utilities.getRoomList(data.events, rooms);
+        
+        rooms =  utilities.cleanSchedule(rooms);
+                    
+        rooms =  utilities.getFreeRooms(rooms, currentTimestamp);
+        
+        rooms =  utilities.cleanPastSchedule(rooms, currentTimestamp);
+
         rooms[0].sede = sede; //Solo il primo elemento avrà il campo sede che servirà per cambiare il titolo alla pagina
         res.json(rooms); //Get the list of rooms with events that day and the hours in which they are busy.
     })

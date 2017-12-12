@@ -36,6 +36,8 @@ test('inArray(23) to throw TypeError', () => {
 
 
 const events = data.all.events;
+const allPovoRooms = data.allPovoRooms;
+const allPovoLessonsDay = data.allPovoLessonsDay;
 
 //getRoomList function tests.
 test('expect getRoomList() to throw error', () => {
@@ -47,7 +49,7 @@ test('expect getRoomList(23) to throw TypeError', () => {
 })
 
 test('expect getRoomList(events,rooms) to be equal rooms', () => {
-    expect(utilities.getRoomList(events,rooms)).toEqual(data.rooms);
+    expect(utilities.getRoomList(events,allPovoRooms)).toEqual(allPovoLessonsDay);
 })
 
 const input = {};
@@ -152,7 +154,7 @@ test('expect getRoomSchedule() to throw error', () => {
 });
 
 test('expect getRoomSchedule(data.all.events, {}) to throw error', () => {
-    expect(function() {utilities.getRoomSchedule(data.all.events,{})}).toThrow(TypeError);
+    expect(function() {utilities.getRoomSchedule(events,{})}).toThrow(TypeError);
 });
 
 test('expect getRoomSchedule(data.eventi, 440) to be data.scheduleA106', () => {
