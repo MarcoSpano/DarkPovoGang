@@ -80,17 +80,17 @@ app.get('/nl', (req,res) => {
             } else res.redirect('https://uniroomtn.herokuapp.com/void');
 
         } else if(response.result.action === "return.scheduleaula") {
-            var aularesp = {"povoA1P" : response.result.parameters.aulepovoA1p.toUpperCase(),
-            "povoAPT" : response.result.parameters.aulepovoAPT.toUpperCase(),
-            "povoB1P" : response.result.parameters.aulepovoB1p.toUpperCase(),
-            "povoBPT" : response.result.parameters.aulepovoBPT.toUpperCase(),
-            "povoaltro" : response.result.parameters.aulepovoaltro.toUpperCase(),
-            "cognitive" : response.result.parameters.aulecognitive.toUpperCase(),
-            "economia" : response.result.parameters.auleeconomia.toUpperCase(),
-            "giurisprudenza" : response.result.parameters.aulegiurisprudenza.toUpperCase(),
-            "lettere" : response.result.parameters.aulelettere.toUpperCase(),
-            "mesiano" : response.result.parameters.aulemesiano.toUpperCase(),
-            "sociologia" : response.result.parameters.aulesociologia.toUpperCase() };
+            var aularesp = {"povoA1P" : response.result.parameters.aulepovoA1p,
+            "povoAPT" : response.result.parameters.aulepovoAPT,
+            "povoB1P" : response.result.parameters.aulepovoB1p,
+            "povoBPT" : response.result.parameters.aulepovoBPT,
+            "povoaltro" : response.result.parameters.aulepovoaltro,
+            "cognitive" : response.result.parameters.aulecognitive,
+            "economia" : response.result.parameters.auleeconomia,
+            "giurisprudenza" : response.result.parameters.aulegiurisprudenza,
+            "lettere" : response.result.parameters.aulelettere,
+            "mesiano" : response.result.parameters.aulemesiano,
+            "sociologia" : response.result.parameters.aulesociologia };
 
             //console.log(aularesp); https://stebranchi.github.io/DarkPovoGang/aula.html?aula=A105&sede=E0503
 
