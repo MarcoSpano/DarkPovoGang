@@ -80,17 +80,17 @@ app.get('/nl', (req,res) => {
             } else res.redirect('https://uniroomtn.herokuapp.com/void');
 
         } else if(response.result.action === "return.scheduleaula") {
-            var aularesp = {"povoA1P" : response.result.parameters.aulepovoA1p,
-            "povoAPT" : response.result.parameters.aulepovoAPT,
-            "povoB1P" : response.result.parameters.aulepovoB1p,
-            "povoBPT" : response.result.parameters.aulepovoBPT,
-            "povoaltro" : response.result.parameters.aulepovoaltro,
-            "cognitive" : response.result.parameters.aulecognitive,
-            "economia" : response.result.parameters.auleeconomia,
-            "giurisprudenza" : response.result.parameters.aulegiurisprudenza,
-            "lettere" : response.result.parameters.aulelettere,
-            "mesiano" : response.result.parameters.aulemesiano,
-            "sociologia" : response.result.parameters.aulesociologia };
+            var aularesp = {"povoA1P" : response.result.parameters.aulepovoA1p.replace(/ /gi,"%20"),
+            "povoAPT" : response.result.parameters.aulepovoAPT.replace(/ /gi,"%20"),
+            "povoB1P" : response.result.parameters.aulepovoB1p.replace(/ /gi,"%20"),
+            "povoBPT" : response.result.parameters.aulepovoBPT.replace(/ /gi,"%20"),
+            "povoaltro" : response.result.parameters.aulepovoaltro.replace(/ /gi,"%20"),
+            "cognitive" : response.result.parameters.aulecognitive.replace(/ /gi,"%20"),
+            "economia" : response.result.parameters.auleeconomia.replace(/ /gi,"%20"),
+            "giurisprudenza" : response.result.parameters.aulegiurisprudenza.replace(/ /gi,"%20"),
+            "lettere" : response.result.parameters.aulelettere.replace(/ /gi,"%20"),
+            "mesiano" : response.result.parameters.aulemesiano.replace(/ /gi,"%20"),
+            "sociologia" : response.result.parameters.aulesociologia.replace(/ /gi,"%20") };
 
             //console.log(aularesp); https://stebranchi.github.io/DarkPovoGang/aula.html?aula=A105&sede=E0503
 
