@@ -141,7 +141,6 @@ app.get('/sede/:sede', (req,res) => {
             date.setMinutes(parseInt(timeString[1]));
             timeStamp = (date.getTime() / 1000) - 3200;
             url = "https://easyroom.unitn.it/Orario/rooms_call.php?form-type=rooms&sede="+ sede +"&_lang=it&date=" + day + "-" + month + "-" + year;
-            //console.log("Caso 1");
         }
         else if(req.query.time != undefined && req.query.time != "null" && req.query.date =="null"){ //nella request abbiamo solo il tempo, prendiamo come data "in questo momento"
             let now = new Date();
@@ -156,7 +155,6 @@ app.get('/sede/:sede', (req,res) => {
             timeStamp = (now.getTime() / 1000) -3200;
             console.log(timeStamp);
             url = "https://easyroom.unitn.it/Orario/rooms_call.php?form-type=rooms&sede="+ sede +"&_lang=it&date=" + day + "-" + month + "-" + year;
-             //console.log("Caso 2");
         }
         else if(req.query.date != undefined && req.query.date != "null" && req.query.time =="null"){ //Abbiamo solo il giorno, partirà dall'ora attuale
             let datePar = req.query.date;
@@ -181,7 +179,6 @@ app.get('/sede/:sede', (req,res) => {
             let year = now.getFullYear();
             timeStamp = now.getTime() / 1000;
             url = "https://easyroom.unitn.it/Orario/rooms_call.php?form-type=rooms&sede="+ sede +"&_lang=it&date=" + day + "-" + month + "-" + year;
-             //console.log("Caso 3");
         }
 
         let durataOre = 0;
@@ -194,23 +191,21 @@ app.get('/sede/:sede', (req,res) => {
             return body.json();
         })
         .then(data => {
-            return data.events;
-        })
-        .then(events => {
-            let rooms = utilities.getRoomList(events);
-            //console.log("1: "+rooms);
+            res.json(data.events);
+            let rooms = utilities.getAllRooms(data.area_rooms, sede);
+
+            rooms = utilities.getRoomList(data.events, rooms);
+
             rooms =  utilities.cleanSchedule(rooms);
-            //console.log("2: "+rooms);
+            
             rooms =  utilities.getFreeRooms(rooms, timeStamp);
-            //console.log("3: "+rooms);
+
             rooms =  utilities.cleanPastSchedule(rooms, timeStamp);
-            //console.log("4: "+rooms);
+
             if(durataOre > 0) {
                 rooms = utilities.getFreeRooms4xHours(rooms,durataOre,timeStamp);
             }
             rooms[0].time = time;
-            //rooms[0].time = req.query.time;
-            //rooms[0].time = req.query.time; //Solo il primo elemento avrà il campo sede che servirà per cambiare il titolo alla pagina
             res.json(rooms); //Get the list of rooms with events that day and the hours in which they are busy.
         })
         .catch(error => {
@@ -270,13 +265,16 @@ app.get('/room', (req, res) => {
         return body.json();
     })
     .then(data => {
-        return data.events;
-    })
-    .then(events => {
-        let rooms = utilities.getRoomList(events);
-        rooms = utilities.cleanSchedule(rooms);
-        rooms = utilities.getFreeRooms(rooms, currentTimestamp);
-        rooms = utilities.cleanPastSchedule(rooms, currentTimestamp);
+        let rooms = utilities.getAllRooms(data.area_rooms, nearestLocation);
+        
+        rooms = utilities.getRoomList(data.events, rooms);
+        
+        rooms =  utilities.cleanSchedule(rooms);
+                    
+        rooms =  utilities.getFreeRooms(rooms, currentTimestamp);
+        
+        rooms =  utilities.cleanPastSchedule(rooms, currentTimestamp);
+
         rooms[0].sede = sede; //Solo il primo elemento avrà il campo sede che servirà per cambiare il titolo alla pagina
         res.json(rooms); //Get the list of rooms with events that day and the hours in which they are busy.
     })

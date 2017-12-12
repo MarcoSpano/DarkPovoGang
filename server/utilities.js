@@ -1,12 +1,4 @@
 const fetch = require("node-fetch");
-const geolib = require("geolib");
-const cheerio = require('cheerio');
-const svg2png=require('svg2png');
-const fs=require('pn/fs');
-const express = require('express');
-const path = require("path");
-const request = require('request');
-const cors = require('cors');
 const dataStruct = require('./data');
 
 
@@ -25,46 +17,45 @@ function inArray(sede){
     return false;
 }
 
-function getRoomList(events) {
+function getAllRooms(areaRooms, sede) {
+    let ris = [];
+    let roomList = Object.keys(areaRooms[sede]);
+    for(let i = 0; i < roomList.length; i++) {
+        let room = {room: areaRooms[sede][roomList[i]].id,
+            NomeAula: areaRooms[sede][roomList[i]].room_name,
+            orario: []
+            };
+        ris.push(room);
+    }
+    return ris;
+}
+
+function getRoomList(events, rooms) {
     if(events === undefined) {
         throw new Error('No parameter inserted');
     }
     if(typeof events != "object") {
         throw new TypeError('No object parameter inserted');
     }
-    let rooms = [];
+    if(rooms.length == 0) {
+        return [];
+    }
     for(let i = 0; i < events.length; i++) {
-        let room = {room: events[i].room,
-                    NomeAula: events[i].NomeAula,
-                    orario: [{
-                        from: events[i].from,
-                        to: events[i].to,
-                        timestamp_day: events[i].timestamp_day,
-                        timestamp_from: events[i].timestamp_from,
-                        timestamp_to: events[i].timestamp_to
-                    }]
-                    };
         let id = -1;
         for(let j = 0; j < rooms.length; j++) {
-            if(rooms[j].room === room.room) {
+            if(rooms[j].room == events[i].room) {
                 id = j;
             }
         }
 
-        if(id >= 0) {
-            let newOrario = {
-                from: events[i].from,
-                to: events[i].to,
-                timestamp_day: events[i].timestamp_day,
-                timestamp_from: events[i].timestamp_from,
-                timestamp_to: events[i].timestamp_to
-            };
-            rooms[id].orario.push(newOrario);
-            id = -1;
-        } else {
-            rooms.push(room);
-        }
-
+        let newOrario = {
+            from: events[i].from,
+            to: events[i].to,
+            timestamp_day: events[i].timestamp_day,
+            timestamp_from: events[i].timestamp_from,
+            timestamp_to: events[i].timestamp_to
+        };
+        rooms[id].orario.push(newOrario);
     }
     return rooms;
 }
@@ -162,7 +153,7 @@ function idRoomCode(uri) {
             let couple = {};
             Object.keys(areaRooms).map(sede => {
                 Object.keys(areaRooms[sede]).map(room => {
-                    couple[areaRooms[sede][room ].room_name] = areaRooms[sede][room].id;
+                    couple[areaRooms[sede][room].room_name] = areaRooms[sede][room].id;
                 });
             });
             return couple;
@@ -280,10 +271,11 @@ function getFreeRooms4xHours(rooms, hours, currentTimestamp) {
                 if(secondToNextLesson >= hours * 3600) { //Se la prossima lezione è tra più di hours ore
                     ris.push(room);
                 }
-            }        
+            } else {
+                ris.push(room);
+            }       
         });
     }
-
     return ris.length !== 0 ? ris : 'Nessuna aula sarà libera per ' + hours + " ore.";
 }
 
@@ -331,4 +323,4 @@ function getMonday(d) {
 module.exports = {inArray, getRoomList, cleanSchedule, getFreeRooms,
                  cleanPastSchedule, idRoomCode, getRoomSchedule,
                  getNearestLocation, getMonday, getFreeRooms4xHours,
-                 getDaySchedule};
+                 getDaySchedule, getAllRooms};

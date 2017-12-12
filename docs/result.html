@@ -17,16 +17,14 @@
 	<script src="js/materialize.js"></script>
 	<script src="js/myjs.js"></script>
 	<script src="js/init.js"></script>
-	<!--<script async defer
-    src ="https://maps.googleapis.com/maps/api/js?key=AIzaSyAUlRB23ZhvT108Fa6B5Gs6M5ZAphUaqbA&callback=initMap&sensor=false&v=3&libraries=geometry" >
-    </script>-->
+	
 
-
+	
 
 </head>
 
 <body>
-
+	
 	<header>
 		<nav class="light-blue lighten-1" role="navigation">
 			<div class="nav-wrapper">
@@ -68,7 +66,7 @@
 			</div>
 		</nav>
 	</header>
-
+	
 	<main>
 		<div>
 			<center>
@@ -96,7 +94,7 @@
 
 								<div class="col s8">
 
-									<input placeholder="Inserisci polo, aula o help..." id="inserisci" type="text" name="q" class="validate" style="box-shadow: white;">
+									<input placeholder="Inserisci polo, aula o help..." id="inserisci" type="text" name="q" class="validate">
 
 									<input type="submit" name="submit" style="visibility: hidden;">
 								</div>
@@ -106,10 +104,14 @@
 										<i class="material-icons">forward</i>
 									</button>
 								</div>
+
 							</div>
-							
+
+
 						</div>
+
 					</form>
+
 				</div>
 			</center>
 		</div>
@@ -131,11 +133,6 @@
 					<tbody id="command_table">
 					</tbody>
 				</table>
-				<div class="preloader-background" >
-					<div class="progress">
-						<div class="indeterminate light-blue"></div>
-					</div>
-				</div>
 			</div>
 		</div>
 	</main>
@@ -168,26 +165,24 @@
 	<script type="text/javascript">	
 		let url;
 		//script per creare la tabella degli orari
-		var frase = getQueryVariable(window.location.href, "q");
-		var geoloc = getQueryVariable(window.location.href, "geoloc");
-		console.log("Frase: " + frase);
+		var frase = getQueryVariable(window.location.href,"q");
+		var geoloc = getQueryVariable(window.location.href,"geoloc");
 		if (frase != null) {
-
+			
 			if (frase == "help")
 				location.href = "index.html?q=help";
-			url = "https://uniroomtn.herokuapp.com/nl?frase=" + frase;
+			url = "https://uniroomtn.herokuapp.com/nl?frase="+ frase;
 			$.getJSON(url, function (data) {
-				$('.preloader-background').fadeOut();
-				if (data.includes("aula.html")) {
+				if(data.includes("aula.html")){
 					location.href = data;
 				}
 				else if((data.includes("Nessuna"))||(data == null)||(data == undefined)){
 					$("#command_table").append("<tr><td>Nessuna aula disponibile</td><td></td><td></td></tr>");
 				}
-				else if (data == "Errore!") {
+				else if(data == "Errore!"){
 					location.href = "index.html?q=dc";
 				}
-				else {
+				else{
 					let time = data[0].time;
 					let orario;
 					if(time == null){
@@ -213,10 +208,11 @@
 
 					});
 				}
-
+				
 			});
-		}
-		else if (geoloc != null) {
+		} 
+		else if(geoloc != null)
+		{
 			var getPosition = function (options) {
 				return new Promise(function (resolve, reject) {
 					navigator.geolocation.getCurrentPosition(resolve, reject, options);
@@ -224,53 +220,51 @@
 			}
 
 			getPosition()
-				.then((position) => {
-					document.getElementById("nome_polo").innerHTML = "Ricerca in corso";
-					let lat = position.coords.latitude;
-					let lng = position.coords.longitude;
-					fetch("https://uniroomtn.herokuapp.com/room?lat=" + lat + "&&lng=" + lng)
-						.then(ris => {
-							let data = ris.json();
-							data.then(result => {
-								console.log(result);
-								if (result == "Nessuna aula disponibile al momento")
-									var name = "Nessuna aula libera vicino a te";
-								else
-									var name = "Aule libere presso: " + result[0].sede;
-								document.getElementById("nome_polo").innerHTML = name;
-								$.each(result, function (key, val) {
-									$('.preloader-background').fadeOut();
-									if (val.orario[0]) {
-										$("#command_table").append("<tr><td>" + val.NomeAula + "</td><td>ora</td><td>" + val.orario[0].from + "</td></tr>");
-									}
-									else {
-										$("#command_table").append("<tr><td>" + val.NomeAula + "</td><td>ora</td><td>fine giornata</td></tr>");
-									}
-								});
-							})
-								.catch((err) => {
-									console.error(err.message);
-								})
-						})
+			.then((position) => {
+				document.getElementById("nome_polo").innerHTML = "Ricerca in corso";
+				let lat = position.coords.latitude;
+				let lng = position.coords.longitude;
+				fetch("https://uniroomtn.herokuapp.com/room?lat="+ lat + "&&lng=" + lng)
+				.then(ris => {
+					let data = ris.json();
+					data.then(result => {
+						console.log(result);
+						if(result == "Nessuna aula disponibile al momento")
+							var name = "Nessuna aula libera vicino a te";
+						else 
+							var name = "Aule libere presso: " + result[0].sede;
+						document.getElementById("nome_polo").innerHTML = name;
+						$.each(result, function (key, val) 
+							{
+							if (val.orario[0]) 
+							{
+								$("#command_table").append("<tr><td>" + val.NomeAula + "</td><td>ora</td><td>" + val.orario[0].from + "</td></tr>");
+							}
+							else 
+							{
+								$("#command_table").append("<tr><td>" + val.NomeAula + "</td><td>ora</td><td>fine giornata</td></tr>");
+							}
+						});
+					})
+					.catch((err) => {
+						console.error(err.message);
+					})					
 				})
-				.catch((err) => {
-					console.error("Errore nella geo" + err.message);
-				});
+			})
+			.catch((err) => {
+				console.error("Errore nella geo" + err.message);
+			});		
 		}
 		else {
 			location.href = "index.html?q=dc";
 		}
 		//script per caricare il titolo
-		var x = "Povo6: " + frase;
-		console.log(x);
+		var x="Povo6: " + frase;
 		//polo = polo.replace("%20", " ");
-		if (frase != null) {
+		if(frase != null) {
 			frase = frase.replace("+", " ");
-			var name = "Risultati per: " + frase;
-			console.log("Oh si!");
-
+			var name = "Risultati per: " + frase;			
 		} else {
-			console.log("Oh no!");
 			var name = "Tentativo di utilizzo geolocalizzazione";
 		}
 		document.getElementById("nome_polo").innerHTML = name;
