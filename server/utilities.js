@@ -25,46 +25,42 @@ function inArray(sede){
     return false;
 }
 
-function getRoomList(events) {
+function getAllRooms(areaRooms, sede) {
+    let ris = [];
+    let roomList = Object.keys(areaRooms[sede]);
+    for(let i = 0; i < roomList.length; i++) {
+        let room = {room: areaRooms[sede][roomList[i]].id,
+            NomeAula: areaRooms[sede][roomList[i]].room_name,
+            orario: []
+            };
+        ris.push(room);
+    }
+    return ris;
+}
+
+function getRoomList(events, rooms) {
     if(events === undefined) {
         throw new Error('No parameter inserted');
     }
     if(typeof events != "object") {
         throw new TypeError('No object parameter inserted');
     }
-    let rooms = [];
     for(let i = 0; i < events.length; i++) {
-        let room = {room: events[i].room,
-                    NomeAula: events[i].NomeAula,
-                    orario: [{
-                        from: events[i].from,
-                        to: events[i].to,
-                        timestamp_day: events[i].timestamp_day,
-                        timestamp_from: events[i].timestamp_from,
-                        timestamp_to: events[i].timestamp_to
-                    }]
-                    };
         let id = -1;
         for(let j = 0; j < rooms.length; j++) {
-            if(rooms[j].room === room.room) {
+            if(rooms[j].room == events[i].room) {
                 id = j;
             }
         }
 
-        if(id >= 0) {
-            let newOrario = {
-                from: events[i].from,
-                to: events[i].to,
-                timestamp_day: events[i].timestamp_day,
-                timestamp_from: events[i].timestamp_from,
-                timestamp_to: events[i].timestamp_to
-            };
-            rooms[id].orario.push(newOrario);
-            id = -1;
-        } else {
-            rooms.push(room);
-        }
-
+        let newOrario = {
+            from: events[i].from,
+            to: events[i].to,
+            timestamp_day: events[i].timestamp_day,
+            timestamp_from: events[i].timestamp_from,
+            timestamp_to: events[i].timestamp_to
+        };
+        rooms[id].orario.push(newOrario);
     }
     return rooms;
 }
@@ -333,4 +329,4 @@ function getMonday(d) {
 module.exports = {inArray, getRoomList, cleanSchedule, getFreeRooms,
                  cleanPastSchedule, idRoomCode, getRoomSchedule,
                  getNearestLocation, getMonday, getFreeRooms4xHours,
-                 getDaySchedule};
+                 getDaySchedule, getAllRooms};

@@ -46,13 +46,13 @@ test('expect getRoomList(23) to throw TypeError', () => {
     expect(function() {utilities.getRoomList(23)}).toThrow(TypeError);
 })
 
-test('expect getRoomList(events) to be equal rooms', () => {
-    expect(utilities.getRoomList(events)).toEqual(data.rooms);
+test('expect getRoomList(events,rooms) to be equal rooms', () => {
+    expect(utilities.getRoomList(events,rooms)).toEqual(data.rooms);
 })
 
 const input = {};
 
-test('expect getRoomList(input) with input as empty object to return empty array', () => {
+test('expect getRoomList(input,rooms) with input as empty object to return empty array', () => {
     expect(utilities.getRoomList(input)).toEqual([]);
 })
 
