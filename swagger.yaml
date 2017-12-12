@@ -1,0 +1,184 @@
+swagger: '2.0'
+info:
+  version: '1.0'
+  title: Uniroom
+  description: 'Uniroom is a simple API allowing developer to easily obtain information about free rooms in University of Trento. You can also obtain information about schedule of a single room.'
+host: uniroomtn.herokuapp.com
+basePath: /
+schemes:
+  - https
+consumes:
+  - application/json
+produces:
+  - application/json
+  
+
+  
+paths:
+  '/sede/{sede}':
+    x-summary: Free rooms of UniTN buildings
+    get:
+      description: 'Obtain all free rooms of a specific UNITN building. If the result is null, "Nessuna aula disponibile al momento" is returned.'
+      summary: 'Show free rooms'
+      operationId: SedeBySedeGet
+      produces:
+        - application/json
+      parameters:
+        - name: sede
+          in: path
+          required: true
+          type: string
+          description: ID of the universitary building.
+        - name: datePar
+          in: query
+          required: false
+          type: string
+          description: specific date to analyze.
+        - name: time
+          in: query
+          required: false
+          type: string
+          description: specific time of the day to analyze.
+        - name: durataOre
+          in: query
+          required: false
+          type: integer
+          description: a free room appear in final results only if it's free for more than 'durataOre' hours
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: string
+          examples:
+            application/json: |-
+              [
+                  {
+                      "room":"427",
+                      "NomeAula":"Aula A211",
+                      "orario":
+                          [
+                          ]
+                  },
+                  {
+                      "room":"403",
+                      "NomeAula":"Aula pc B106",
+                      "orario":
+                          [
+                          ]
+                  }
+              ]
+      x-unitTests: []
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+        
+  '/schedule/{sede}/aula/{aula}':
+    x-summary: Schedule of a UNITN room
+    get:
+      description: 'Obtain the daily schedule of a specific room of a specific UniTN building. '
+      summary: Show schedule
+      operationId: ScheduleBySedeAndAulaGet
+      produces:
+        - application/json
+      parameters:
+        - name: sede
+          in: path
+          required: true
+          type: string
+          description: ID of the universitary building
+        - name: aula
+          in: path
+          required: true
+          type: string
+          description: ID of the room of the building
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: object
+          examples: 
+            application/json: |-
+              [
+                {
+                  "room":"403",
+                  "NomeAula":"Aula pc B106",
+                  "orario":
+                  [
+                    {
+                        "nomeMateria":"Algoritmi avanzati",
+                        "nomeProf":"Mauro Brunato",
+                        "from":"09:00:00",
+                        "to":"11:00:00",
+                        "timestamp_day":1512514800,
+                        "timestamp_from":1512547200,
+                        "timestamp_to":1512554400
+                    },
+                    {
+                        "nomeMateria":"Ingegneria del software 2",
+                        "nomeProf":"Fabio Casati",
+                        "from":"11:00:00",
+                        "to":"13:00:00",
+                        "timestamp_day":1512514800,
+                        "timestamp_from":1512554400,
+                        "timestamp_to":1512561600
+                    }
+                  ]
+                }
+              ]
+      x-unitTests: []
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+      
+  '/room':
+      x-summary: Geolocalization
+      get:
+        description: 'Obtain free rooms of the nearest UniTN building for the user. If the result is null, "Nessuna aula disponibile al momento" is returned.'
+        summary: Show free rooms near the user
+        operationId: RoomsGet
+        produces:
+          - application/json
+        parameters:
+          - name: lat
+            in: query
+            required: true
+            type: number
+            description: latitude of the user
+          - name: lng
+            in: query
+            required: true
+            type: number
+            description: longitude of the user
+        responses:
+          '200':
+            description: ''
+            schema:
+              type: object
+            examples: 
+              application/json: |-
+                [
+                  {
+                      "room":"427",
+                      "NomeAula":"Aula A211",
+                      "orario":
+                        [
+                        ]
+                  },
+                  {
+                      "room":"403",
+                      "NomeAula":"Aula pc B106",
+                      "orario":
+                          [
+                          ]
+                  }
+                 ]
+        x-unitTests: []
+        x-operation-settings:
+          CollectParameters: false
+          AllowDynamicQueryParameters: false
+          AllowDynamicFormParameters: false
+          IsMultiContentStreaming: false
