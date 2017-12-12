@@ -28,7 +28,8 @@ var povo ={
 
 function getData(sede) {
     return new Promise((resolve, reject) => {
-				url = "https://uniroomtn.herokuapp.com/nl?frase="+ sede;
+				if(sede === "E0503" || sede === "E0301") url = "https://uniroomtn.herokuapp.com/sede/" + sede;
+				else url = "https://uniroomtn.herokuapp.com/nl?frase="+ sede;
 				fetch(url)
         .then(data => {
             return data.json();
