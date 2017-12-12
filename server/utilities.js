@@ -280,7 +280,9 @@ function getFreeRooms4xHours(rooms, hours, currentTimestamp) {
                 if(secondToNextLesson >= hours * 3600) { //Se la prossima lezione è tra più di hours ore
                     ris.push(room);
                 }
-            }        
+            } else {
+                ris.push(room);
+            }       
         });
     }
 
