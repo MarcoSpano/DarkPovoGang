@@ -80,17 +80,17 @@ app.get('/nl', (req,res) => {
             } else res.redirect('https://uniroomtn.herokuapp.com/void');
 
         } else if(response.result.action === "return.scheduleaula") {
-            var aularesp = {"povoA1P" : response.result.parameters.aulepovoA1p.toUpperCase(),
-            "povoAPT" : response.result.parameters.aulepovoAPT.toUpperCase(),
-            "povoB1P" : response.result.parameters.aulepovoB1p.toUpperCase(),
-            "povoBPT" : response.result.parameters.aulepovoBPT.toUpperCase(),
-            "povoaltro" : response.result.parameters.aulepovoaltro.toUpperCase(),
-            "cognitive" : response.result.parameters.aulecognitive.toUpperCase(),
-            "economia" : response.result.parameters.auleeconomia.toUpperCase(),
-            "giurisprudenza" : response.result.parameters.aulegiurisprudenza.toUpperCase(),
-            "lettere" : response.result.parameters.aulelettere.toUpperCase(),
-            "mesiano" : response.result.parameters.aulemesiano.toUpperCase(),
-            "sociologia" : response.result.parameters.aulesociologia.toUpperCase() };
+            var aularesp = {"povoA1P" : response.result.parameters.aulepovoA1p,
+            "povoAPT" : response.result.parameters.aulepovoAPT,
+            "povoB1P" : response.result.parameters.aulepovoB1p,
+            "povoBPT" : response.result.parameters.aulepovoBPT,
+            "povoaltro" : response.result.parameters.aulepovoaltro,
+            "cognitive" : response.result.parameters.aulecognitive,
+            "economia" : response.result.parameters.auleeconomia,
+            "giurisprudenza" : response.result.parameters.aulegiurisprudenza,
+            "lettere" : response.result.parameters.aulelettere,
+            "mesiano" : response.result.parameters.aulemesiano,
+            "sociologia" : response.result.parameters.aulesociologia };
 
             //console.log(aularesp); https://stebranchi.github.io/DarkPovoGang/aula.html?aula=A105&sede=E0503
 
@@ -122,6 +122,7 @@ app.get('/nl', (req,res) => {
 app.get('/sede/:sede', (req,res) => {
     let url;
     let sede;
+    let time;
     if (utilities.inArray(req.params.sede))
     {
         let timeStamp;
@@ -134,7 +135,7 @@ app.get('/sede/:sede', (req,res) => {
             let month = date.getMonth() + 1;
             let year = date.getFullYear();
 
-            let time = req.query.time;
+            time = req.query.time;
             let timeString = time.split(':');
             date.setHours(parseInt(timeString[0]));
             date.setMinutes(parseInt(timeString[1]));
@@ -148,7 +149,7 @@ app.get('/sede/:sede', (req,res) => {
             let month = now.getMonth() + 1;
             let year = now.getFullYear();
 
-            let time = req.query.time;
+            time = req.query.time;
             let timeString = time.split(':');
             now.setHours(parseInt(timeString[0]));
             now.setMinutes(parseInt(timeString[1]));
@@ -207,6 +208,7 @@ app.get('/sede/:sede', (req,res) => {
             if(durataOre > 0) {
                 rooms = utilities.getFreeRooms4xHours(rooms,durataOre,timeStamp);
             }
+            rooms[0].time = time;
             //rooms[0].time = req.query.time;
             //rooms[0].time = req.query.time; //Solo il primo elemento avrà il campo sede che servirà per cambiare il titolo alla pagina
             res.json(rooms); //Get the list of rooms with events that day and the hours in which they are busy.
