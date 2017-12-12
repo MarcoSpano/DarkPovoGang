@@ -2,39 +2,39 @@ const functions = require('../client/js/myjs.js');
 
 
 //GETQUERYVARIABLE
-let url = "https://stebranchi.github.io/DarkPovoGang/result.html?geoloc=true&q=povo+domani";
+const url0 = "https://stebranchi.github.io/DarkPovoGang/result.html?geoloc=true&q=povo+domani";
 test('getQueryVariable("https://stebranchi.github.io/DarkPovoGang/result.html?geoloc=true&q=povo+domani","q") should return "povo domani"', () => {
-	expect(functions.getQueryVariable(url,"q")).toEqual("povo domani");
+	expect(functions.getQueryVariable(url0,"q")).toEqual("povo domani");
 });
 
-url = "https://stebranchi.github.io/DarkPovoGang/result.html?geoloc=true&q=";
+const url1 = "https://stebranchi.github.io/DarkPovoGang/result.html?geoloc=true&q=";
 test('getQueryVariable("https://stebranchi.github.io/DarkPovoGang/result.html?geoloc=true&q=","q") should return "null"', () => {
-	expect(functions.getQueryVariable(url,"q")).toEqual(null);
+	expect(functions.getQueryVariable(url1,"q")).toEqual(null);
 });
 
-url = "https://stebranchi.github.io/DarkPovoGang/result.html?geoloc=true&q=";
+const url2 = "https://stebranchi.github.io/DarkPovoGang/result.html?geoloc=true&q=";
 test('getQueryVariable("https://stebranchi.github.io/DarkPovoGang/result.html?geoloc=true&q=","geoloc") should return "true"', () => {
-	expect(functions.getQueryVariable(url,"geoloc")).toBeTruthy();
+	expect(functions.getQueryVariable(url2,"geoloc")).toBeTruthy();
 });
 
-url = "https://stebranchi.github.io/DarkPovoGang/result.html?geoloc=false&q=";
+const url3 = "https://stebranchi.github.io/DarkPovoGang/result.html?geoloc=false&q=";
 test('getQueryVariable("https://stebranchi.github.io/DarkPovoGang/result.html?geoloc=false&q=","geoloc") should return "true"', () => {
-	expect(functions.getQueryVariable(url,"geoloc")).not.toBeTruthy();
+	expect(functions.getQueryVariable(url3,"geoloc")).not.toBeTruthy();
 });
 
-url = "https://stebranchi.github.io/DarkPovoGang/aula.html?aula=B106&sede=E0503";
+const url4 = "https://stebranchi.github.io/DarkPovoGang/aula.html?aula=B106&sede=E0503";
 test('getQueryVariable("https://stebranchi.github.io/DarkPovoGang/aula.html?aula=B106&sede=E0503","aula") should return "b106"', () => {
-	expect(functions.getQueryVariable(url,"aula")).toEqual("B106");
+	expect(functions.getQueryVariable(url4,"aula")).toEqual("B106");
 });
 
-url = "https://stebranchi.github.io/DarkPovoGang/aula.html?aula=A105&sede=E0503";
+const url5 = "https://stebranchi.github.io/DarkPovoGang/aula.html?aula=A105&sede=E0503";
 test('getQueryVariable("https://stebranchi.github.io/DarkPovoGang/aula.html?aula=A105&sede=E0503","aula") should return "a105"', () => {
-	expect(functions.getQueryVariable(url,"aula")).toEqual("A105");
+	expect(functions.getQueryVariable(url5,"aula")).toEqual("A105");
 });
 
-url = "https://stebranchi.github.io/DarkPovoGang/aula.html?aula=";
+const url6 = "https://stebranchi.github.io/DarkPovoGang/aula.html?aula=";
 test('getQueryVariable("https://stebranchi.github.io/DarkPovoGang/aula.html?aula=","aula") should return "null"', () => {
-	expect(functions.getQueryVariable(url,"aula")).toEqual(null);
+	expect(functions.getQueryVariable(url6,"aula")).toEqual(null);
 });
 
 
