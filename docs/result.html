@@ -189,7 +189,11 @@
 					let time = data[0].time;
 					let orario;
 					if(time == null){
-							orario = "ora";
+							let date = new Date();
+							let min = date.getMinutes();
+							let hour = date.getHours();
+							let s = hour + ":" + min + ":00";
+							orario = s;\\
 						} else {
 							orario = time;
 						}
