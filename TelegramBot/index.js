@@ -28,7 +28,8 @@ var povo ={
 
 function getData(sede) {
     return new Promise((resolve, reject) => {
-				url = "https://uniroomtn.herokuapp.com/nl?frase="+ sede;
+				if(sede === "E0503" || sede === "E0301") url = "https://uniroomtn.herokuapp.com/sede/" + sede;
+				else url = "https://uniroomtn.herokuapp.com/nl?frase="+ sede;
 				fetch(url)
         .then(data => {
             return data.json();
@@ -81,9 +82,12 @@ function Print(sede,chatid){
 		let msg = "";
 		getData(sede)
 		.then(rooms => {
-			if(rooms === "Errore!") message="Comando non riconosciuto, usa /help per vedere i comandi disponibili";
-			if(rooms.includes("stebranchi"))message = rooms;
-			else if(rooms !== "Nessuna aula disponibile al momento") {
+			console.log(rooms);
+			if(rooms.includes("Errore")){
+				message="Comando non riconosciuto, usa /help per vedere i comandi disponibili";
+			} 
+			else if(rooms.includes("stebranchi")) message = rooms;
+			else if(rooms != "Nessuna aula disponibile al momento") {
 				for(let i = 0; i < rooms.length; i++) {
 					if(rooms[i].orario.length > 0) {
 						msg += rooms[i].NomeAula +" libera fino alle "+ rooms[i].orario[0].from+"\n";
@@ -111,7 +115,7 @@ telegram.on("text", (message) => {
 	}
 	else if (message.text == "/help")
 	{
-		telegram.sendMessage(message.chat.id, "I comandi disponibili sono: \n/help \n/start \n/povo \n/socio \n/economia \n/scicogn \n/lettere \n/giuri \n/mesiano \n/filosofia \n/mappepovo \n/mappemesiano");
+		telegram.sendMessage(message.chat.id, "I comandi disponibili sono: \n/help \n/start \n/povo \n/sociologia \n/economia \n/scienze_cognitive \n/lettere \n/giurisprudenza \n/mesiano \n/filosofia \n/mappepovo \n/mappemesiano \n/aula");
 	}
 	else if (message.text == "/mappepovo"){
         telegram.sendMessage(message.chat.id, "_Sto disegnando le mappe..._", {parse_mode: "Markdown"})
