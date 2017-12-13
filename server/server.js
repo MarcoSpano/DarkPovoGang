@@ -91,6 +91,7 @@ app.get('/nl', (req,res) => {
             "giurisprudenza" : response.result.parameters.aulegiurisprudenza.replace(/ /gi,"%20"),
             "lettere" : response.result.parameters.aulelettere.replace(/ /gi,"%20"),
             "mesiano" : response.result.parameters.aulemesiano.replace(/ /gi,"%20"),
+            "mesianoaltro" : response.result.parameters.aulemesianoaltro.replace(/ /gi,"%20"),
             "sociologia" : response.result.parameters.aulesociologia.replace(/ /gi,"%20") };
 
             
@@ -106,6 +107,7 @@ app.get('/nl', (req,res) => {
                 else if(aularesp.giurisprudenza != '')res.json('https://stebranchi.github.io/DarkPovoGang/aula.html?sede=' + datastruc.dep_id['giurisprudenza'] + '&aula=' + aularesp.giurisprudenza);
                 else if(aularesp.lettere != '')res.json('https://stebranchi.github.io/DarkPovoGang/aula.html?sede=' + datastruc.dep_id['lettere'] + '&aula=' + aularesp.lettere);
                 else if(aularesp.mesiano != '')res.json('https://stebranchi.github.io/DarkPovoGang/aula.html?sede=' + datastruc.dep_id['mesiano'] + '&aula=' + aularesp.mesiano);
+                else if(aularesp.mesianoaltro != '')res.json('https://stebranchi.github.io/DarkPovoGang/aula.html?sede=' + datastruc.dep_id['mesiano'] + '&aula=' + aularesp.mesianoaltro);
                 else if(aularesp.sociologia != '')res.json('https://stebranchi.github.io/DarkPovoGang/aula.html?sede=' + datastruc.dep_id['sociologia'] + '&aula=' + aularesp.sociologia);
                 else res.json('https://uniroomtn.herokuapp.com/void');
             } else {
@@ -119,6 +121,7 @@ app.get('/nl', (req,res) => {
                 else if(aularesp.giurisprudenza != '')res.json('https://stebranchi.github.io/DarkPovoGang/aula.html?sede=' + aularesp.Place + '&aula=' + aularesp.giurisprudenza);
                 else if(aularesp.lettere != '')res.json('https://stebranchi.github.io/DarkPovoGang/aula.html?sede=' + aularesp.Place + '&aula=' + aularesp.lettere);
                 else if(aularesp.mesiano != '')res.json('https://stebranchi.github.io/DarkPovoGang/aula.html?sede=' + aularesp.Place + '&aula=' + aularesp.mesiano);
+                else if(aularesp.mesianoaltro != '')res.json('https://stebranchi.github.io/DarkPovoGang/aula.html?sede=' + aularesp.Place + '&aula=' + aularesp.mesianoaltro);
                 else if(aularesp.sociologia != '')res.json('https://stebranchi.github.io/DarkPovoGang/aula.html?sede=' + aularesp.Place + '&aula=' + aularesp.sociologia);
                 else res.json('https://uniroomtn.herokuapp.com/void');
             }
