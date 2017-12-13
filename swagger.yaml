@@ -18,7 +18,7 @@ paths:
   '/sede/{sede}':
     x-summary: Free rooms of UniTN buildings
     get:
-      description: 'Obtain all free rooms of a specific UNITN building. If the result is null, "Nessuna aula disponibile al momento" is returned.'
+      description: 'Get the list of free rooms and the hours in which they are busy of a specific UNITN building. If the result is null, "Nessuna aula disponibile al momento" is returned.'
       summary: 'Show free rooms'
       operationId: SedeBySedeGet
       produces:
@@ -137,7 +137,7 @@ paths:
   '/room':
       x-summary: Geolocalization
       get:
-        description: 'Obtain free rooms of the nearest UniTN building for the user. If the result is null, "Nessuna aula disponibile al momento" is returned.'
+        description: 'Get the list of free rooms and the hours in which they are busy of the nearest UniTN building for the user. If the result is null, "Nessuna aula disponibile al momento" is returned.'
         summary: Show free rooms near the user
         operationId: RoomsGet
         produces:
