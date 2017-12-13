@@ -176,46 +176,48 @@
 			
 			if (frase == "help")
 				location.href = "index.html?q=help";
-			url = "https://uniroomtn.herokuapp.com/nl?frase="+ frase;
-			$.getJSON(url, function (data) {
-				$('.preloader-background').fadeOut();
-				if(data.includes("aula.html")){
-					location.href = data;
-				}
-				else if((data.includes("Nessuna"))||(data == null)||(data == undefined)){
-					$("#command_table").append("<tr><td>Nessuna aula disponibile</td><td></td><td></td></tr>");
-				}
-				else if(data == "Errore!"){
-					location.href = "index.html?q=dc";
-				}
-				else{
-					let time = data[0].time;
-					let orario;
-					if(time == null){
-						let date = new Date();
-						let min = date.getMinutes();
-						let hour = date.getHours();
-						let s;
-						if(min < 10)
-							s = hour + ":0" + min + ":00";
-						else
-							s = hour + ":" + min + ":00";
-						orario = s;
-					} else {
-						orario = time;
+			else{
+				url = "https://uniroomtn.herokuapp.com/nl?frase="+ frase;
+				$.getJSON(url, function (data) {
+					$('.preloader-background').fadeOut();
+					if(data.includes("aula.html")){
+						location.href = data;
 					}
-					$.each(data, function (key, val) {						
-						if (val.orario[0]) {
+					else if((data.includes("Nessuna"))||(data == null)||(data == undefined)){
+						$("#command_table").append("<tr><td>Nessuna aula disponibile</td><td></td><td></td></tr>");
+					}
+					else if(data == "Errore!"){
+						location.href = "index.html?q=dc";
+					}
+					else{
+						let time = data[0].time;
+						let orario;
+						if(time == null){
+							let date = new Date();
+							let min = date.getMinutes();
+							let hour = date.getHours();
+							let s;
+							if(min < 10)
+								s = hour + ":0" + min + ":00";
+							else
+								s = hour + ":" + min + ":00";
+							orario = s;
+						} else {
+							orario = time;
+						}
+						$.each(data, function (key, val) {						
+							if (val.orario[0]) {
 							$("#command_table").append("<tr><td>" + val.NomeAula + "</td><td>" + orario + "</td><td>" + val.orario[0].from + "</td></tr>");
-						}
-						else {
-							$("#command_table").append("<tr><td>" + val.NomeAula + "</td><td>" + orario + "</td><td>fine giornata</td></tr>");
-						}
+							}
+							else {
+								$("#command_table").append("<tr><td>" + val.NomeAula + "</td><td>" + orario + "</td><td>fine giornata</td></tr>");
+							}
 
-					});
-				}
-				
-			});
+						});
+					}
+					
+				});
+			}
 		} 
 		else if(geoloc != null)
 		{
