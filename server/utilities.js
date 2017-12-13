@@ -1,4 +1,12 @@
 const fetch = require("node-fetch");
+const geolib = require("geolib");
+const cheerio = require('cheerio');
+const svg2png=require('svg2png');
+const fs=require('pn/fs');
+const express = require('express');
+const path = require("path");
+const request = require('request');
+const cors = require('cors');
 const dataStruct = require('./data');
 
 
@@ -36,9 +44,6 @@ function getRoomList(events, rooms) {
     }
     if(typeof events != "object") {
         throw new TypeError('No object parameter inserted');
-    }
-    if(rooms.length == 0) {
-        return [];
     }
     for(let i = 0; i < events.length; i++) {
         let id = -1;
@@ -91,9 +96,6 @@ function getFreeRooms(rooms, timeStamp) {
         throw new Error("Timestamp can't be null or negative");
     }
     let closeTimeStamp;
-    if(rooms.length > 0) {
-        closeTimeStamp = rooms[0].orario[0].timestamp_day + 72000; // Time 20:00
-    }
     for(let i = 0; i < rooms.length; i++) {
 		if(rooms[i].NomeAula.indexOf("Aula") == -1 && rooms[i].NomeAula.indexOf("AULA") == -1 && rooms[i].NomeAula.indexOf("aula") == -1) {
 			rooms.splice(i,1);
@@ -101,7 +103,7 @@ function getFreeRooms(rooms, timeStamp) {
 		}
 
         //Check if the current time is between 00:00 and 20:00
-        else if(rooms[i].orario.length > 0 && (timeStamp > rooms[i].orario[0].timestamp_day && timeStamp < closeTimeStamp)) {
+        else if(rooms[i].orario.length > 0) {
             for(let j = 0; j < rooms[i].orario.length; j++) {
                 if(rooms[i].orario[j].timestamp_from <= timeStamp && rooms[i].orario[j].timestamp_to > timeStamp) {
                     rooms.splice(i, 1);
@@ -153,7 +155,7 @@ function idRoomCode(uri) {
             let couple = {};
             Object.keys(areaRooms).map(sede => {
                 Object.keys(areaRooms[sede]).map(room => {
-                    couple[areaRooms[sede][room].room_name] = areaRooms[sede][room].id;
+                    couple[areaRooms[sede][room ].room_name] = areaRooms[sede][room].id;
                 });
             });
             return couple;
@@ -276,6 +278,7 @@ function getFreeRooms4xHours(rooms, hours, currentTimestamp) {
             }       
         });
     }
+
     return ris.length !== 0 ? ris : 'Nessuna aula sarà libera per ' + hours + " ore.";
 }
 

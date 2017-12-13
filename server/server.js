@@ -94,7 +94,7 @@ app.get('/nl', (req,res) => {
             "mesianoaltro" : response.result.parameters.aulemesianoaltro.replace(/ /gi,"%20"),
             "sociologia" : response.result.parameters.aulesociologia.replace(/ /gi,"%20") };
 
-            
+            //console.log(aularesp); https://stebranchi.github.io/DarkPovoGang/aula.html?aula=A105&sede=E0503
 
             if(aularesp.Place === '') {
                 if(aularesp.povoA1P != '') res.json('https://stebranchi.github.io/DarkPovoGang/aula.html?sede=' + datastruc.dep_id['povo'] + '&aula=' + aularesp.povoA1P);
@@ -111,18 +111,18 @@ app.get('/nl', (req,res) => {
                 else if(aularesp.sociologia != '')res.json('https://stebranchi.github.io/DarkPovoGang/aula.html?sede=' + datastruc.dep_id['sociologia'] + '&aula=' + aularesp.sociologia);
                 else res.json('https://uniroomtn.herokuapp.com/void');
             } else {
-                if(aularesp.povoA1P != '') res.json('https://stebranchi.github.io/DarkPovoGang/aula.html?sede=' + aularesp.Place + '&aula=' + aularesp.povoA1P);
-                else if(aularesp.povoAPT != '')res.json('https://stebranchi.github.io/DarkPovoGang/aula.html?sede=' + aularesp.Place + '&aula=' + aularesp.povoAPT);
-                else if(aularesp.povoB1P != '')res.json('https://stebranchi.github.io/DarkPovoGang/aula.html?sede=' + aularesp.Place + '&aula=' + aularesp.povoB1P);
-                else if(aularesp.povoBPT != '')res.json('https://stebranchi.github.io/DarkPovoGang/aula.html?sede=' + aularesp.Place + '&aula=' + aularesp.povoBPT);
-                else if(aularesp.povoaltro != '')res.json('https://stebranchi.github.io/DarkPovoGang/aula.html?sede=' + aularesp.Place + '&aula=' + aularesp.povoaltro);
-                else if(aularesp.cognitive != '')res.json('https://stebranchi.github.io/DarkPovoGang/aula.html?sede=' + aularesp.Place + '&aula=' + aularesp.cognitive);
-                else if(aularesp.economia != '')res.json('https://stebranchi.github.io/DarkPovoGang/aula.html?sede=' + aularesp.Place + '&aula=' + aularesp.economia);
-                else if(aularesp.giurisprudenza != '')res.json('https://stebranchi.github.io/DarkPovoGang/aula.html?sede=' + aularesp.Place + '&aula=' + aularesp.giurisprudenza);
-                else if(aularesp.lettere != '')res.json('https://stebranchi.github.io/DarkPovoGang/aula.html?sede=' + aularesp.Place + '&aula=' + aularesp.lettere);
-                else if(aularesp.mesiano != '')res.json('https://stebranchi.github.io/DarkPovoGang/aula.html?sede=' + aularesp.Place + '&aula=' + aularesp.mesiano);
-                else if(aularesp.mesianoaltro != '')res.json('https://stebranchi.github.io/DarkPovoGang/aula.html?sede=' + aularesp.Place + '&aula=' + aularesp.mesianoaltro);
-                else if(aularesp.sociologia != '')res.json('https://stebranchi.github.io/DarkPovoGang/aula.html?sede=' + aularesp.Place + '&aula=' + aularesp.sociologia);
+                if(aularesp.povoA1P != '') res.json('https://stebranchi.github.io/DarkPovoGang/aula.html?sede=' + datastruc.dep_id['povo'] + '&aula=' + aularesp.povoA1P);
+                else if(aularesp.povoAPT != '')res.json('https://stebranchi.github.io/DarkPovoGang/aula.html?sede=' + datastruc.dep_id['povo'] + '&aula=' + aularesp.povoAPT);
+                else if(aularesp.povoB1P != '')res.json('https://stebranchi.github.io/DarkPovoGang/aula.html?sede=' + datastruc.dep_id['povo'] + '&aula=' + aularesp.povoB1P);
+                else if(aularesp.povoBPT != '')res.json('https://stebranchi.github.io/DarkPovoGang/aula.html?sede=' + datastruc.dep_id['povo'] + '&aula=' + aularesp.povoBPT);
+                else if(aularesp.povoaltro != '')res.json('https://stebranchi.github.io/DarkPovoGang/aula.html?sede=' + datastruc.dep_id['povo'] + '&aula=' + aularesp.povoaltro);
+                else if(aularesp.cognitive != '')res.json('https://stebranchi.github.io/DarkPovoGang/aula.html?sede=' + datastruc.dep_id['scienze cognitive'] + '&aula=' + aularesp.cognitive);
+                else if(aularesp.economia != '')res.json('https://stebranchi.github.io/DarkPovoGang/aula.html?sede=' + datastruc.dep_id['economia'] + '&aula=' + aularesp.economia);
+                else if(aularesp.giurisprudenza != '')res.json('https://stebranchi.github.io/DarkPovoGang/aula.html?sede=' + datastruc.dep_id['giurisprudenza'] + '&aula=' + aularesp.giurisprudenza);
+                else if(aularesp.lettere != '')res.json('https://stebranchi.github.io/DarkPovoGang/aula.html?sede=' + datastruc.dep_id['lettere'] + '&aula=' + aularesp.lettere);
+                 else if(aularesp.mesianoaltro != '')res.json('https://stebranchi.github.io/DarkPovoGang/aula.html?sede=' + datastruc.dep_id['mesiano'] + '&aula=' + aularesp.mesianoaltro);
+                else if(aularesp.mesiano != '')res.json('https://stebranchi.github.io/DarkPovoGang/aula.html?sede=' + datastruc.dep_id['mesiano'] + '&aula=' + aularesp.mesiano);
+                else if(aularesp.sociologia != '')res.json('https://stebranchi.github.io/DarkPovoGang/aula.html?sede=' + datastruc.dep_id['sociologia'] + '&aula=' + aularesp.sociologia);
                 else res.json('https://uniroomtn.herokuapp.com/void');
             }
         }
@@ -160,6 +160,7 @@ app.get('/sede/:sede', (req,res) => {
             date.setMinutes(parseInt(timeString[1]));
             timeStamp = (date.getTime() / 1000) - 3200;
             url = "https://easyroom.unitn.it/Orario/rooms_call.php?form-type=rooms&sede="+ sede +"&_lang=it&date=" + day + "-" + month + "-" + year;
+            //console.log("Caso 1");
         }
         else if(req.query.time != undefined && req.query.time != "null" && req.query.date =="null"){ //nella request abbiamo solo il tempo, prendiamo come data "in questo momento"
             let now = new Date();
@@ -174,6 +175,7 @@ app.get('/sede/:sede', (req,res) => {
             timeStamp = (now.getTime() / 1000) -3200;
             console.log(timeStamp);
             url = "https://easyroom.unitn.it/Orario/rooms_call.php?form-type=rooms&sede="+ sede +"&_lang=it&date=" + day + "-" + month + "-" + year;
+             //console.log("Caso 2");
         }
         else if(req.query.date != undefined && req.query.date != "null" && req.query.time =="null"){ //Abbiamo solo il giorno, partirà dall'ora attuale
             let datePar = req.query.date;
@@ -210,7 +212,6 @@ app.get('/sede/:sede', (req,res) => {
             return body.json();
         })
         .then(data => {
-            res.json(data.events);
             let rooms = utilities.getAllRooms(data.area_rooms, sede);
 
             rooms = utilities.getRoomList(data.events, rooms);
@@ -221,6 +222,7 @@ app.get('/sede/:sede', (req,res) => {
 
             rooms =  utilities.cleanPastSchedule(rooms, timeStamp);
 
+            timeStamp -= 3600;
             if(durataOre > 0) {
                 rooms = utilities.getFreeRooms4xHours(rooms,durataOre,timeStamp);
             }
@@ -276,6 +278,9 @@ app.get('/room', (req, res) => {
     let month = now.getMonth() + 1;
     let year = now.getFullYear();
 
+    console.log(nearestLocation);
+    console.log(now);
+
     url = "https://easyroom.unitn.it/Orario/rooms_call.php?form-type=rooms&sede="+ nearestLocation +"&_lang=it&date=" + day + "-" + month + "-" + year;
     let currentTimestamp = now.getTime() / 1000;
 
@@ -284,16 +289,11 @@ app.get('/room', (req, res) => {
         return body.json();
     })
     .then(data => {
-        let rooms = utilities.getAllRooms(data.area_rooms, nearestLocation);
-        
-        rooms = utilities.getRoomList(data.events, rooms);
-        
-        rooms =  utilities.cleanSchedule(rooms);
-                    
-        rooms =  utilities.getFreeRooms(rooms, currentTimestamp);
-        
-        rooms =  utilities.cleanPastSchedule(rooms, currentTimestamp);
-
+    	let rooms = utilities.getAllRooms(data.area_rooms, nearestLocation);
+        rooms = utilities.getRoomList(data.events,rooms);
+        rooms = utilities.cleanSchedule(rooms);
+        rooms = utilities.getFreeRooms(rooms, currentTimestamp);
+        rooms = utilities.cleanPastSchedule(rooms, currentTimestamp);
         rooms[0].sede = sede; //Solo il primo elemento avrà il campo sede che servirà per cambiare il titolo alla pagina
         res.json(rooms); //Get the list of rooms with events that day and the hours in which they are busy.
     })
